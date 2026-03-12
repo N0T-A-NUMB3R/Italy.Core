@@ -350,10 +350,10 @@ public sealed class ServiziBonificaDati
 /// <summary>Record di input per la bonifica batch.</summary>
 public sealed class RecordDaBonificare
 {
-    public string? NomeComune { get; init; }
-    public string? CAP { get; init; }
-    public string? SiglaProvincia { get; init; }
-    public string? CodiceFiscale { get; init; }
-    public string? IndirizzoCompleto { get; init; }
-    public Dictionary<string, string?> CampiExtra { get; init; } = new();
+    public string? NomeComune { get; set; }
+    public string? CAP { get; set; }
+    public string? SiglaProvincia { get; set; }
+    public string? CodiceFiscale { get; set; }
+    public string? IndirizzoCompleto { get; set; }
+    public Dictionary<string, string?> CampiExtra { get; set; } = new();
 }

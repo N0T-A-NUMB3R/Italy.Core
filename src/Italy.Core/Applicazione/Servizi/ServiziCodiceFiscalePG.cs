@@ -138,11 +138,11 @@ public sealed class ServiziCodiceFiscalePG
 /// <summary>Risultato della validazione del CF di una Persona Giuridica.</summary>
 public sealed class RisultatoCFPersonaGiuridica
 {
-    public bool IsValido { get; init; }
-    public FormatoCFPG FormatoCF { get; init; }
-    public string? CodiceFiscaleNormalizzato { get; init; }
-    public TipoEntePG TipoEnte { get; init; }
-    public IReadOnlyList<string> Anomalie { get; init; } = Array.Empty<string>();
+    public bool IsValido { get; set; }
+    public FormatoCFPG FormatoCF { get; set; }
+    public string? CodiceFiscaleNormalizzato { get; set; }
+    public TipoEntePG TipoEnte { get; set; }
+    public IReadOnlyList<string> Anomalie { get; set; } = Array.Empty<string>();
 }
 
 public enum FormatoCFPG

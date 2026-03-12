@@ -7,32 +7,32 @@ namespace Italy.Core.Domain.Entità;
 /// </summary>
 public sealed class InfoFrontalieri
 {
-    public string CodiceBelfiore { get; init; } = string.Empty;
-    public string NomeComune { get; init; } = string.Empty;
-    public bool IsComuneFrontaliero { get; init; }
+    public string CodiceBelfiore { get; set; } = string.Empty;
+    public string NomeComune { get; set; } = string.Empty;
+    public bool IsComuneFrontaliero { get; set; }
 
     /// <summary>Distanza dal confine internazionale più vicino in km (linea d'aria).</summary>
-    public double? DistanzaConfineKm { get; init; }
+    public double? DistanzaConfineKm { get; set; }
 
     /// <summary>Stato confinante più vicino (es. "Svizzera", "Francia", "Austria", "Slovenia").</summary>
-    public string? StatoConfinante { get; init; }
+    public string? StatoConfinante { get; set; }
 
     /// <summary>
     /// Regime fiscale applicabile per i frontalieri.
     /// Cambia in base agli accordi bilaterali vigenti.
     /// </summary>
-    public RegimeFrontaliero Regime { get; init; }
+    public RegimeFrontaliero Regime { get; set; }
 
     /// <summary>
     /// Fascia di appartenenza per l'accordo Italia-Svizzera 2023.
     /// Solo per comuni al confine svizzero.
     /// </summary>
-    public FasciaFrontalieraSvizzera? FasciaSvizzera { get; init; }
+    public FasciaFrontalieraSvizzera? FasciaSvizzera { get; set; }
 
     /// <summary>Data di entrata in vigore del regime attuale.</summary>
-    public DateTime? DataDecorrenza { get; init; }
+    public DateTime? DataDecorrenza { get; set; }
 
-    public string? NoteNormative { get; init; }
+    public string? NoteNormative { get; set; }
 }
 
 public enum RegimeFrontaliero
@@ -71,34 +71,34 @@ public enum FasciaFrontalieraSvizzera
 /// </summary>
 public sealed class AggregazioniSovracomunali
 {
-    public string CodiceBelfiore { get; init; } = string.Empty;
+    public string CodiceBelfiore { get; set; } = string.Empty;
 
     // ── Sanitario ────────────────────────────────────────────────────────────
-    public string? CodiceASL { get; init; }
-    public string? NomeASL { get; init; }
-    public string? CodiceAziendaOspedaliera { get; init; }
+    public string? CodiceASL { get; set; }
+    public string? NomeASL { get; set; }
+    public string? CodiceAziendaOspedaliera { get; set; }
 
     // ── Montano ──────────────────────────────────────────────────────────────
-    public string? ComuneMontanaCodice { get; init; }
-    public string? ComuneMontanaNome { get; init; }
-    public bool IsComuneMontano { get; init; }
+    public string? ComuneMontanaCodice { get; set; }
+    public string? ComuneMontanaNome { get; set; }
+    public bool IsComuneMontano { get; set; }
 
     // ── Unioni e Consorzi ────────────────────────────────────────────────────
-    public string? UnioneComuni { get; init; }
-    public string? ConsorzioServizi { get; init; }
+    public string? UnioneComuni { get; set; }
+    public string? ConsorzioServizi { get; set; }
 
     // ── Ambiti Territoriali Ottimali ─────────────────────────────────────────
-    public string? ATOAcqua { get; init; }
-    public string? ATORifiuti { get; init; }
-    public string? ATOEnergia { get; init; }
+    public string? ATOAcqua { get; set; }
+    public string? ATORifiuti { get; set; }
+    public string? ATOEnergia { get; set; }
 
     // ── Distretto Scolastico ─────────────────────────────────────────────────
-    public string? DistrettoScolastico { get; init; }
-    public string? UfficioScolasticoRegionale { get; init; }
+    public string? DistrettoScolastico { get; set; }
+    public string? UfficioScolasticoRegionale { get; set; }
 
     // ── Giustizia ───────────────────────────────────────────────────────────
-    public string? TribunaleCompetente { get; init; }
-    public string? PreturaCodice { get; init; }
+    public string? TribunaleCompetente { get; set; }
+    public string? PreturaCodice { get; set; }
 }
 
 /// <summary>
@@ -106,20 +106,20 @@ public sealed class AggregazioniSovracomunali
 /// </summary>
 public sealed class CodiceIPA
 {
-    public string CodiceBelfiore { get; init; } = string.Empty;
-    public string NomeEnte { get; init; } = string.Empty;
+    public string CodiceBelfiore { get; set; } = string.Empty;
+    public string NomeEnte { get; set; } = string.Empty;
 
     /// <summary>Codice IPA univoco (es. "c_f205" per Comune di Milano).</summary>
-    public string CodiceIPAUnivoco { get; init; } = string.Empty;
+    public string CodiceIPAUnivoco { get; set; } = string.Empty;
 
     /// <summary>Codice Ufficio SdI per la fatturazione elettronica B2G.</summary>
-    public string CodiceSdI { get; init; } = string.Empty;
+    public string CodiceSdI { get; set; } = string.Empty;
 
-    public string? PEC { get; init; }
-    public string? CodiceIVA { get; init; }
-    public string? CodiceFiscaleEnte { get; init; }
-    public TipoEnteIPA TipoEnte { get; init; }
-    public DateTime? DataAggiornamento { get; init; }
+    public string? PEC { get; set; }
+    public string? CodiceIVA { get; set; }
+    public string? CodiceFiscaleEnte { get; set; }
+    public TipoEnteIPA TipoEnte { get; set; }
+    public DateTime? DataAggiornamento { get; set; }
 }
 
 public enum TipoEnteIPA

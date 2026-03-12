@@ -7,28 +7,28 @@ public sealed class IndirizzoItaliano
 {
     // ── Componenti via ────────────────────────────────────────────────────────
     /// <summary>Tipo via normalizzato (VIA, VIALE, PIAZZA, CORSO, ecc.).</summary>
-    public string? Toponimo { get; init; }
+    public string? Toponimo { get; set; }
 
     /// <summary>Nome della via (senza il tipo).</summary>
-    public string? NomeVia { get; init; }
+    public string? NomeVia { get; set; }
 
     /// <summary>Numero civico (es. "10", "10/A", "10 bis").</summary>
-    public string? Civico { get; init; }
+    public string? Civico { get; set; }
 
     // ── Località ─────────────────────────────────────────────────────────────
-    public string? CAP { get; init; }
-    public string? NomeComune { get; init; }
-    public string? SiglaProvincia { get; init; }
-    public string? NomeProvincia { get; init; }
+    public string? CAP { get; set; }
+    public string? NomeComune { get; set; }
+    public string? SiglaProvincia { get; set; }
+    public string? NomeProvincia { get; set; }
 
     // ── Risoluzione DB ────────────────────────────────────────────────────────
     /// <summary>Comune risolto nel database (null se non trovato).</summary>
-    public Comune? ComuneRisolto { get; init; }
+    public Comune? ComuneRisolto { get; set; }
 
     // ── Qualità ───────────────────────────────────────────────────────────────
-    public bool IsCompleto { get; init; }
-    public double ScoreQualità { get; init; }  // 0.0 → 1.0
-    public IReadOnlyList<string> Anomalie { get; init; } = Array.Empty<string>();
+    public bool IsCompleto { get; set; }
+    public double ScoreQualità { get; set; }  // 0.0 → 1.0
+    public IReadOnlyList<string> Anomalie { get; set; } = Array.Empty<string>();
 
     /// <summary>Indirizzo ricostruito in formato canonico ANPR.</summary>
     public string FormatoANPR =>
@@ -48,13 +48,13 @@ public sealed class IndirizzoItaliano
 /// </summary>
 public sealed class RisultatoBonifica
 {
-    public bool RequiereCorrezione { get; init; }
-    public string? CampoProblematico { get; init; }
-    public string? ValoreOriginale { get; init; }
-    public string? ValoreSuggerito { get; init; }
-    public double ConfidenzaSuggerimento { get; init; }  // 0.0 → 1.0
-    public string Motivazione { get; init; } = string.Empty;
-    public TipoBonifica Tipo { get; init; }
+    public bool RequiereCorrezione { get; set; }
+    public string? CampoProblematico { get; set; }
+    public string? ValoreOriginale { get; set; }
+    public string? ValoreSuggerito { get; set; }
+    public double ConfidenzaSuggerimento { get; set; }  // 0.0 → 1.0
+    public string Motivazione { get; set; } = string.Empty;
+    public TipoBonifica Tipo { get; set; }
 }
 
 public enum TipoBonifica
@@ -75,17 +75,17 @@ public enum TipoBonifica
 /// </summary>
 public sealed class ReportBonificaBatch
 {
-    public int TotaleRecord { get; init; }
-    public int RecordConAnomalie { get; init; }
-    public int RecordPuliti { get; init; }
+    public int TotaleRecord { get; set; }
+    public int RecordConAnomalie { get; set; }
+    public int RecordPuliti { get; set; }
     public double PercentualePulizia => TotaleRecord == 0 ? 100.0 : (double)RecordPuliti / TotaleRecord * 100.0;
-    public IReadOnlyList<RecordBonifica> Risultati { get; init; } = Array.Empty<RecordBonifica>();
+    public IReadOnlyList<RecordBonifica> Risultati { get; set; } = Array.Empty<RecordBonifica>();
 }
 
 public sealed class RecordBonifica
 {
-    public int IndiceRecord { get; init; }
-    public object? DatoOriginale { get; init; }
-    public IReadOnlyList<RisultatoBonifica> Correzioni { get; init; } = Array.Empty<RisultatoBonifica>();
+    public int IndiceRecord { get; set; }
+    public object? DatoOriginale { get; set; }
+    public IReadOnlyList<RisultatoBonifica> Correzioni { get; set; } = Array.Empty<RisultatoBonifica>();
     public bool HasAnomalie => Correzioni.Any(c => c.RequiereCorrezione);
 }
