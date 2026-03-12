@@ -7,7 +7,8 @@
 > **Il coltellino svizzero C# per i dati amministrativi italiani.**
 > Auto-aggiornato mensilmente da ISTAT, IndicePA, GLEIF e GeoNames. Pubblicato automaticamente su NuGet.
 
-![LogoItalyCore](https://github.com/user-attachments/assets/dabf1e5d-7131-45ca-988c-4ad06a9319ec)
+
+![LogoItalyCore](https://github.com/user-attachments/assets/3ca8c668-ad5e-4726-9307-320ef7d8d192)
 
 ---
 
