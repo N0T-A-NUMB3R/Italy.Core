@@ -8,61 +8,61 @@ public sealed class Comune
 {
     // ── Identificativi ──────────────────────────────────────────────────────
     /// <summary>Codice Catastale (Belfiore) - identificativo univoco immutabile. Es: "F205" per Milano.</summary>
-    public string CodiceBelfiore { get; init; } = string.Empty;
+    public string CodiceBelfiore { get; set; } = string.Empty;
 
     /// <summary>Codice ISTAT a 6 cifre. Es: "015146" per Milano.</summary>
-    public string CodiceISTAT { get; init; } = string.Empty;
+    public string CodiceISTAT { get; set; } = string.Empty;
 
     // ── Anagrafica ──────────────────────────────────────────────────────────
     /// <summary>Denominazione ufficiale depositata in ANPR.</summary>
-    public string DenominazioneUfficiale { get; init; } = string.Empty;
+    public string DenominazioneUfficiale { get; set; } = string.Empty;
 
     /// <summary>Denominazione in lingua/dialetto locale (es. ladino, tedesco per Alto Adige).</summary>
-    public string? DenominazioneAlternativa { get; init; }
+    public string? DenominazioneAlternativa { get; set; }
 
     // ── Gerarchia Amministrativa ────────────────────────────────────────────
-    public string SiglaProvincia { get; init; } = string.Empty;
-    public string NomeProvincia { get; init; } = string.Empty;
-    public string CodiceProvinciaISTAT { get; init; } = string.Empty;
-    public string NomeRegione { get; init; } = string.Empty;
-    public string CodiceRegioneISTAT { get; init; } = string.Empty;
-    public RipartizioneGeografica Ripartizione { get; init; }
+    public string SiglaProvincia { get; set; } = string.Empty;
+    public string NomeProvincia { get; set; } = string.Empty;
+    public string CodiceProvinciaISTAT { get; set; } = string.Empty;
+    public string NomeRegione { get; set; } = string.Empty;
+    public string CodiceRegioneISTAT { get; set; } = string.Empty;
+    public RipartizioneGeografica Ripartizione { get; set; }
 
     // ── Stato Amministrativo ────────────────────────────────────────────────
-    public bool IsCapoluogoProvincia { get; init; }
-    public bool IsCittàMetropolitana { get; init; }
-    public bool IsComuneMontano { get; init; }
-    public bool IsAttivo { get; init; } = true;
+    public bool IsCapoluogoProvincia { get; set; }
+    public bool IsCittàMetropolitana { get; set; }
+    public bool IsComuneMontano { get; set; }
+    public bool IsAttivo { get; set; } = true;
 
     // ── Dati Storici ────────────────────────────────────────────────────────
-    public DateTime DataIstituzione { get; init; }
-    public DateTime? DataSoppressione { get; init; }
+    public DateTime DataIstituzione { get; set; }
+    public DateTime? DataSoppressione { get; set; }
 
     /// <summary>Codice Belfiore del comune successore (in caso di fusione/soppressione).</summary>
-    public string? CodiceSuccessore { get; init; }
+    public string? CodiceSuccessore { get; set; }
 
     // ── CAP ─────────────────────────────────────────────────────────────────
-    public string? CAPPrincipale { get; init; }
+    public string? CAPPrincipale { get; set; }
 
     // ── Geospaziale ─────────────────────────────────────────────────────────
-    public double? Latitudine { get; init; }
-    public double? Longitudine { get; init; }
-    public double? AltitudineMetri { get; init; }
-    public double? SuperficieKmq { get; init; }
+    public double? Latitudine { get; set; }
+    public double? Longitudine { get; set; }
+    public double? AltitudineMetri { get; set; }
+    public double? SuperficieKmq { get; set; }
 
     // ── Demografici ─────────────────────────────────────────────────────────
-    public int? Popolazione { get; init; }
-    public int? AnnoRilevazionePopolazione { get; init; }
+    public int? Popolazione { get; set; }
+    public int? AnnoRilevazionePopolazione { get; set; }
 
     // ── Classificazioni ─────────────────────────────────────────────────────
-    public ZonaSismica? ZonaSismica { get; init; }
-    public ZonaClimatica? ZonaClimatica { get; init; }
-    public ClasseAreeInterne? ClasseAreeInterne { get; init; }
+    public ZonaSismica? ZonaSismica { get; set; }
+    public ZonaClimatica? ZonaClimatica { get; set; }
+    public ClasseAreeInterne? ClasseAreeInterne { get; set; }
 
     // ── NUTS / Eurostat ──────────────────────────────────────────────────────
-    public string? CodiceNUTS3 { get; init; }
-    public string? CodiceNUTS2 { get; init; }
-    public string? CodiceNUTS1 { get; init; }
+    public string? CodiceNUTS3 { get; set; }
+    public string? CodiceNUTS2 { get; set; }
+    public string? CodiceNUTS1 { get; set; }
 
     public override string ToString() =>
         $"{DenominazioneUfficiale} ({SiglaProvincia}) [{CodiceBelfiore}]";

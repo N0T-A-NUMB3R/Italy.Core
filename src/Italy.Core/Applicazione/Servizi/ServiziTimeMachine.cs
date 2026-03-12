@@ -253,9 +253,9 @@ public sealed class ServiziTimeMachine
 /// <summary>Risultato della ricerca del Codice Belfiore per la compilazione del CF.</summary>
 public sealed class RisultatoBelfiorePerCF
 {
-    public bool Trovato { get; init; }
-    public bool Valido { get; init; }
-    public string? CodiceBelfiore { get; init; }
-    public string? DenominazioneInData { get; init; }
-    public string Messaggio { get; init; } = string.Empty;
+    public bool Trovato { get; set; }
+    public bool Valido { get; set; }
+    public string? CodiceBelfiore { get; set; }
+    public string? DenominazioneInData { get; set; }
+    public string Messaggio { get; set; } = string.Empty;
 }

@@ -214,12 +214,12 @@ public sealed class ServiziValidazioneCross
 
 public sealed class RisultatoValidazioneCross
 {
-    public bool IsCoerente { get; init; }
-    public SeveritàAnomalia Severità { get; init; }
-    public string Messaggio { get; init; } = string.Empty;
-    public string? ValoreAtteso { get; init; }
-    public string? ValoreDichiarato { get; init; }
-    public IReadOnlyDictionary<string, string>? Dettagli { get; init; }
+    public bool IsCoerente { get; set; }
+    public SeveritàAnomalia Severità { get; set; }
+    public string Messaggio { get; set; } = string.Empty;
+    public string? ValoreAtteso { get; set; }
+    public string? ValoreDichiarato { get; set; }
+    public IReadOnlyDictionary<string, string>? Dettagli { get; set; }
 }
 
 public enum SeveritàAnomalia

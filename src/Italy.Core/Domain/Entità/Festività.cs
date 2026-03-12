@@ -5,15 +5,15 @@ namespace Italy.Core.Domain.Entità;
 /// </summary>
 public sealed class Festività
 {
-    public string Nome { get; init; } = string.Empty;
-    public DateTime Data { get; init; }
-    public TipoFestività Tipo { get; init; }
+    public string Nome { get; set; } = string.Empty;
+    public DateTime Data { get; set; }
+    public TipoFestività Tipo { get; set; }
 
     /// <summary>Null per festività nazionali. Codice Belfiore per festività locali (Santo Patrono).</summary>
-    public string? CodiceBelfiore { get; init; }
+    public string? CodiceBelfiore { get; set; }
 
     /// <summary>Identificativo CCNL per festività contrattuali (es. "ABI", "METALMECCANICI").</summary>
-    public string? CodiceCCNL { get; init; }
+    public string? CodiceCCNL { get; set; }
 
     public bool IsNazionale => Tipo == TipoFestività.Nazionale;
 
@@ -25,9 +25,9 @@ public sealed class Festività
 /// </summary>
 public sealed class InfoFusoOrario
 {
-    public DateTime Dal { get; init; }
-    public DateTime? Al { get; init; }
-    public TimeSpan OffsetUTC { get; init; }
-    public bool IsOrarioLegale { get; init; }
-    public string? Nota { get; init; }
+    public DateTime Dal { get; set; }
+    public DateTime? Al { get; set; }
+    public TimeSpan OffsetUTC { get; set; }
+    public bool IsOrarioLegale { get; set; }
+    public string? Nota { get; set; }
 }
