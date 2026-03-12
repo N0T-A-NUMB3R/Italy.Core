@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net48;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <LangVersion>10</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>
