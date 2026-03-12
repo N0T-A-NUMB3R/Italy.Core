@@ -7,8 +7,8 @@
 > **Il coltellino svizzero C# per i dati amministrativi italiani.**
 > Auto-aggiornato mensilmente da ISTAT, IndicePA, GLEIF e GeoNames. Pubblicato automaticamente su NuGet.
 
-> ** Perché nasce Italy.Core? **
-L’idea originale risale a qualche anno fa, nata dalla semplice necessità di gestire i CAP. Tuttavia, il progetto ha preso la sua forma attuale durante le lunghe notti insonni passate a prendermi cura della mia bambina appena nata; è stato proprio in quei momenti, che ho deciso (avuto tempo) di trasformare le continue richieste del collega Giorgio — che spesso mi cercava per verificare la validità di un codice ISTAT — in uno strumento solido e strutturato. Ho voluto creare un punto di riferimento capace di eliminare le inefficienze quotidiane e semplificare finalmente il lavoro di ogni sviluppatore che, come noi, si scontra con la complessità del panorama amministrativo italiano.
+## Perché nasce Italy.Core? 
+> L’idea originale risale a qualche anno fa, nata dalla semplice necessità di gestire i CAP. Tuttavia, il progetto ha preso la sua forma attuale durante le lunghe notti insonni passate a prendermi cura della mia bambina appena nata; è stato proprio in quei momenti, che ho deciso (avuto tempo) di trasformare le continue richieste del collega Giorgio — che spesso mi cercava per verificare la validità di un codice ISTAT — in uno strumento solido e strutturato. Ho voluto creare un punto di riferimento capace di eliminare le inefficienze quotidiane e semplificare finalmente il lavoro di ogni sviluppatore che, come noi, si scontra con la complessità del panorama amministrativo italiano.
 
 
 ![LogoItalyCore](https://github.com/user-attachments/assets/3ca8c668-ad5e-4726-9307-320ef7d8d192)
