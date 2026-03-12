@@ -1,0 +1,36 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.nupkg
+*.snupkg
+nuget-output/
+coverage/
+
+## Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+
+## Cache ISTAT (i CSV scaricati non vanno in git, solo il DB generato)
+tools/cache/*.csv
+tools/cache/*.xlsx
+
+## Il database generato va in git (è una risorsa embedded del pacchetto)
+!src/Italy.Core/data/italy.db
+
+## Sotto-progetti rimossi
+src/Italy.Core.Finance/
+src/Italy.Core.Geo/
+src/Italy.Core.HR/
+src/Italy.Core.PA/
+
+## OS
+.DS_Store
+Thumbs.db

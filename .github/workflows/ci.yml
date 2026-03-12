@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore src/Italy.Core/Italy.Core.csproj
+
+    - name: Build net8.0
+      run: dotnet build src/Italy.Core/Italy.Core.csproj -f net8.0 -c Release --no-restore
+
+    - name: Build net48
+      run: dotnet build src/Italy.Core/Italy.Core.csproj -f net48 -c Release --no-restore
+
+    - name: Restore test dependencies
+      run: dotnet restore tests/Italy.Core.Tests/Italy.Core.Tests.csproj
+
+    - name: Test
+      run: dotnet test tests/Italy.Core.Tests/Italy.Core.Tests.csproj -f net8.0 --no-restore --verbosity normal
