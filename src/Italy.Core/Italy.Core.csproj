@@ -9,7 +9,7 @@
 
     <!-- NuGet Package Metadata -->
     <PackageId>Italy.Core</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Italy.Core Contributors</Authors>
     <Description>Libreria C# per la manipolazione di dati geografici, amministrativi, fiscali e storici italiani. Basata su dati ISTAT open data, auto-aggiornata mensilmente.</Description>
     <PackageTags>italy;istat;comuni;codicefiscale;cap;geography;italian;administrative</PackageTags>
