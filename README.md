@@ -17,6 +17,8 @@ dotnet add package Italy.Core
 
 **Una sola libreria, nessuna dipendenza aggiuntiva.** Tutti i dati sono embedded nel pacchetto NuGet.
 
+Pacchetto NuGet: [nuget.org/packages/Italy.Core](https://www.nuget.org/packages/Italy.Core)
+
 ---
 
 ## Funzionalità Principali
