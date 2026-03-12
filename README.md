@@ -8,7 +8,11 @@
 > Auto-aggiornato mensilmente da ISTAT, IndicePA, GLEIF e GeoNames. Pubblicato automaticamente su NuGet.
 
 ## Perchè questa follia?
-> L'idea originale risale a qualche anno fa (quando ancora ero uno dev fulltime), nata dalla semplice necessità di gestire CAP, comuni e prefissi telefonici, ma non ho mai trovato il tempo di ultimarla. Il progetto ha però preso la sua forma definitiva durante le lunghe notti insonni passate a prendermi cura di mia figlia appena nata: è stato proprio in questo anno che ho finalmente trovato lo spazio per trasformare le frequenti richieste del mio stimato collega Giorgio, che spesso mi cercava per verificare la validità di un codice ISTAT, in uno strumento solido e strutturato. Ho voluto creare una libreria per eliminare le inefficienze quotidiane e semplificare il lavoro di ogni sviluppatore che, come noi, si scontra quotidianamente con la complessità del panorama amministrativo italiano.
+>Tutto è iniziato anni fa, quando, da sviluppatore full-time, ho iniziato a strutturare le prime tabelle dell'Atlante per gestire CAP, comuni e prefissi senza doverli replicare in ogni nuovo progetto. Tuttavia, il lavoro è rimasto a lungo un cantiere aperto.
+
+La svolta è arrivata su due fronti: da un lato, le continue richieste del mio caro collega Giorgio, che spesso si affidava a me per risolvere le complessità dei codici ISTAT, mi hanno dato l'input necessario per trasformare quelle mie vecchie intuizioni in una struttura solida e riutilizzabile. Dall'altro, sono state le notti insonni passate a prendermi cura di mia figlia appena nata a regalarmi il tempo (e la determinazione) per dare a questa libreria la sua forma definitiva.
+
+Il mio obiettivo è stato proprio questo: trasformare anni di esperienza (e imprecazioni) in uno strumento per semplificare la vita a ogni sviluppatore che, come noi, si scontra ogni giorno con la complessità del panorama amministrativo italiano
 
 
 ![LogoItalyCore](https://github.com/user-attachments/assets/3ca8c668-ad5e-4726-9307-320ef7d8d192)
