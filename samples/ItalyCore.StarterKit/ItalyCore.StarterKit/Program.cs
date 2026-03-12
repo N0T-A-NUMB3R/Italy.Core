@@ -4,6 +4,7 @@
 // ============================================================
 
 using Italy.Core;
+using Italy.Core.Applicazione.Servizi;
 using Italy.Core.Domain.Entità;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -12,9 +13,10 @@ Menu(atlante);
 
 static void Menu(Atlante a)
 {
-    Console.WriteLine("╔══════════════════════════════════════╗");
-    Console.WriteLine("║     Italy.Core — Starter Kit         ║");
-    Console.WriteLine("╚══════════════════════════════════════╝");
+    Console.WriteLine("╔══════════════════════════════════════════╗");
+    Console.WriteLine("║       Italy.Core — Starter Kit           ║");
+    Console.WriteLine($"║  DB: {(a.VersioneDati ?? "n/d"),-10}  Aggiorn.: {(a.DataUltimoAggiornamento?.ToString("dd/MM/yyyy") ?? "n/d"),-12}║");
+    Console.WriteLine("╚══════════════════════════════════════════╝");
     Console.WriteLine();
     Console.WriteLine(" 1. Comuni — ricerca fuzzy e lookup");
     Console.WriteLine(" 2. CAP — ricerca e validazione");
@@ -28,6 +30,9 @@ static void Menu(Atlante a)
     Console.WriteLine("10. Validazione — P.IVA, IBAN, Targa");
     Console.WriteLine("11. Parser e Confronto Indirizzi");
     Console.WriteLine("12. Festività e Calendario");
+    Console.WriteLine("13. Telefonia — prefissi e operatori");
+    Console.WriteLine("14. Bonifica Dati — pulizia DB legacy");
+    Console.WriteLine("15. Frontalieri — zone di confine");
     Console.WriteLine(" 0. Esci");
     Console.WriteLine();
     Console.Write("Scegli: ");
@@ -46,6 +51,9 @@ static void Menu(Atlante a)
         case "10": SnippetValidazione(a); break;
         case "11": SnippetParser(a); break;
         case "12": SnippetCalendario(a); break;
+        case "13": SnippetTelefonia(a); break;
+        case "14": SnippetBonifica(a); break;
+        case "15": SnippetFrontalieri(a); break;
         case "0":  return;
         default:   Console.WriteLine("Scelta non valida."); break;
     }
@@ -79,20 +87,23 @@ static void SnippetComuni(Atlante a)
     P($"Succ. di C619        → {succ?.DenominazioneUfficiale}");
 
     // Risoluzione codice ISTAT — attivo, soppresso, o inesistente
+    Console.WriteLine();
+    P("Risoluzione ISTAT:");
     foreach (var istat in new[] { "015146", "076020", "999999" })
     {
         var r = a.Comuni.RisolviCodiceISTATStorico(istat);
         if (!r.Trovato)
-            P($"ISTAT {istat} → NON TROVATO nel DB");
+            P($"  ISTAT {istat} → NON TROVATO nel DB");
         else if (r.IsAttivo)
-            P($"ISTAT {istat} → ATTIVO: {r.Comune?.DenominazioneUfficiale} ({r.Comune?.SiglaProvincia})");
+            P($"  ISTAT {istat} → ATTIVO: {r.Comune?.DenominazioneUfficiale} ({r.Comune?.SiglaProvincia})");
         else
-            P($"ISTAT {istat} → SOPPRESSO: '{r.Comune?.DenominazioneUfficiale}'" +
+            P($"  ISTAT {istat} → SOPPRESSO: '{r.Comune?.DenominazioneUfficiale}'" +
               (r.Comune?.DataSoppressione != null ? $" il {r.Comune.DataSoppressione:dd/MM/yyyy}" : "") +
               (r.SuccessoreAttivo != null ? $" → ora: {r.SuccessoreAttivo.DenominazioneUfficiale}" : " (nessun successore)"));
     }
 
     // Time Machine: esisteva Corigliano Calabro il 1/1/2000?
+    Console.WriteLine();
     P($"Corigliano al 2000   → {a.TimeMachine.EsistevaInData("C619", new DateTime(2000, 1, 1))}");
     var snap = a.TimeMachine.OttieniSnapshotInData("C619", new DateTime(2000, 1, 1));
     P($"Snapshot 2000        → {snap?.DenominazioneInData}");
@@ -111,7 +122,7 @@ static void SnippetCAP(Atlante a)
     var capPrinc = a.CAP.CAPPrincipale("F205");
     P($"CAP principale MI    → {capPrinc}");
 
-    // Cerca comuni da CAP (restituisce ZonaCAP con CodiciBelfiore)
+    // Cerca comuni da CAP
     var perCap = a.CAP.DaCAP("20121");
     P($"CAP 20121            → {perCap.FirstOrDefault()?.DescrizioneZona ?? string.Join(", ", perCap.FirstOrDefault()?.CodiciISTAT ?? [])}");
 
@@ -355,6 +366,156 @@ static void SnippetCalendario(Atlante a)
     var lavorativi = a.Calendario.CalcolaGiorniLavorativi(
         new DateTime(anno, 1, 1), new DateTime(anno, 1, 31));
     P($"Lavorativi gennaio   → {lavorativi}");
+}
+
+// ── 13. TELEFONIA ────────────────────────────────────────────
+static void SnippetTelefonia(Atlante a)
+{
+    H("TELEFONIA — PREFISSI E OPERATORI");
+
+    // Prefisso fisso di un comune
+    var prefMI = a.Telefonia.OttieniPrefisso("F205");
+    P($"Prefisso Milano      → {prefMI ?? "n/d"}");
+
+    var prefNA = a.Telefonia.OttieniPrefisso("F839");
+    P($"Prefisso Napoli      → {prefNA ?? "n/d"}");
+
+    // Lookup per prefisso
+    var area02 = a.Telefonia.DaPrefisso("02");
+    P($"Prefisso 02          → {area02?.AreaGeografica ?? "n/d"}");
+
+    // Validazione e normalizzazione numeri
+    Console.WriteLine();
+    P("Validazione numeri:");
+    string[] numeri =
+    [
+        "02 1234567",        // fisso Milano
+        "+39 333 1234567",   // mobile
+        "800 123456",        // toll-free
+        "118",               // emergenza
+        "abc",               // invalido
+    ];
+
+    foreach (var n in numeri)
+    {
+        var r = a.Telefonia.Valida(n);
+        if (r.IsValido)
+            P($"  {n,-22} → {r.Tipo,-12} {r.NumeroNormalizzatoE164,-18} {r.AreaGeografica ?? r.NomeOperatore ?? ""}");
+        else
+            P($"  {n,-22} → NON VALIDO: {string.Join(", ", r.Anomalie ?? [])}");
+    }
+
+    // Identificazione operatore mobile
+    var op = a.Telefonia.IdentificaOperatore("3331234567");
+    P($"Operatore 333...     → {op?.NomeOperatore ?? "sconosciuto"}");
+}
+
+// ── 14. BONIFICA DATI ────────────────────────────────────────
+static void SnippetBonifica(Atlante a)
+{
+    H("BONIFICA DATI — PULIZIA DB LEGACY");
+
+    // Comune soppresso → suggerisci successore
+    var b1 = a.Bonifica.AnalizzaComune("Corigliano Calabro", "CS");
+    Stampa(b1, "Corigliano Calabro/CS");
+
+    // Comune con sigla provincia errata
+    var b2 = a.Bonifica.AnalizzaComune("Monza", "MI");
+    Stampa(b2, "Monza con prov. MI");
+
+    // Comune con errore ortografico (fuzzy)
+    var b3 = a.Bonifica.AnalizzaComune("Miilano");
+    Stampa(b3, "Miilano (typo)");
+
+    // Sigla provincia storica soppressa
+    Console.WriteLine();
+    P("Province storiche soppresse:");
+    foreach (var sigla in new[] { "CI", "OG", "OT", "VS" })
+    {
+        var r = a.Bonifica.VerificaSiglaProvincia(sigla);
+        P($"  {sigla} → {(r.RequiereCorrezione ? $"{r.ValoreSuggerito} ({r.Motivazione?.Split('.')[0]})" : "OK")}");
+    }
+
+    // Bonifica indirizzo completo (comune + CAP + provincia + CF)
+    Console.WriteLine();
+    P("Bonifica indirizzo completo:");
+    var anomalie = a.Bonifica.AnalizzaIndirizzo(
+        nomeComune: "Corigliano Calabro",
+        cap: "87064",
+        siglaProvincia: "CS",
+        codiceFiscale: null);
+
+    if (anomalie.Count == 0)
+        P("  Nessuna anomalia rilevata.");
+    else
+        foreach (var an in anomalie)
+            P($"  [{an.Tipo}] {an.CampoProblematico}: {an.Motivazione}");
+
+    // Bonifica batch — simula un elenco di record da DB legacy
+    Console.WriteLine();
+    P("Elaborazione batch (3 record):");
+    var records = new List<RecordDaBonificare>
+    {
+        new() { NomeComune = "Sesto S. Giovanni", SiglaProvincia = "MI", CAP = "20099" },
+        new() { NomeComune = "Corigliano Calabro", SiglaProvincia = "CS", CAP = "87064" },
+        new() { NomeComune = "Milano",             SiglaProvincia = "MI", CAP = "20121" },
+    };
+
+    var report = a.Bonifica.ElaboraBatch(records);
+    P($"  Totale: {report.TotaleRecord}  Puliti: {report.RecordPuliti}  Con anomalie: {report.RecordConAnomalie}");
+    foreach (var rec in report.Risultati.Where(r => r.HasAnomalie))
+    {
+        var orig = rec.DatoOriginale as RecordDaBonificare;
+        P($"  Record #{rec.IndiceRecord} — {orig?.NomeComune}:");
+        foreach (var c in rec.Correzioni)
+            P($"    [{c.Tipo}] {c.CampoProblematico} → suggerito: {c.ValoreSuggerito} (conf. {c.ConfidenzaSuggerimento:P0})");
+    }
+
+    static void Stampa(RisultatoBonifica r, string etichetta)
+    {
+        if (!r.RequiereCorrezione)
+            P($"{etichetta,-25} → OK");
+        else
+            P($"{etichetta,-25} → [{r.Tipo}] suggerito: '{r.ValoreSuggerito}' (conf. {r.ConfidenzaSuggerimento:P0})");
+    }
+}
+
+// ── 15. FRONTALIERI ──────────────────────────────────────────
+static void SnippetFrontalieri(Atlante a)
+{
+    H("FRONTALIERI — ZONE DI CONFINE");
+
+    // Comuni di confine Svizzera / Francia / Austria / Slovenia
+    Console.WriteLine();
+    P("Verifica comuni frontalieri:");
+    var casi = new[]
+    {
+        ("Como",          "C933"),   // frontaliero Svizzera
+        ("Ventimiglia",   "L741"),   // frontaliero Francia
+        ("Tarvisio",      "L057"),   // frontaliero Austria/Slovenia
+        ("Milano",        "F205"),   // non frontaliero
+        ("Palermo",       "G273"),   // non frontaliero
+    };
+
+    foreach (var (nome, cb) in casi)
+    {
+        var info = a.Frontalieri.OttieniInfoFrontalieri(cb);
+        if (info.IsComuneFrontaliero)
+            P($"  {nome,-15} → FRONTALIERO {info.StatoConfinante,-10} {info.DistanzaConfineKm:F1} km  Regime: {info.Regime}");
+        else
+            P($"  {nome,-15} → non frontaliero ({info.DistanzaConfineKm:F1} km dal confine più vicino)");
+    }
+
+    // Note normative dettagliate per un comune svizzero
+    Console.WriteLine();
+    var comoInfo = a.Frontalieri.OttieniInfoFrontalieri("C933");
+    if (comoInfo.NoteNormative != null)
+    {
+        P("Note normative Como:");
+        P($"  {comoInfo.NoteNormative}");
+        if (comoInfo.DataDecorrenza.HasValue)
+            P($"  Decorrenza: {comoInfo.DataDecorrenza:dd/MM/yyyy}");
+    }
 }
 
 // ── Helper ───────────────────────────────────────────────────
