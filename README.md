@@ -7,6 +7,8 @@
 > **Il coltellino svizzero C# per i dati amministrativi italiani.**
 > Auto-aggiornato mensilmente da ISTAT, IndicePA, GLEIF e GeoNames. Pubblicato automaticamente su NuGet.
 
+![fe16a770-f0ce-4388-b7ef-b6d233bac872](https://github.com/user-attachments/assets/c6fb2963-2b96-4021-83bc-2b5cd09c2d98)
+
 ---
 
 ## Installazione
