@@ -1,7 +1,6 @@
 # Italy.Core
 
 [![NuGet](https://img.shields.io/nuget/v/Italy.Core.svg)](https://www.nuget.org/packages/Italy.Core)
-[![CI](https://github.com/YOUR_ORG/Italy.Core/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/Italy.Core/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Data Pack](https://img.shields.io/badge/Data_Pack-2026.03-green.svg)](#pipeline-aggiornamento-dati)
 
