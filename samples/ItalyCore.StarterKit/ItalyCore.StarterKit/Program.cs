@@ -78,9 +78,19 @@ static void SnippetComuni(Atlante a)
     var succ = a.Comuni.OttieniSuccessore("C619");
     P($"Succ. di C619        → {succ?.DenominazioneUfficiale}");
 
-    // Risoluzione ISTAT storico
-    var vecchio = a.Comuni.RisolviCodiceISTATStorico("076020");
-    P($"ISTAT 076020         → {vecchio?.Comune?.DenominazioneUfficiale ?? vecchio?.SuccessoreAttivo?.DenominazioneUfficiale}");
+    // Risoluzione codice ISTAT — attivo, soppresso, o inesistente
+    foreach (var istat in new[] { "015146", "076020", "999999" })
+    {
+        var r = a.Comuni.RisolviCodiceISTATStorico(istat);
+        if (!r.Trovato)
+            P($"ISTAT {istat} → NON TROVATO nel DB");
+        else if (r.IsAttivo)
+            P($"ISTAT {istat} → ATTIVO: {r.Comune?.DenominazioneUfficiale} ({r.Comune?.SiglaProvincia})");
+        else
+            P($"ISTAT {istat} → SOPPRESSO: '{r.Comune?.DenominazioneUfficiale}'" +
+              (r.Comune?.DataSoppressione != null ? $" il {r.Comune.DataSoppressione:dd/MM/yyyy}" : "") +
+              (r.SuccessoreAttivo != null ? $" → ora: {r.SuccessoreAttivo.DenominazioneUfficiale}" : " (nessun successore)"));
+    }
 
     // Time Machine: esisteva Corigliano Calabro il 1/1/2000?
     P($"Corigliano al 2000   → {a.TimeMachine.EsistevaInData("C619", new DateTime(2000, 1, 1))}");
