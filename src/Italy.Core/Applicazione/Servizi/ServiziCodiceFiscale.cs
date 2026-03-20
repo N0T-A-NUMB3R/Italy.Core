@@ -102,6 +102,64 @@ public sealed class ServiziCodiceFiscale
         return parziale + controllo;
     }
 
+    /// <summary>
+    /// Calcola il Codice Fiscale risolvendo automaticamente il codice Belfiore
+    /// dal nome del comune e dalla sigla provincia.
+    /// </summary>
+    /// <exception cref="ArgumentException">Se il comune non viene trovato.</exception>
+    public string Calcola(string cognome, string nome, DateTime dataNascita, char sesso, string nomeComune, string siglaProvincia)
+    {
+        if (string.IsNullOrWhiteSpace(nomeComune))   throw new ArgumentException("Nome comune obbligatorio.", nameof(nomeComune));
+        if (string.IsNullOrWhiteSpace(siglaProvincia)) throw new ArgumentException("Sigla provincia obbligatoria.", nameof(siglaProvincia));
+
+        var sigla = siglaProvincia.Trim().ToUpperInvariant();
+        var candidati = _repositoryComuni.DaProvincia(sigla);
+        var comune = candidati.FirstOrDefault(c =>
+            string.Equals(c.DenominazioneUfficiale, nomeComune.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        if (comune == null)
+            throw new ArgumentException($"Comune '{nomeComune} ({siglaProvincia})' non trovato.", nameof(nomeComune));
+
+        return Calcola(cognome, nome, dataNascita, sesso, comune.CodiceBelfiore);
+    }
+
+    // ── Scomposizione ────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Scompone un Codice Fiscale nei suoi segmenti costitutivi senza effettuare
+    /// lookup sul database dei comuni. Utile per analisi strutturale e debug.
+    /// </summary>
+    /// <param name="codiceFiscale">CF da scomporre (16 caratteri).</param>
+    /// <returns>La scomposizione strutturata, o null se il CF è malformato.</returns>
+    public ScomposizioneCodiceFiscale? Scomponi(string codiceFiscale)
+    {
+        if (string.IsNullOrWhiteSpace(codiceFiscale))
+            return null;
+
+        var cf = codiceFiscale.Trim().ToUpperInvariant();
+        if (cf.Length != 16)
+            return null;
+
+        if (!TentaDecodificaData(cf, out var dataNascita, out var sesso))
+            return null;
+
+        var belfiore = cf.Substring(11, 4);
+
+        return new ScomposizioneCodiceFiscale
+        {
+            SegmentoCognome     = cf.Substring(0, 3),
+            SegmentoNome        = cf.Substring(3, 3),
+            AnnoEncoded         = cf.Substring(6, 2),
+            MeseEncoded         = cf[8],
+            GiornoEncoded       = cf.Substring(9, 2),
+            CodiceBelfiore      = belfiore,
+            CarattereControllo  = cf[15],
+            DataNascita         = dataNascita,
+            Sesso               = sesso,
+            IsNatoAllEstero     = belfiore[0] == 'Z'
+        };
+    }
+
     // ── Lookup da CF ──────────────────────────────────────────────────────────
 
     /// <summary>

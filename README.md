@@ -35,7 +35,7 @@ Pacchetto NuGet: [nuget.org/packages/Italy.Core](https://www.nuget.org/packages/
 |---|---|
 | **Comuni** | Fuzzy search, lookup Belfiore/ISTAT, gerarchia, 7.800+ comuni |
 | **Storico** | Time Machine, variazioni 1991-oggi, comuni soppressi/fusi |
-| **Codice Fiscale** | Validazione, calcolo, estrazione dati, zero-allocation |
+| **Codice Fiscale** | Validazione, calcolo (con Belfiore o nome comune+provincia), scomposizione segmenti, zero-allocation |
 | **ATECO** | Classificazione attività economiche 2007 aggiorn. 2022 |
 | **Banche** | Lookup ABI/BIC, validazione BIC italiano, 1.600+ banche |
 | **Zone Territoriali** | Zona sismica (PCM 3274/2003), coordinate WGS84 |
@@ -226,8 +226,23 @@ var belfiore = atlante.TimeMachine.OttieniBelfiorePerCF("Corigliano Calabro", ne
 var cf = atlante.Fiscale.Valida("RSSMRA80A01F205X");
 // → { IsValido: true, ComuneNascita: "Milano", DataNascita: 1980-01-01, Sesso: 'M' }
 
-// Calcolo
+// Calcolo con codice Belfiore
 var calcolato = atlante.Fiscale.Calcola("Rossi", "Mario", new DateTime(1980,1,1), 'M', "F205");
+
+// Calcolo con nome comune + provincia (risolve automaticamente il Belfiore)
+var calcolato2 = atlante.Fiscale.Calcola("Rossi", "Mario", new DateTime(1980,1,1), 'M', "Milano", "MI");
+
+// Scomposizione strutturata (analisi segmenti, no lookup DB)
+var s = atlante.Fiscale.Scomponi("RSSMRA80A01F205X");
+// → s.SegmentoCognome    = "RSS"   (pos 0-2)
+// → s.SegmentoNome       = "MRA"   (pos 3-5)
+// → s.AnnoEncoded        = "80"    (pos 6-7)
+// → s.MeseEncoded        = 'A'     (pos 8, = Gennaio)
+// → s.GiornoEncoded      = "01"    (pos 9-10)
+// → s.CodiceBelfiore     = "F205"  (pos 11-14)
+// → s.CarattereControllo = 'X'     (pos 15)
+// → s.DataNascita        = 1980-01-01
+// → s.Sesso              = 'M'
 
 // Zero-allocation (hot path, migliaia/secondo)
 bool valido = ValidatoreCFSpan.IsValido("RSSMRA80A01F205X"); // no heap alloc

@@ -1,5 +1,41 @@
 namespace Italy.Core.Domain.Entità;
 
+/// <summary>
+/// Scomposizione strutturata di un Codice Fiscale nei suoi segmenti costitutivi.
+/// </summary>
+public sealed class ScomposizioneCodiceFiscale
+{
+    /// <summary>I 3 caratteri del cognome (posizioni 0-2).</summary>
+    public string SegmentoCognome { get; set; } = string.Empty;
+
+    /// <summary>I 3 caratteri del nome (posizioni 3-5).</summary>
+    public string SegmentoNome { get; set; } = string.Empty;
+
+    /// <summary>Le 2 cifre dell'anno di nascita (posizioni 6-7).</summary>
+    public string AnnoEncoded { get; set; } = string.Empty;
+
+    /// <summary>Il carattere del mese di nascita (posizione 8).</summary>
+    public char MeseEncoded { get; set; }
+
+    /// <summary>Le 2 cifre del giorno (posizione 9-10). Per le donne è il giorno + 40.</summary>
+    public string GiornoEncoded { get; set; } = string.Empty;
+
+    /// <summary>Il codice Belfiore del comune/paese di nascita (posizioni 11-14).</summary>
+    public string CodiceBelfiore { get; set; } = string.Empty;
+
+    /// <summary>Il carattere di controllo (posizione 15).</summary>
+    public char CarattereControllo { get; set; }
+
+    /// <summary>Data di nascita decodificata.</summary>
+    public DateTime? DataNascita { get; set; }
+
+    /// <summary>Sesso decodificato ('M' o 'F').</summary>
+    public char? Sesso { get; set; }
+
+    /// <summary>True se il soggetto è nato all'estero (Belfiore inizia con 'Z').</summary>
+    public bool IsNatoAllEstero { get; set; }
+}
+
 /// <summary>Risultato validazione Codice Fiscale.</summary>
 public sealed class RisultatoCodiceFiscale
 {
