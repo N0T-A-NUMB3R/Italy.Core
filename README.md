@@ -13,7 +13,8 @@
 >Il mio obiettivo è stato proprio questo: trasformare anni di esperienza (e imprecazioni) in uno strumento per semplificare la vita a ogni sviluppatore che, come noi, si scontra ogni giorno con la complessità del panorama amministrativo italiano
 
 
-![LogoItalyCore](https://github.com/user-attachments/assets/3ca8c668-ad5e-4726-9307-320ef7d8d192)
+![LogoItalyCore](https://github.com/user-attachments/assets/fcc7a302-6735-43af-8415-1a8805f6602b)
+
 
 ---
 
