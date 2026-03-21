@@ -45,7 +45,8 @@ Pacchetto NuGet: [nuget.org/packages/Italy.Core](https://www.nuget.org/packages/
 | **Dati Geografici Comuni** | Superficie km², altitudine del centro, coordinate WGS84 |
 | **CAP** | Multi-CAP per comune, ricerca inversa |
 | **Pubblica Amministrazione** | Codici IPA/SdI, ASL di competenza per comune (join su provincia), aggregazioni sovracomunali, comunità montana di appartenenza |
-| **Festività** | Nazionali + patrono locale per ogni comune |
+| **PEC Comuni** | Indirizzo PEC istituzionale per 7.658 comuni (fonte: IndicePA/AgID) |
+| **Festività** | Nazionali + patrono locale per 1.033+ comuni (fonte: santiebeati.it) |
 | **Indirizzi** | Parser, normalizzazione ANPR, confronto intelligente |
 | **Telefonia** | Prefissi geografici per tutti i 106 comuni italiani, lookup operatori mobili, validazione |
 | **Frontalieri** | Zone frontaliere, regime fiscale Svizzera/UE |
@@ -323,6 +324,25 @@ int giorni    = atlante.Calendario.CalcolaGiorniLavorativi(
 DateTime pasqua = atlante.Calendario.CalcolaPasqua(2025); // → 20 aprile 2025
 ```
 
+### PEC e Santo Patrono
+
+```csharp
+var milano = atlante.Comuni.DaCodiceBelfiore("F205");
+
+// PEC istituzionale (IndicePA/AgID — 7.658 comuni)
+milano.PEC;  // "protocollo@pec.comune.milano.it"
+
+// Santo patrono locale (1.033+ comuni — santiebeati.it)
+milano.SantoPatrono;   // "S. Ambrogio di Milano"
+milano.PatronoGiorno;  // 7
+milano.PatronoMese;    // 12
+
+// Via Calendario: ottieni la festività del patrono nell'anno corrente
+var festività = atlante.Calendario.OttieniFestività(2025, "F205");
+var patrono = festività.First(f => f.Tipo == TipoFestività.SantoPatrono);
+// → { Nome: "S. Ambrogio di Milano", Data: 07/12/2025 }
+```
+
 ### Parser Indirizzi
 
 ```csharp
@@ -436,6 +456,8 @@ public class Anagrafica
      ├─ Download GLEIF BIC-LEI (banche italiane)
      ├─ Download ATECO 2007 aggiorn. 2022 (ISTAT XLSX)
      ├─ Download IndicePA (enti PA, codici SdI)
+     ├─ Carica tools/pec_comuni.json  (7.658 PEC, aggiorn. periodica)
+     ├─ Carica tools/patroni.json     (1.033 santi patroni, statico)
      ├─ Generazione italy.db (SQLite, FTS5, ~8 MB)
      │
      ▼
@@ -453,20 +475,28 @@ public class Anagrafica
      └─ Crea GitHub Release con CHANGELOG
 ```
 
+**Aggiornamento dati hardcoded (manuale, periodico):**
+
+| File | Dato | Come aggiornare |
+|---|---|---|
+| `tools/pec_comuni.json` | PEC istituzionale 7.658 comuni | Scarica nuovo XLSX da IndicePA → `python tools/build_atlante.py` |
+| `tools/patroni.json` | Santi patroni 1.033 comuni | `python tools/scrape_patroni.py` (scraping santiebeati.it) → rebuild |
+
 **Fonti dati con tracciabilità:**
 
 | Fonte | Dato | Aggiornamento |
 |---|---|---|
-| ISTAT Open Data | Comuni, variazioni storiche, ATECO 2007 | Mensile |
-| GeoNames | CAP, coordinate WGS84 | Mensile |
-| GLEIF | BIC/LEI banche italiane | Mensile |
-| IndicePA (IPA) | Enti PA, codici SdI per fatturazione B2G | Mensile |
+| ISTAT Open Data | Comuni, variazioni storiche, ATECO 2007 | Mensile (automatico) |
+| GeoNames | CAP, coordinate WGS84 | Mensile (automatico) |
+| GLEIF | BIC/LEI banche italiane | Mensile (automatico) |
+| IndicePA (IPA) | Enti PA, codici SdI, PEC comuni | Mensile (automatico) |
 | Protezione Civile / PCM | Classificazione sismica comuni | Annuale |
 | ISTAT Aree Interne | Classificazione Aree Interne 2021-2027 per comune | Programmazione EU |
 | ISTAT Comuni Geo | Superficie km² per comune | Decennale (censimento) |
 | ISTAT Popolazione | Popolazione per comune (per paese di nascita) | Annuale |
 | Ministero della Salute | ASL di competenza (join su provincia) | Annuale |
 | AGCOM / Piano Numeri | Prefissi geografici per provincia (106) | Stabile |
+| santiebeati.it | Santi patroni locali (1.033 comuni) | Manuale (`scrape_patroni.py`) |
 
 ---
 
@@ -608,10 +638,13 @@ Italy.Core/
 - [x] Superficie km² per comune (ISTAT Comuni Geo) — **completato 2026.03**
 - [x] Popolazione per comune 2024 (ISTAT, Mondo totale) — **completato 2026.03**
 - [x] ASL di competenza per comune (join su provincia, 91 province, Ministero Salute 2023) — **completato 2026.03**
+- [x] PEC istituzionale per 7.658 comuni (IndicePA/AgID) — **completato 2026.03**
+- [x] Santo patrono locale per 1.033+ comuni (santiebeati.it) — **completato 2026.03**
 - [ ] Zona climatica per comune (fonte ENEA/MIT)
 - [ ] INPS/INAIL sede per comune (open data previdenziali — nessuna fonte con codice ISTAT)
 - [ ] Popolazione storica serie temporale (`dati_demografici`)
 - [ ] Comunità montane complete (nome, non solo flag)
+- [ ] Santo patrono per tutti i 7.800 comuni (copertura attuale: ~1.033)
 
 ### Italy.Automotive — roadmap
 
