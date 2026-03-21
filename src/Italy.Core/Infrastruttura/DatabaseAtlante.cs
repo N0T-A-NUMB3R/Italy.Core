@@ -14,7 +14,7 @@ public sealed class DatabaseAtlante : IDisposable
 {
     private static readonly object _lock = new();
     private static string? _percorsoDb;
-    private bool _disposata;
+    private bool _rilasciata;
 
     // Stringa di connessione Read-Only per massima concorrenza
     public string StringaConnessione => $"Data Source={PercorsoDb};Mode=ReadOnly;Cache=Shared;";
@@ -76,9 +76,6 @@ public sealed class DatabaseAtlante : IDisposable
             "ItalyCore",
             $"italy_{OttieniVersioneAssembly()}.db");
 
-        if (File.Exists(percorsoTemp))
-            return percorsoTemp;
-
         Directory.CreateDirectory(Path.GetDirectoryName(percorsoTemp)!);
 
         var assembly = typeof(DatabaseAtlante).Assembly;
@@ -88,6 +85,10 @@ public sealed class DatabaseAtlante : IDisposable
             ?? throw new DatabaseAtlanteException(
                 $"Risorsa embedded '{nomeRisorsa}' non trovata. " +
                 "Assicurarsi che italy.db sia incluso come EmbeddedResource nel progetto.");
+
+        // Riestrare solo se il file non esiste o ha dimensione diversa dalla risorsa embedded
+        if (File.Exists(percorsoTemp) && new FileInfo(percorsoTemp).Length == stream.Length)
+            return percorsoTemp;
 
         using var fileStream = File.Create(percorsoTemp);
         stream.CopyTo(fileStream);
@@ -216,9 +217,9 @@ public sealed class DatabaseAtlante : IDisposable
 
     public void Dispose()
     {
-        if (!_disposata)
+        if (!_rilasciata)
         {
-            _disposata = true;
+            _rilasciata = true;
         }
     }
 }
