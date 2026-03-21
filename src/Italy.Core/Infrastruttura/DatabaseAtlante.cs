@@ -71,13 +71,6 @@ public sealed class DatabaseAtlante : IDisposable
 
     private static string EstraiDatabase()
     {
-        var percorsoTemp = Path.Combine(
-            Path.GetTempPath(),
-            "ItalyCore",
-            $"italy_{OttieniVersioneAssembly()}.db");
-
-        Directory.CreateDirectory(Path.GetDirectoryName(percorsoTemp)!);
-
         var assembly = typeof(DatabaseAtlante).Assembly;
         const string nomeRisorsa = "Italy.Core.data.italy.db";
 
@@ -86,12 +79,30 @@ public sealed class DatabaseAtlante : IDisposable
                 $"Risorsa embedded '{nomeRisorsa}' non trovata. " +
                 "Assicurarsi che italy.db sia incluso come EmbeddedResource nel progetto.");
 
-        // Riestrare solo se il file non esiste o ha dimensione diversa dalla risorsa embedded
-        if (File.Exists(percorsoTemp) && new FileInfo(percorsoTemp).Length == stream.Length)
-            return percorsoTemp;
+        // Leggi tutti i byte per calcolare hash e dimensione
+        var bytes = new byte[stream.Length > 0 ? stream.Length : 16 * 1024 * 1024];
+        int letti = 0, n;
+        while ((n = stream.Read(bytes, letti, bytes.Length - letti)) > 0) letti += n;
+        var contenuto = bytes.AsSpan(0, letti);
 
-        using var fileStream = File.Create(percorsoTemp);
-        stream.CopyTo(fileStream);
+        // Hash CRC32 semplice (XOR fold di GetHashCode su blocchi) per nome univoco
+        byte[] hash;
+        using (var md5 = System.Security.Cryptography.MD5.Create())
+            hash = md5.ComputeHash(contenuto.ToArray());
+        var hashHex = BitConverter.ToString(hash, 0, 4).Replace("-", "").ToLowerInvariant();
+
+        var percorsoTemp = Path.Combine(
+            Path.GetTempPath(),
+            "ItalyCore",
+            $"italy_{OttieniVersioneAssembly()}_{hashHex}.db");
+
+        Directory.CreateDirectory(Path.GetDirectoryName(percorsoTemp)!);
+
+        if (!File.Exists(percorsoTemp))
+        {
+            using var fileStream = File.Create(percorsoTemp);
+            fileStream.Write(contenuto.ToArray(), 0, letti);
+        }
 
         return percorsoTemp;
     }
