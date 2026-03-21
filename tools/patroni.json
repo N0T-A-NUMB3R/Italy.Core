@@ -1,0 +1,6200 @@
+{
+  "A001": {
+    "comune": "Abano Terme",
+    "nome": "S. Lorenzo",
+    "giorno": 10,
+    "mese": 8
+  },
+  "A010": {
+    "comune": "Abbiategrasso",
+    "nome": "Maria S.ma Addolorata",
+    "giorno": 15,
+    "mese": 9
+  },
+  "A015": {
+    "comune": "Accadia",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "A017": {
+    "comune": "Accettura",
+    "nome": "San Giuliano di Sora",
+    "giorno": 27,
+    "mese": 1
+  },
+  "A033": {
+    "comune": "Acquaformosa",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A045": {
+    "comune": "Acquasparta",
+    "nome": "S. Cecilia di Roma",
+    "giorno": 22,
+    "mese": 11
+  },
+  "A053": {
+    "comune": "Acri",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "A055": {
+    "comune": "Adelfia",
+    "nome": "San Trifone",
+    "giorno": 11,
+    "mese": 11
+  },
+  "A059": {
+    "comune": "Adria",
+    "nome": "SS. Pietro e Paolo, apostoli",
+    "giorno": 29,
+    "mese": 6
+  },
+  "A083": {
+    "comune": "Agordo",
+    "nome": "S. Pietro,",
+    "giorno": 29,
+    "mese": 6
+  },
+  "A091": {
+    "comune": "Agropoli",
+    "nome": "S. Pietro,",
+    "giorno": 29,
+    "mese": 6
+  },
+  "A110": {
+    "comune": "Airola",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "A116": {
+    "comune": "Ala",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A120": {
+    "comune": "Alanno",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 4
+  },
+  "A122": {
+    "comune": "Alassio",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 4
+  },
+  "A125": {
+    "comune": "Alba Adriatica",
+    "nome": "S. Eufemia di Calcedonia",
+    "giorno": 16,
+    "mese": 9
+  },
+  "A145": {
+    "comune": "Albenga",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A149": {
+    "comune": "Alberobello",
+    "nome": "SS. Cosma e Damiano",
+    "giorno": 27,
+    "mese": 9
+  },
+  "A155": {
+    "comune": "Albi",
+    "nome": "San Nicola da Tolentino",
+    "giorno": 10,
+    "mese": 9
+  },
+  "A160": {
+    "comune": "Albidona",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A184": {
+    "comune": "Alessano",
+    "nome": "S. Trifone di Frigia",
+    "giorno": 10,
+    "mese": 11
+  },
+  "A191": {
+    "comune": "Alfonsine",
+    "nome": "Maria S.ma Natività",
+    "giorno": 8,
+    "mese": 9
+  },
+  "A192": {
+    "comune": "Alghero",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A206": {
+    "comune": "Alleghe",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "A207": {
+    "comune": "Allerona",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A210": {
+    "comune": "Allumiere",
+    "nome": "Maria S.ma Assunta in Cielo",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A228": {
+    "comune": "Altavilla Irpina",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "A241": {
+    "comune": "Altopascio",
+    "nome": "S. Giacomo il Maggiore, ap",
+    "giorno": 25,
+    "mese": 7
+  },
+  "A243": {
+    "comune": "Alvignano",
+    "nome": "San Ferdinando di Caiazzo",
+    "giorno": 27,
+    "mese": 6
+  },
+  "A251": {
+    "comune": "Amalfi",
+    "nome": "S. Andrea ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "A253": {
+    "comune": "Amantea",
+    "nome": "Sant'Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "A262": {
+    "comune": "Amelia",
+    "nome": "S. Firmina",
+    "giorno": 24,
+    "mese": 11
+  },
+  "A265": {
+    "comune": "Amorosi",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A284": {
+    "comune": "Andretta",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "A290": {
+    "comune": "Angera",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A291": {
+    "comune": "Anghiari",
+    "nome": "San Bartolomeo Ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "A293": {
+    "comune": "Angolo Terme",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "A294": {
+    "comune": "Angri",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "A297": {
+    "comune": "Anguillara Sabazia",
+    "nome": "S. Biagio",
+    "giorno": 3,
+    "mese": 2
+  },
+  "A315": {
+    "comune": "Antrodoco",
+    "nome": "S. Anna",
+    "giorno": 26,
+    "mese": 7
+  },
+  "A323": {
+    "comune": "Anzio",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "A326": {
+    "comune": "Aosta",
+    "nome": "S. Grato di Aosta",
+    "giorno": 7,
+    "mese": 9
+  },
+  "A327": {
+    "comune": "Apecchio",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "A328": {
+    "comune": "Apice",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "A337": {
+    "comune": "Aprica",
+    "nome": "SS. Pietro e Paolo, apostoli",
+    "giorno": 29,
+    "mese": 6
+  },
+  "A341": {
+    "comune": "Aprilia",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A351": {
+    "comune": "Aragona",
+    "nome": "Maria S.ma del Rosario",
+    "giorno": 7,
+    "mese": 10
+  },
+  "A359": {
+    "comune": "Arbus",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "A369": {
+    "comune": "Arcidosso",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "A372": {
+    "comune": "Arco",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A373": {
+    "comune": "Arcola",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "A374": {
+    "comune": "Arcole",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "A388": {
+    "comune": "Arenzano",
+    "nome": "SS. Nazario e Celso",
+    "giorno": 28,
+    "mese": 7
+  },
+  "A390": {
+    "comune": "Arezzo",
+    "nome": "S. Donato di Arezzo",
+    "giorno": 7,
+    "mese": 8
+  },
+  "A393": {
+    "comune": "Argenta",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "A421": {
+    "comune": "Arnara",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "A431": {
+    "comune": "Arpaia",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A433": {
+    "comune": "Arpino",
+    "nome": "Maria S.ma di Loreto",
+    "giorno": 10,
+    "mese": 12
+  },
+  "A434": {
+    "comune": "Arquà Petrarca",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A439": {
+    "comune": "Arrone",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A444": {
+    "comune": "Arsiero",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A446": {
+    "comune": "Arsoli",
+    "nome": "S. Bartolomeo",
+    "giorno": 24,
+    "mese": 8
+  },
+  "A449": {
+    "comune": "Artena",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "A459": {
+    "comune": "Arzignano",
+    "nome": "Ognissanti",
+    "giorno": 1,
+    "mese": 11
+  },
+  "A462": {
+    "comune": "Ascoli Piceno",
+    "nome": "S. Emidio di Ascoli Piceno",
+    "giorno": 5,
+    "mese": 8
+  },
+  "A465": {
+    "comune": "Asiago",
+    "nome": "S. Matteo",
+    "giorno": 21,
+    "mese": 9
+  },
+  "A470": {
+    "comune": "Asola",
+    "nome": "S. Giovanni Crisostomo",
+    "giorno": 29,
+    "mese": 1
+  },
+  "A471": {
+    "comune": "Asolo",
+    "nome": "S. Prosdocimo di Padova",
+    "giorno": 7,
+    "mese": 11
+  },
+  "A476": {
+    "comune": "Asso",
+    "nome": "S. Apollonia di Alessandria",
+    "giorno": 9,
+    "mese": 2
+  },
+  "A485": {
+    "comune": "Atessa",
+    "nome": "S. Leucio",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A487": {
+    "comune": "Atrani",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "A494": {
+    "comune": "Augusta",
+    "nome": "S. Domenico fondatore dei predicatori",
+    "giorno": 24,
+    "mese": 5
+  },
+  "A495": {
+    "comune": "Auletta",
+    "nome": "S. Donato (Donatello) di Ripacandida",
+    "giorno": 17,
+    "mese": 8
+  },
+  "A509": {
+    "comune": "Avellino",
+    "nome": "S. Modestino",
+    "giorno": 14,
+    "mese": 2
+  },
+  "A512": {
+    "comune": "Aversa",
+    "nome": "S. Paolo, conversione di",
+    "giorno": 25,
+    "mese": 1
+  },
+  "A515": {
+    "comune": "Avezzano",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 9
+  },
+  "A518": {
+    "comune": "Avigliana",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "A519": {
+    "comune": "Avigliano",
+    "nome": "S. Vito",
+    "giorno": 25,
+    "mese": 6
+  },
+  "A541": {
+    "comune": "Badia Tedalda",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A547": {
+    "comune": "Bagnacavallo",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A560": {
+    "comune": "Bagni di Lucca",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "A564": {
+    "comune": "Bagno a Ripoli",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "A565": {
+    "comune": "Bagno di Romagna",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A566": {
+    "comune": "Bagnoli Irpino",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "A578": {
+    "comune": "Bagolino",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "A580": {
+    "comune": "Baiano",
+    "nome": "S. Stefano, protomartire",
+    "giorno": 26,
+    "mese": 12
+  },
+  "A603": {
+    "comune": "Balsorano",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "A632": {
+    "comune": "Barberino di Mugello",
+    "nome": "S. Silvestro",
+    "giorno": 31,
+    "mese": 12
+  },
+  "A638": {
+    "comune": "Barcellona Pozzo di Gotto",
+    "nome": "S. Sebastiano",
+    "giorno": 20,
+    "mese": 1
+  },
+  "A650": {
+    "comune": "Bardolino",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "A651": {
+    "comune": "Bardonecchia",
+    "nome": "S. Ippolito di Roma",
+    "giorno": 13,
+    "mese": 8
+  },
+  "A652": {
+    "comune": "Bareggio",
+    "nome": "Santi Nazario e Celso",
+    "giorno": 28,
+    "mese": 7
+  },
+  "A657": {
+    "comune": "Barga",
+    "nome": "S. Cristoforo di Licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "A691": {
+    "comune": "Baschi",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "A703": {
+    "comune": "Bassano del Grappa",
+    "nome": "S. Bassiano di Lodi",
+    "giorno": 19,
+    "mese": 2
+  },
+  "A722": {
+    "comune": "Baunei",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "M335": {
+    "comune": "Bellagio",
+    "nome": "S. Giacomo Maggiore",
+    "giorno": 25,
+    "mese": 7
+  },
+  "A745": {
+    "comune": "Bellano",
+    "nome": "SS. Nazario e Celso",
+    "giorno": 28,
+    "mese": 7
+  },
+  "A746": {
+    "comune": "Bellante",
+    "nome": "S. Atanasio di Alessandria",
+    "giorno": 2,
+    "mese": 5
+  },
+  "A749": {
+    "comune": "Bellegra",
+    "nome": "S. Sisto II,",
+    "giorno": 6,
+    "mese": 8
+  },
+  "A757": {
+    "comune": "Belluno",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "A783": {
+    "comune": "Benevento",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "A794": {
+    "comune": "Bergamo",
+    "nome": "S. Alessandro da Bergamo",
+    "giorno": 26,
+    "mese": 8
+  },
+  "A809": {
+    "comune": "Bertinoro",
+    "nome": "S. Caterina di Alessandria",
+    "giorno": 25,
+    "mese": 11
+  },
+  "A832": {
+    "comune": "Bettona",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A835": {
+    "comune": "Bevagna",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A851": {
+    "comune": "Bibbiena",
+    "nome": "S. Ippolito di Roma",
+    "giorno": 13,
+    "mese": 8
+  },
+  "A859": {
+    "comune": "Biella",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "A881": {
+    "comune": "Bisaccia",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "A885": {
+    "comune": "Bisenti",
+    "nome": "S. Pasquale Baylon",
+    "giorno": 17,
+    "mese": 5
+  },
+  "A887": {
+    "comune": "Bisignano",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A892": {
+    "comune": "Bitetto",
+    "nome": "Maria S.ma Addolorata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "A893": {
+    "comune": "Bitonto",
+    "nome": "Maria S.ma Immacolata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "A895": {
+    "comune": "Bitti",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "A897": {
+    "comune": "Bivongi",
+    "nome": "S. Giovanni Decollato",
+    "giorno": 29,
+    "mese": 8
+  },
+  "A909": {
+    "comune": "Bobbio",
+    "nome": "S. Colombano di Bobbio",
+    "giorno": 23,
+    "mese": 11
+  },
+  "A944": {
+    "comune": "Bologna",
+    "nome": "S. Petronio",
+    "giorno": 4,
+    "mese": 10
+  },
+  "A949": {
+    "comune": "Bolsena",
+    "nome": "S. Cristina di Bolsena",
+    "giorno": 24,
+    "mese": 7
+  },
+  "A952": {
+    "comune": "Bolzano",
+    "nome": "S, Maria Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "A959": {
+    "comune": "Bomporto",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "A965": {
+    "comune": "Bondeno",
+    "nome": "Maria S.ma Natività",
+    "giorno": 8,
+    "mese": 9
+  },
+  "A978": {
+    "comune": "Bonorva",
+    "nome": "Maria S.ma Natività",
+    "giorno": 8,
+    "mese": 9
+  },
+  "A988": {
+    "comune": "Boretto",
+    "nome": "San Marco",
+    "giorno": 25,
+    "mese": 4
+  },
+  "B036": {
+    "comune": "Borgo San Lorenzo",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "B049": {
+    "comune": "Bormio",
+    "nome": "SS. Gervasio e Protasio",
+    "giorno": 19,
+    "mese": 6
+  },
+  "B054": {
+    "comune": "Borno",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "B114": {
+    "comune": "Bracciano",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "B132": {
+    "comune": "Breganze",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "B149": {
+    "comune": "Breno",
+    "nome": "S. Valentino di Roma",
+    "giorno": 14,
+    "mese": 2
+  },
+  "B156": {
+    "comune": "Brescello",
+    "nome": "S. Genesio di Brescello",
+    "giorno": 25,
+    "mese": 8
+  },
+  "B157": {
+    "comune": "Brescia",
+    "nome": "SS. Faustino e Giovita",
+    "giorno": 15,
+    "mese": 2
+  },
+  "B160": {
+    "comune": "Bressanone",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "B173": {
+    "comune": "Brienza",
+    "nome": "S. Cataldo",
+    "giorno": 10,
+    "mese": 5
+  },
+  "B180": {
+    "comune": "Brindisi",
+    "nome": "S. Teodoro di Amasea",
+    "giorno": 9,
+    "mese": 11
+  },
+  "B188": {
+    "comune": "Brisighella",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B218": {
+    "comune": "Brunate",
+    "nome": "S. Andrea",
+    "giorno": 30,
+    "mese": 11
+  },
+  "B220": {
+    "comune": "Brunico",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "B238": {
+    "comune": "Bucchianico",
+    "nome": "S. Camillo de Lellis",
+    "giorno": 14,
+    "mese": 7
+  },
+  "B243": {
+    "comune": "Bucine",
+    "nome": "S. Apollinare",
+    "giorno": 23,
+    "mese": 7
+  },
+  "B249": {
+    "comune": "Budrio",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "B269": {
+    "comune": "Buonconvento",
+    "nome": "SS. Pietro e Paolo",
+    "giorno": 29,
+    "mese": 6
+  },
+  "B276": {
+    "comune": "Burgos",
+    "nome": "S. Domenico fondatore dei predicatori",
+    "giorno": 4,
+    "mese": 8
+  },
+  "B293": {
+    "comune": "Busseto",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "B294": {
+    "comune": "Bussi sul Tirino",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "B300": {
+    "comune": "Busto Arsizio",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "B302": {
+    "comune": "Butera",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "B354": {
+    "comune": "Cagliari",
+    "nome": "S. Saturnino di Cagliari",
+    "giorno": 30,
+    "mese": 10
+  },
+  "B357": {
+    "comune": "Cagnano Varano",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "B369": {
+    "comune": "Cairo Montenotte",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "B406": {
+    "comune": "Calenzano",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "B413": {
+    "comune": "Calimera",
+    "nome": "S. Brizo di Tours",
+    "giorno": 13,
+    "mese": 11
+  },
+  "B428": {
+    "comune": "Caltagirone",
+    "nome": "S. Giacomo Maggiore ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "B429": {
+    "comune": "Caltanissetta",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B450": {
+    "comune": "Calvisano",
+    "nome": "B. Cristina da Spoleto",
+    "giorno": 14,
+    "mese": 2
+  },
+  "B455": {
+    "comune": "Camaiore",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 1,
+    "mese": 6
+  },
+  "B490": {
+    "comune": "Camogli",
+    "nome": "S. Prospero",
+    "giorno": 2,
+    "mese": 9
+  },
+  "B492": {
+    "comune": "Campagna",
+    "nome": "S. Antonino di Sorrento,",
+    "giorno": 14,
+    "mese": 2
+  },
+  "B496": {
+    "comune": "Campagnano di Roma",
+    "nome": "S. Giovanni Battista",
+    "giorno": 29,
+    "mese": 8
+  },
+  "B507": {
+    "comune": "Campi Bisenzio",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "B513": {
+    "comune": "Campione d'Italia",
+    "nome": "S. Zenone di Verona",
+    "giorno": 12,
+    "mese": 4
+  },
+  "B515": {
+    "comune": "Campli",
+    "nome": "S. Pancrazio di Roma",
+    "giorno": 12,
+    "mese": 5
+  },
+  "B519": {
+    "comune": "Campobasso",
+    "nome": "S. Leonardo di Nobiliacum",
+    "giorno": 6,
+    "mese": 11
+  },
+  "B520": {
+    "comune": "Campobello di Licata",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "B539": {
+    "comune": "Campogalliano",
+    "nome": "S. Orsola",
+    "giorno": 21,
+    "mese": 10
+  },
+  "B557": {
+    "comune": "Camporgiano",
+    "nome": "S. Giacomo il Maggiore ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "B563": {
+    "comune": "Camposampiero",
+    "nome": "SS. Pietro e Paolo",
+    "giorno": 29,
+    "mese": 6
+  },
+  "B569": {
+    "comune": "Campotosto",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "B584": {
+    "comune": "Candela",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "B602": {
+    "comune": "Canicattì",
+    "nome": "S. Pancrazio di Taormina",
+    "giorno": 3,
+    "mese": 4
+  },
+  "B603": {
+    "comune": "Canicattini Bagni",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B604": {
+    "comune": "Canino",
+    "nome": "S. Clemente",
+    "giorno": 10,
+    "mese": 11
+  },
+  "B609": {
+    "comune": "Cannara",
+    "nome": "S. Matteo",
+    "giorno": 21,
+    "mese": 9
+  },
+  "B617": {
+    "comune": "Canolo",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "B619": {
+    "comune": "Canosa di Puglia",
+    "nome": "S. Sabino di Canosa",
+    "giorno": 1,
+    "mese": 8
+  },
+  "C669": {
+    "comune": "Canossa",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "B626": {
+    "comune": "Cantagallo",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B636": {
+    "comune": "Cantiano",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "B639": {
+    "comune": "Cantù",
+    "nome": "S. Apollonia",
+    "giorno": 9,
+    "mese": 2
+  },
+  "B641": {
+    "comune": "Canzo",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "B642": {
+    "comune": "Caorle",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "B648": {
+    "comune": "Capannori",
+    "nome": "SS. Quirico e Giulitta",
+    "giorno": 29,
+    "mese": 7
+  },
+  "B651": {
+    "comune": "Capestrano",
+    "nome": "S. Giovanni di Capestrano",
+    "giorno": 5,
+    "mese": 5
+  },
+  "B656": {
+    "comune": "Capistrello",
+    "nome": "S. Antonio da Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "B670": {
+    "comune": "Capolona",
+    "nome": "Maria S.ma Natività",
+    "giorno": 8,
+    "mese": 9
+  },
+  "B675": {
+    "comune": "Capoterra",
+    "nome": "S. Efisio",
+    "giorno": 15,
+    "mese": 1
+  },
+  "B688": {
+    "comune": "Capranica",
+    "nome": "S. Terenzio di Todi",
+    "giorno": 1,
+    "mese": 9
+  },
+  "B691": {
+    "comune": "Caprarola",
+    "nome": "S. Egidio, ab.",
+    "giorno": 1,
+    "mese": 9
+  },
+  "B693": {
+    "comune": "Caprese Michelangelo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "B715": {
+    "comune": "Capua",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "B722": {
+    "comune": "Caramanico Terme",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "B729": {
+    "comune": "Carate Brianza",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 12
+  },
+  "B774": {
+    "comune": "Cariati",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B780": {
+    "comune": "Carini",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "B787": {
+    "comune": "Carlentini",
+    "nome": "S. Lucia di Siracusa",
+    "giorno": 28,
+    "mese": 8
+  },
+  "B789": {
+    "comune": "Carloforte",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "B790": {
+    "comune": "Carlopoli",
+    "nome": "Maria S.ma del Carmine",
+    "giorno": 16,
+    "mese": 7
+  },
+  "B794": {
+    "comune": "Carmignano",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B808": {
+    "comune": "Carosino",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "B819": {
+    "comune": "Carpi",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "B828": {
+    "comune": "Carpineto Romano",
+    "nome": "S. Agostino di Ippona",
+    "giorno": 28,
+    "mese": 8
+  },
+  "B842": {
+    "comune": "Carsoli",
+    "nome": "S. Vittoria",
+    "giorno": 23,
+    "mese": 8
+  },
+  "B860": {
+    "comune": "Casagiove",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "B948": {
+    "comune": "Cascia",
+    "nome": "Maria S.ma Visitazione di",
+    "giorno": 2,
+    "mese": 7
+  },
+  "B950": {
+    "comune": "Cascina",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 21,
+    "mese": 1
+  },
+  "B963": {
+    "comune": "Caserta",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "A472": {
+    "comune": "Casperia",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "C034": {
+    "comune": "Cassino",
+    "nome": "S. Benedetto, ab.",
+    "giorno": 21,
+    "mese": 3
+  },
+  "C044": {
+    "comune": "Castagneto Carducci",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "C065": {
+    "comune": "Castel Bolognese",
+    "nome": "S. Petronio di Bologna",
+    "giorno": 4,
+    "mese": 10
+  },
+  "C102": {
+    "comune": "Castel Focognano",
+    "nome": "S. Giovanni Evangelista",
+    "giorno": 27,
+    "mese": 12
+  },
+  "C117": {
+    "comune": "Castel Giorgio",
+    "nome": "S. Giorgio di Lydda e S. Pancrazio di Roma",
+    "giorno": 23,
+    "mese": 4
+  },
+  "C203": {
+    "comune": "Castel Madama",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "C268": {
+    "comune": "Castel Sant'Angelo",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "C104": {
+    "comune": "Castelforte",
+    "nome": "Maria S.ma Addolorata",
+    "giorno": 15,
+    "mese": 9
+  },
+  "C107": {
+    "comune": "Castelfranco Emilia",
+    "nome": "S. Donnino di Fidenza",
+    "giorno": 9,
+    "mese": 10
+  },
+  "C111": {
+    "comune": "Castelfranco Veneto",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "C120": {
+    "comune": "Castelgrande",
+    "nome": "S. Vito",
+    "giorno": 5,
+    "mese": 7
+  },
+  "C177": {
+    "comune": "Castelliri",
+    "nome": "S. Maria Salomé",
+    "giorno": 22,
+    "mese": 10
+  },
+  "C271": {
+    "comune": "Castelsaraceno",
+    "nome": "S. Antonio di Padova",
+    "giorno": 18,
+    "mese": 6
+  },
+  "C272": {
+    "comune": "Castelsardo",
+    "nome": "S. Antonio ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "C273": {
+    "comune": "Castelseprio",
+    "nome": "Maria Sm. Addolorata",
+    "giorno": 15,
+    "mese": 9
+  },
+  "C319": {
+    "comune": "Castiglion Fiorentino",
+    "nome": "S. Michele Arcangelo, Apparizione",
+    "giorno": 8,
+    "mese": 5
+  },
+  "C313": {
+    "comune": "Castiglione d'Orcia",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "C309": {
+    "comune": "Castiglione del Lago",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "C310": {
+    "comune": "Castiglione della Pescaia",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "C312": {
+    "comune": "Castiglione delle Stiviere",
+    "nome": "S. Luigi Gonzaga",
+    "giorno": 21,
+    "mese": 6
+  },
+  "C303": {
+    "comune": "Castiglione di Garfagnana",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "C300": {
+    "comune": "Castiglione Olona",
+    "nome": "Maria S.ma del Rosario",
+    "giorno": 7,
+    "mese": 10
+  },
+  "C338": {
+    "comune": "Castro dei Volsci",
+    "nome": "S. Oliva di Anagni",
+    "giorno": 3,
+    "mese": 6
+  },
+  "C341": {
+    "comune": "Castrofilippo",
+    "nome": "S. Antonio",
+    "giorno": 17,
+    "mese": 1
+  },
+  "C351": {
+    "comune": "Catania",
+    "nome": "S. Agata",
+    "giorno": 5,
+    "mese": 2
+  },
+  "C352": {
+    "comune": "Catanzaro",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "C354": {
+    "comune": "Catignano",
+    "nome": "S. Croce",
+    "giorno": 14,
+    "mese": 9
+  },
+  "C357": {
+    "comune": "Cattolica",
+    "nome": "San Pio V",
+    "giorno": 30,
+    "mese": 4
+  },
+  "C356": {
+    "comune": "Cattolica Eraclea",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "C372": {
+    "comune": "Cavalese",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "C383": {
+    "comune": "Cavarzere",
+    "nome": "S. Mauro, disc. di S. Benedetto",
+    "giorno": 15,
+    "mese": 1
+  },
+  "C390": {
+    "comune": "Cave",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "C398": {
+    "comune": "Cavezzo",
+    "nome": "S. Egidio",
+    "giorno": 1,
+    "mese": 9
+  },
+  "C404": {
+    "comune": "Cavour",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "C413": {
+    "comune": "Ceccano",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 8
+  },
+  "C415": {
+    "comune": "Cecina",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "C469": {
+    "comune": "Cento",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "C470": {
+    "comune": "Centola",
+    "nome": "San Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "C474": {
+    "comune": "Cepagatti",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "C476": {
+    "comune": "Ceppaloni",
+    "nome": "Maria S.ma Addolorata",
+    "giorno": 15,
+    "mese": 9
+  },
+  "C479": {
+    "comune": "Ceprano",
+    "nome": "S. Arduino di Ceprano",
+    "giorno": 28,
+    "mese": 7
+  },
+  "C515": {
+    "comune": "Cerisano",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "C520": {
+    "comune": "Cernobbio",
+    "nome": "S. Vincenzo di Saragozza",
+    "giorno": 22,
+    "mese": 1
+  },
+  "C518": {
+    "comune": "Cerreto Laziale",
+    "nome": "San Sebastiano",
+    "giorno": 20,
+    "mese": 1
+  },
+  "C525": {
+    "comune": "Cerreto Sannita",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "C537": {
+    "comune": "Cerro Maggiore",
+    "nome": "San Cornelio",
+    "giorno": 16,
+    "mese": 9
+  },
+  "C540": {
+    "comune": "Certaldo",
+    "nome": "S. Tommaso,",
+    "giorno": 21,
+    "mese": 12
+  },
+  "C541": {
+    "comune": "Certosa di Pavia",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "C557": {
+    "comune": "Cervinara",
+    "nome": "S. Gennaro",
+    "giorno": 19,
+    "mese": 9
+  },
+  "C573": {
+    "comune": "Cesena",
+    "nome": "San Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "C574": {
+    "comune": "Cesenatico",
+    "nome": "S. Giacomo il Maggiore ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "C588": {
+    "comune": "Cetraro",
+    "nome": "S. Benedetto ab.",
+    "giorno": 21,
+    "mese": 3
+  },
+  "C294": {
+    "comune": "Châtillon",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "C599": {
+    "comune": "Cherasco",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "C605": {
+    "comune": "Chiampo",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "C608": {
+    "comune": "Chianciano Terme",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "C618": {
+    "comune": "Chiari",
+    "nome": "SS. Faustino e Giovita",
+    "giorno": 15,
+    "mese": 2
+  },
+  "C619": {
+    "comune": "Chiaromonte",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "C623": {
+    "comune": "Chiavenna",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "C627": {
+    "comune": "Chieri",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 24,
+    "mese": 4
+  },
+  "C628": {
+    "comune": "Chiesa in Valmalenco",
+    "nome": "S. Filippo e Giacomo app.",
+    "giorno": 1,
+    "mese": 5
+  },
+  "C652": {
+    "comune": "Chiusa",
+    "nome": "S. Andrea ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "C663": {
+    "comune": "Chiusi della Verna",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 10
+  },
+  "C668": {
+    "comune": "Cianciana",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "C695": {
+    "comune": "Ciminà",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "C707": {
+    "comune": "Cinisello Balsamo",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 12
+  },
+  "C719": {
+    "comune": "Circello",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "C740": {
+    "comune": "Cisterna di Latina",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "C744": {
+    "comune": "Città della Pieve",
+    "nome": "SS. Gervasio e Protasio",
+    "giorno": 19,
+    "mese": 6
+  },
+  "C745": {
+    "comune": "Città di Castello",
+    "nome": "S. Florido di Città di Castello",
+    "giorno": 13,
+    "mese": 11
+  },
+  "C743": {
+    "comune": "Cittadella",
+    "nome": "S. Prosdocimo di Padova",
+    "giorno": 7,
+    "mese": 11
+  },
+  "C747": {
+    "comune": "Cittanova",
+    "nome": "S. Girolamo",
+    "giorno": 30,
+    "mese": 9
+  },
+  "C781": {
+    "comune": "Civitella del Tronto",
+    "nome": "S. Ubaldo di Gubbio",
+    "giorno": 16,
+    "mese": 5
+  },
+  "C774": {
+    "comune": "Civitella in Val di Chiana",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "C800": {
+    "comune": "Clusone",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "C814": {
+    "comune": "Codigoro",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "C821": {
+    "comune": "Cogne",
+    "nome": "S. Orso",
+    "giorno": 1,
+    "mese": 2
+  },
+  "C823": {
+    "comune": "Cogoleto",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "C839": {
+    "comune": "Colico",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "C841": {
+    "comune": "Collalto Sabino",
+    "nome": "S. Gregorio Magno",
+    "giorno": 12,
+    "mese": 3
+  },
+  "C847": {
+    "comune": "Colle di Val d'Elsa",
+    "nome": "S. Marziale di Limoges",
+    "giorno": 1,
+    "mese": 7
+  },
+  "C858": {
+    "comune": "Colleferro",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "C883": {
+    "comune": "Collio",
+    "nome": "SS. Nazario e Celso",
+    "giorno": 28,
+    "mese": 7
+  },
+  "C888": {
+    "comune": "Colobraro",
+    "nome": "S. Nicola di Mira",
+    "giorno": 16,
+    "mese": 12
+  },
+  "C933": {
+    "comune": "Como",
+    "nome": "S. Abbondio di Como",
+    "giorno": 31,
+    "mese": 8
+  },
+  "C950": {
+    "comune": "Concordia Sagittaria",
+    "nome": "S. Stefano ptm",
+    "giorno": 3,
+    "mese": 8
+  },
+  "C951": {
+    "comune": "Concordia sulla Secchia",
+    "nome": "S. Paolo, conversione di",
+    "giorno": 25,
+    "mese": 1
+  },
+  "C957": {
+    "comune": "Conegliano",
+    "nome": "S. Leonardo di Nobiliacum",
+    "giorno": 6,
+    "mese": 11
+  },
+  "C969": {
+    "comune": "Contigliano",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "C978": {
+    "comune": "Copertino",
+    "nome": "S. Giuseppe da Copertino",
+    "giorno": 18,
+    "mese": 9
+  },
+  "C980": {
+    "comune": "Copparo",
+    "nome": "SS. Pietro e Paolo",
+    "giorno": 29,
+    "mese": 6
+  },
+  "C983": {
+    "comune": "Corato",
+    "nome": "S. Cataldo di Rachau",
+    "giorno": 10,
+    "mese": 5
+  },
+  "C996": {
+    "comune": "Coreglia Antelminelli",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "C998": {
+    "comune": "Coreno Ausonio",
+    "nome": "Santa Margherita d'Antiochia",
+    "giorno": 20,
+    "mese": 7
+  },
+  "D010": {
+    "comune": "Corleto Perticara",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "D037": {
+    "comune": "Correggio",
+    "nome": "S. Quirino",
+    "giorno": 4,
+    "mese": 6
+  },
+  "D044": {
+    "comune": "Corsano",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "D049": {
+    "comune": "Cortale",
+    "nome": "S. Raffaele Arcangelo",
+    "giorno": 24,
+    "mese": 10
+  },
+  "D061": {
+    "comune": "Cortemaggiore",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "D077": {
+    "comune": "Cortona",
+    "nome": "S. Marco Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "D121": {
+    "comune": "Cotignola",
+    "nome": "S. Stefano, protomartire",
+    "giorno": 26,
+    "mese": 12
+  },
+  "D142": {
+    "comune": "Crema",
+    "nome": "S. Pantaleone di Nicomedia",
+    "giorno": 10,
+    "mese": 6
+  },
+  "D150": {
+    "comune": "Cremona",
+    "nome": "S. Omobono di Cremona",
+    "giorno": 13,
+    "mese": 11
+  },
+  "D166": {
+    "comune": "Crevalcore",
+    "nome": "S. Silvestro I,",
+    "giorno": 31,
+    "mese": 12
+  },
+  "D171": {
+    "comune": "Crispiano",
+    "nome": "S. Francesco D'Assisi",
+    "giorno": 4,
+    "mese": 10
+  },
+  "D195": {
+    "comune": "Cuccaro Vetere",
+    "nome": "San Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "D214": {
+    "comune": "Curcuris",
+    "nome": "San Sebastiano",
+    "giorno": 20,
+    "mese": 1
+  },
+  "D218": {
+    "comune": "Curinga",
+    "nome": "S. Andrea, ap",
+    "giorno": 30,
+    "mese": 11
+  },
+  "D230": {
+    "comune": "Cusano Mutri",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "D257": {
+    "comune": "Davoli",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "D259": {
+    "comune": "Decimomannu",
+    "nome": "S. Antonio ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "D269": {
+    "comune": "Deliceto",
+    "nome": "S. Mattia ap.",
+    "giorno": 14,
+    "mese": 5
+  },
+  "D284": {
+    "comune": "Desenzano del Garda",
+    "nome": "S. Angela Merici",
+    "giorno": 27,
+    "mese": 1
+  },
+  "D287": {
+    "comune": "Desulo",
+    "nome": "S. Antonio ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "D299": {
+    "comune": "Dicomano",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "D304": {
+    "comune": "Dipignano",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "D325": {
+    "comune": "Dolo",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "D332": {
+    "comune": "Domodossola",
+    "nome": "SS. Gervasio e Protasio",
+    "giorno": 19,
+    "mese": 6
+  },
+  "D345": {
+    "comune": "Dorgali",
+    "nome": "S. Caterina di Alessandria",
+    "giorno": 25,
+    "mese": 11
+  },
+  "D390": {
+    "comune": "Eboli",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "D391": {
+    "comune": "Edolo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D403": {
+    "comune": "Empoli",
+    "nome": "S. Andrea ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "D407": {
+    "comune": "Enego",
+    "nome": "S. Giustina di Padova",
+    "giorno": 7,
+    "mese": 10
+  },
+  "C342": {
+    "comune": "Enna",
+    "nome": "Maria S.ma Visitazione di",
+    "giorno": 2,
+    "mese": 7
+  },
+  "D416": {
+    "comune": "Erba",
+    "nome": "Maria S.ma Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "D423": {
+    "comune": "Erice",
+    "nome": "S. Alberto degli Abati",
+    "giorno": 7,
+    "mese": 8
+  },
+  "D442": {
+    "comune": "Este",
+    "nome": "S. Tecla di Iconio",
+    "giorno": 23,
+    "mese": 9
+  },
+  "D451": {
+    "comune": "Fabriano",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D453": {
+    "comune": "Fabrizia",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "D501": {
+    "comune": "Farindola",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "D505": {
+    "comune": "Farra di Soligo",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "D542": {
+    "comune": "Fermo",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "D547": {
+    "comune": "Ferrandina",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "D548": {
+    "comune": "Ferrara",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 24,
+    "mese": 4
+  },
+  "D561": {
+    "comune": "Fiano Romano",
+    "nome": "S. Stefano ptm.",
+    "giorno": 3,
+    "mese": 8
+  },
+  "D570": {
+    "comune": "Ficulle",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "B034": {
+    "comune": "Fidenza",
+    "nome": "S. Donnino di Fidenza",
+    "giorno": 9,
+    "mese": 10
+  },
+  "D607": {
+    "comune": "Fiorano Modenese",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D612": {
+    "comune": "Firenze",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D613": {
+    "comune": "Firenzuola",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D615": {
+    "comune": "Fisciano",
+    "nome": "San Vincenzo Ferrer",
+    "giorno": 5,
+    "mese": 4
+  },
+  "A310": {
+    "comune": "Fiuggi",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "D619": {
+    "comune": "Fiumara",
+    "nome": "Maria S.ma del Carmelo",
+    "giorno": 16,
+    "mese": 7
+  },
+  "D629": {
+    "comune": "Fivizzano",
+    "nome": "Maria S.ma Addolorata",
+    "giorno": 9,
+    "mese": 7
+  },
+  "D636": {
+    "comune": "Floridia",
+    "nome": "Maria S.ma Immacolata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "D639": {
+    "comune": "Fluminimaggiore",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "D649": {
+    "comune": "Foiano della Chiana",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "D653": {
+    "comune": "Foligno",
+    "nome": "S. Feliciano di Foligno",
+    "giorno": 24,
+    "mese": 1
+  },
+  "D662": {
+    "comune": "Fondi",
+    "nome": "S. Onorato di Fondi",
+    "giorno": 10,
+    "mese": 10
+  },
+  "D665": {
+    "comune": "Fonni",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D671": {
+    "comune": "Fontanarosa",
+    "nome": "S. Nicola",
+    "giorno": 6,
+    "mese": 12
+  },
+  "D693": {
+    "comune": "Forchia",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "D701": {
+    "comune": "Forino",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "D708": {
+    "comune": "Formia",
+    "nome": "S. Erasmo di Formia",
+    "giorno": 2,
+    "mese": 6
+  },
+  "D711": {
+    "comune": "Formigine",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "D728": {
+    "comune": "Fornovo di Taro",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "D735": {
+    "comune": "Fosdinovo",
+    "nome": "S. Remigio di Reims",
+    "giorno": 1,
+    "mese": 10
+  },
+  "D745": {
+    "comune": "Fossato di Vico",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "D754": {
+    "comune": "Fragagnano",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "D763": {
+    "comune": "Francavilla al Mare",
+    "nome": "S. Franco",
+    "giorno": 18,
+    "mese": 8
+  },
+  "D765": {
+    "comune": "Francavilla di Sicilia",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "D773": {
+    "comune": "Frascati",
+    "nome": "SS. Filippo e Giacomo, app.",
+    "giorno": 11,
+    "mese": 5
+  },
+  "D774": {
+    "comune": "Frascineto",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "D799": {
+    "comune": "Frignano",
+    "nome": "SS. Nazario e Celso",
+    "giorno": 28,
+    "mese": 7
+  },
+  "D810": {
+    "comune": "Frosinone",
+    "nome": "S. Silverio e Ormisda, papi",
+    "giorno": 20,
+    "mese": 6
+  },
+  "D815": {
+    "comune": "Fucecchio",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D819": {
+    "comune": "Fumone",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "D828": {
+    "comune": "Fuscaldo",
+    "nome": "S. Francesco di Paola",
+    "giorno": 14,
+    "mese": 7
+  },
+  "D829": {
+    "comune": "Fusignano",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D843": {
+    "comune": "Gaeta",
+    "nome": "S. Erasmo di Formia e S. Marciano di Siracusa",
+    "giorno": 2,
+    "mese": 6
+  },
+  "D851": {
+    "comune": "Gagliano del Capo",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "D862": {
+    "comune": "Galatina",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "D867": {
+    "comune": "Galeata",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "D869": {
+    "comune": "Gallarate",
+    "nome": "S. Cristoforo di Licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "D874": {
+    "comune": "Gallicano",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "D883": {
+    "comune": "Gallipoli",
+    "nome": "San Sebastiano",
+    "giorno": 20,
+    "mese": 1
+  },
+  "D899": {
+    "comune": "Gambettola",
+    "nome": "Maria S.ma, Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "D915": {
+    "comune": "Garda",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "D917": {
+    "comune": "Gardone Riviera",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "D920": {
+    "comune": "Garessio",
+    "nome": "b. Guglielmo di Fenoglio",
+    "giorno": 19,
+    "mese": 12
+  },
+  "D924": {
+    "comune": "Gargnano",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "D947": {
+    "comune": "Gavoi",
+    "nome": "S. Gavino",
+    "giorno": 25,
+    "mese": 10
+  },
+  "D962": {
+    "comune": "Gemona del Friuli",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "D969": {
+    "comune": "Genova",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D975": {
+    "comune": "Gerace",
+    "nome": "Maria S.ma Immacolata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "D977": {
+    "comune": "Geraci Siculo",
+    "nome": "S. Bartolomeo",
+    "giorno": 24,
+    "mese": 8
+  },
+  "D998": {
+    "comune": "Gesualdo",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "E012": {
+    "comune": "Giano dell'Umbria",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "E016": {
+    "comune": "Giarratana",
+    "nome": "San Bartolomeo",
+    "giorno": 24,
+    "mese": 8
+  },
+  "E017": {
+    "comune": "Giarre",
+    "nome": "S. Isidoro l'Agricoltore",
+    "giorno": 10,
+    "mese": 5
+  },
+  "E022": {
+    "comune": "Giba",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "E036": {
+    "comune": "Ginosa",
+    "nome": "SS. Cosma e Damiano",
+    "giorno": 27,
+    "mese": 9
+  },
+  "E038": {
+    "comune": "Gioia del Colle",
+    "nome": "S. Filippo Neri",
+    "giorno": 26,
+    "mese": 5
+  },
+  "E041": {
+    "comune": "Gioia Tauro",
+    "nome": "S. Ippolito",
+    "giorno": 13,
+    "mese": 8
+  },
+  "E045": {
+    "comune": "Giove",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E050": {
+    "comune": "Girifalco",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "E068": {
+    "comune": "Gizzeria",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "E098": {
+    "comune": "Gorizia",
+    "nome": "SS. Ermagora e Fortunato",
+    "giorno": 12,
+    "mese": 7
+  },
+  "E107": {
+    "comune": "Goro",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E125": {
+    "comune": "Grado",
+    "nome": "SS. Ermagora e Fortunato",
+    "giorno": 12,
+    "mese": 7
+  },
+  "E126": {
+    "comune": "Gradoli",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "E158": {
+    "comune": "Grazzanise",
+    "nome": "S. Giovanni Battista Decollato",
+    "giorno": 29,
+    "mese": 8
+  },
+  "E160": {
+    "comune": "Greccio",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "E180": {
+    "comune": "Grimaldi",
+    "nome": "SS. Pietro e Paolo",
+    "giorno": 29,
+    "mese": 6
+  },
+  "E202": {
+    "comune": "Grosseto",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "E204": {
+    "comune": "Grottaferrata",
+    "nome": "S. Nilo di Rossano",
+    "giorno": 26,
+    "mese": 9
+  },
+  "E205": {
+    "comune": "Grottaglie",
+    "nome": "S. Ciro",
+    "giorno": 31,
+    "mese": 1
+  },
+  "E206": {
+    "comune": "Grottaminarda",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "E210": {
+    "comune": "Grotte di Castro",
+    "nome": "S. Flavio",
+    "giorno": 7,
+    "mese": 5
+  },
+  "E212": {
+    "comune": "Grotteria",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E213": {
+    "comune": "Grottole",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "E230": {
+    "comune": "Gualdo Tadino",
+    "nome": "S. Benedetto, ab.",
+    "giorno": 21,
+    "mese": 3
+  },
+  "E236": {
+    "comune": "Guarcino",
+    "nome": "S. Agnello di Napoli",
+    "giorno": 14,
+    "mese": 9
+  },
+  "E245": {
+    "comune": "Guardia Lombardi",
+    "nome": "S. Leone IX",
+    "giorno": 19,
+    "mese": 4
+  },
+  "E242": {
+    "comune": "Guardia Piemontese",
+    "nome": "S. Andrea ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "E249": {
+    "comune": "Guardia Sanframondi",
+    "nome": "S. Filippo Neri",
+    "giorno": 26,
+    "mese": 5
+  },
+  "E243": {
+    "comune": "Guardiagrele",
+    "nome": "S. Donato di Arezzo",
+    "giorno": 6,
+    "mese": 8
+  },
+  "E253": {
+    "comune": "Guastalla",
+    "nome": "S. Francesco d'Assisi",
+    "giorno": 4,
+    "mese": 10
+  },
+  "E256": {
+    "comune": "Gubbio",
+    "nome": "S. Ubaldo di Gubbio",
+    "giorno": 16,
+    "mese": 5
+  },
+  "E281": {
+    "comune": "Iglesias",
+    "nome": "S. Chiara di Assisi",
+    "giorno": 11,
+    "mese": 8
+  },
+  "E290": {
+    "comune": "Imperia",
+    "nome": "S. Leonardo da Porto Maurizio",
+    "giorno": 26,
+    "mese": 11
+  },
+  "E291": {
+    "comune": "Impruneta",
+    "nome": "Maria S.ma Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "E309": {
+    "comune": "Inverigo",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 12
+  },
+  "E326": {
+    "comune": "Irsina",
+    "nome": "S. Eufenia di Calcedonia",
+    "giorno": 16,
+    "mese": 9
+  },
+  "E332": {
+    "comune": "Ischitella",
+    "nome": "S. Eustachio",
+    "giorno": 20,
+    "mese": 5
+  },
+  "E335": {
+    "comune": "Isernia",
+    "nome": "S. Pietro Celestino",
+    "giorno": 19,
+    "mese": 5
+  },
+  "E336": {
+    "comune": "Isili",
+    "nome": "S. Giuseppe Calasanzio",
+    "giorno": 27,
+    "mese": 8
+  },
+  "E349": {
+    "comune": "Isola della Scala",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "E366": {
+    "comune": "Ispica",
+    "nome": "Maria S.ma del Carmine",
+    "giorno": 16,
+    "mese": 8
+  },
+  "E367": {
+    "comune": "Ispra",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "E373": {
+    "comune": "Istrana",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "E377": {
+    "comune": "Ittiri",
+    "nome": "S. Pietro ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "E379": {
+    "comune": "Ivrea",
+    "nome": "S. Savino (Sabino di Spoleto)",
+    "giorno": 7,
+    "mese": 7
+  },
+  "C388": {
+    "comune": "Jesolo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "E425": {
+    "comune": "La Maddalena",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "E463": {
+    "comune": "La Spezia",
+    "nome": "San Giuseppe di Nazareth, sposo della",
+    "giorno": 19,
+    "mese": 3
+  },
+  "E397": {
+    "comune": "Lacedonia",
+    "nome": "S. Filippo Neri",
+    "giorno": 26,
+    "mese": 5
+  },
+  "M212": {
+    "comune": "Ladispoli",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "E407": {
+    "comune": "Lago",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "E409": {
+    "comune": "Lagonegro",
+    "nome": "S. Nicola di Bari",
+    "giorno": 6,
+    "mese": 12
+  },
+  "E432": {
+    "comune": "Lamporecchio",
+    "nome": "S. Stefano ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "E434": {
+    "comune": "Lana",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E441": {
+    "comune": "Lanusei",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "E451": {
+    "comune": "Larciano",
+    "nome": "S. Silvestro I,",
+    "giorno": 31,
+    "mese": 12
+  },
+  "E466": {
+    "comune": "Lastra a Signa",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "E471": {
+    "comune": "Latiano",
+    "nome": "S. Margherita di Antiochia",
+    "giorno": 20,
+    "mese": 7
+  },
+  "E472": {
+    "comune": "Latina",
+    "nome": "S. Marco Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "E473": {
+    "comune": "Latisana",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "E474": {
+    "comune": "Latronico",
+    "nome": "S. Egidio, ab.",
+    "giorno": 1,
+    "mese": 9
+  },
+  "E483": {
+    "comune": "Lauria",
+    "nome": "S. Nicola di Mira",
+    "giorno": 9,
+    "mese": 5
+  },
+  "E488": {
+    "comune": "Lavagna",
+    "nome": "Nostra Signora del Carmine",
+    "giorno": 16,
+    "mese": 7
+  },
+  "E493": {
+    "comune": "Lavello",
+    "nome": "S. Mauro",
+    "giorno": 2,
+    "mese": 5
+  },
+  "E507": {
+    "comune": "Lecco",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "E512": {
+    "comune": "Legnago",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "E532": {
+    "comune": "Lentini",
+    "nome": "S. Alfio di Lentini",
+    "giorno": 10,
+    "mese": 5
+  },
+  "E536": {
+    "comune": "Leonforte",
+    "nome": "Maria S.ma del Carmelo",
+    "giorno": 16,
+    "mese": 7
+  },
+  "E538": {
+    "comune": "Lequile",
+    "nome": "San Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "E549": {
+    "comune": "Lesina",
+    "nome": "S. Stefano I,",
+    "giorno": 2,
+    "mese": 8
+  },
+  "E563": {
+    "comune": "Leverano",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 2
+  },
+  "E602": {
+    "comune": "Linguaglossa",
+    "nome": "Sant'Egidio",
+    "giorno": 1,
+    "mese": 9
+  },
+  "E605": {
+    "comune": "Lioni",
+    "nome": "S. Rocco di Montpellier",
+    "giorno": 16,
+    "mese": 8
+  },
+  "E606": {
+    "comune": "Lipari",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "E621": {
+    "comune": "Livigno",
+    "nome": "Maria S.ma Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "E625": {
+    "comune": "Livorno",
+    "nome": "S. Giulia di Corsica",
+    "giorno": 22,
+    "mese": 5
+  },
+  "E630": {
+    "comune": "Lizzano",
+    "nome": "S. Gaetano da Thiene",
+    "giorno": 7,
+    "mese": 5
+  },
+  "A771": {
+    "comune": "Lizzano in Belvedere",
+    "nome": "S. Mama di Cesarea",
+    "giorno": 17,
+    "mese": 8
+  },
+  "E632": {
+    "comune": "Loano",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "E645": {
+    "comune": "Locorotondo",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "E647": {
+    "comune": "Lodè",
+    "nome": "S. Antonio, ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "E648": {
+    "comune": "Lodi",
+    "nome": "S. Bassiano di Lodi",
+    "giorno": 19,
+    "mese": 1
+  },
+  "E675": {
+    "comune": "Longiano",
+    "nome": "S. Cristoforo di Licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "E689": {
+    "comune": "Loreo",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E690": {
+    "comune": "Loreto",
+    "nome": "Maria S.ma Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "E704": {
+    "comune": "Lovere",
+    "nome": "SS. Bartolomea Capitanio e Vincenza Gerosa",
+    "giorno": 14,
+    "mese": 5
+  },
+  "E715": {
+    "comune": "Lucca",
+    "nome": "S. Paolino di Lucca",
+    "giorno": 12,
+    "mese": 7
+  },
+  "E716": {
+    "comune": "Lucera",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E729": {
+    "comune": "Lugnano in Teverina",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E730": {
+    "comune": "Lugo",
+    "nome": "S. Francesco di Paola",
+    "giorno": 2,
+    "mese": 4
+  },
+  "E734": {
+    "comune": "Luino",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "E745": {
+    "comune": "Lungro",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "E772": {
+    "comune": "Luzzara",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "E773": {
+    "comune": "Luzzi",
+    "nome": "Maria S.ma Immacolata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "E784": {
+    "comune": "Macerata Campania",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "E788": {
+    "comune": "Macomer",
+    "nome": "S. Pantaleone",
+    "giorno": 27,
+    "mese": 7
+  },
+  "E791": {
+    "comune": "Maddaloni",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "E815": {
+    "comune": "Maglie",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "E850": {
+    "comune": "Malé",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "E875": {
+    "comune": "Manciano",
+    "nome": "S. Leonardo di Nobiliacum",
+    "giorno": 6,
+    "mese": 11
+  },
+  "E877": {
+    "comune": "Mandas",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "E897": {
+    "comune": "Mantova",
+    "nome": "S. Anselmo II di Lucca",
+    "giorno": 18,
+    "mese": 3
+  },
+  "E904": {
+    "comune": "Maranello",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "E957": {
+    "comune": "Marineo",
+    "nome": "San Ciro",
+    "giorno": 31,
+    "mese": 1
+  },
+  "E971": {
+    "comune": "Marradi",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "E974": {
+    "comune": "Marsala",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "E984": {
+    "comune": "Martignano",
+    "nome": "S. Pantaleone di Nicomedia",
+    "giorno": 27,
+    "mese": 7
+  },
+  "E986": {
+    "comune": "Martina Franca",
+    "nome": "San Martino",
+    "giorno": 11,
+    "mese": 11
+  },
+  "E990": {
+    "comune": "Martirano",
+    "nome": "San Sebastiano",
+    "giorno": 20,
+    "mese": 1
+  },
+  "E993": {
+    "comune": "Martone",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 24,
+    "mese": 4
+  },
+  "F004": {
+    "comune": "Mascali",
+    "nome": "San Leonardo di Noblac",
+    "giorno": 6,
+    "mese": 11
+  },
+  "F005": {
+    "comune": "Mascalucia",
+    "nome": "San Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "F023": {
+    "comune": "Massa",
+    "nome": "S. Francesco d'Assisi",
+    "giorno": 4,
+    "mese": 10
+  },
+  "F029": {
+    "comune": "Massa Lombarda",
+    "nome": "S. Paolo, ap., Conversione di",
+    "giorno": 25,
+    "mese": 1
+  },
+  "F024": {
+    "comune": "Massa Martana",
+    "nome": "S. Felice di Spalato",
+    "giorno": 30,
+    "mese": 10
+  },
+  "F027": {
+    "comune": "Massafra",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F035": {
+    "comune": "Massarosa",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 16,
+    "mese": 8
+  },
+  "F082": {
+    "comune": "Medesano",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "F097": {
+    "comune": "Meldola",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "F104": {
+    "comune": "Melfi",
+    "nome": "S. Alessandro",
+    "giorno": 9,
+    "mese": 2
+  },
+  "F120": {
+    "comune": "Menaggio",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "F127": {
+    "comune": "Mentana",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F132": {
+    "comune": "Merano",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F156": {
+    "comune": "Mesola",
+    "nome": "Maria S.ma, Natività",
+    "giorno": 8,
+    "mese": 9
+  },
+  "F183": {
+    "comune": "Mezzocorona",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F187": {
+    "comune": "Mezzolombardo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "F201": {
+    "comune": "Miglionico",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "F205": {
+    "comune": "Milano",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 12
+  },
+  "F217": {
+    "comune": "Mineo",
+    "nome": "S. Agrippina di Roma",
+    "giorno": 23,
+    "mese": 6
+  },
+  "F220": {
+    "comune": "Minervino Murge",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F225": {
+    "comune": "Minucciano",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F229": {
+    "comune": "Mira",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F240": {
+    "comune": "Mirandola",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F241": {
+    "comune": "Mirano",
+    "nome": "S. Matteo",
+    "giorno": 21,
+    "mese": 9
+  },
+  "F257": {
+    "comune": "Modena",
+    "nome": "S. Geminiano di Modena",
+    "giorno": 31,
+    "mese": 1
+  },
+  "F258": {
+    "comune": "Modica",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "F259": {
+    "comune": "Modigliana",
+    "nome": "S. Stefano, ptm., Invenzione di",
+    "giorno": 2,
+    "mese": 8
+  },
+  "F262": {
+    "comune": "Modugno",
+    "nome": "S. Nicola da Tolentino",
+    "giorno": 10,
+    "mese": 9
+  },
+  "F269": {
+    "comune": "Mogliano Veneto",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F272": {
+    "comune": "Mogoro",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "F274": {
+    "comune": "Moiano",
+    "nome": "S. Donato di Arezzo",
+    "giorno": 7,
+    "mese": 8
+  },
+  "F283": {
+    "comune": "Molazzana",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "F287": {
+    "comune": "Molinara",
+    "nome": "San Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "F288": {
+    "comune": "Molinella",
+    "nome": "S. Matteo, Evangelista",
+    "giorno": 21,
+    "mese": 9
+  },
+  "F295": {
+    "comune": "Moliterno",
+    "nome": "S. Domenico fondatore dei predicatori",
+    "giorno": 4,
+    "mese": 8
+  },
+  "F335": {
+    "comune": "Moncalieri",
+    "nome": "B. Bernardo II di Baden",
+    "giorno": 15,
+    "mese": 7
+  },
+  "F348": {
+    "comune": "Mondolfo",
+    "nome": "Santa Giustina",
+    "giorno": 26,
+    "mese": 9
+  },
+  "F376": {
+    "comune": "Monopoli",
+    "nome": "S. Francesco di Paola",
+    "giorno": 2,
+    "mese": 4
+  },
+  "F377": {
+    "comune": "Monreale",
+    "nome": "S. Castrense (Castrese) di Sessa",
+    "giorno": 11,
+    "mese": 2
+  },
+  "F382": {
+    "comune": "Monselice",
+    "nome": "Tutti i Santi",
+    "giorno": 1,
+    "mese": 11
+  },
+  "F394": {
+    "comune": "Montagnana",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F410": {
+    "comune": "Montale",
+    "nome": "S. Giovanni, Evangelista",
+    "giorno": 27,
+    "mese": 12
+  },
+  "F415": {
+    "comune": "Montalto delle Marche",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F432": {
+    "comune": "Montauro",
+    "nome": "S. Pantaleone di Nicomedia",
+    "giorno": 27,
+    "mese": 7
+  },
+  "F437": {
+    "comune": "Monte Argentario",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "F590": {
+    "comune": "Monte Porzio Catone",
+    "nome": "Sant' Antonino di Apamea",
+    "giorno": 2,
+    "mese": 9
+  },
+  "F616": {
+    "comune": "Monte San Biagio",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "F631": {
+    "comune": "Monte Sant'Angelo",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F443": {
+    "comune": "Montebelluna",
+    "nome": "Maria S.ma Immacolata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "F448": {
+    "comune": "Montecalvo Irpino",
+    "nome": "S. Felice di Nola",
+    "giorno": 5,
+    "mese": 8
+  },
+  "F452": {
+    "comune": "Montecarlo",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "F457": {
+    "comune": "Montecastrilli",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "A561": {
+    "comune": "Montecatini-Terme",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "F481": {
+    "comune": "Montecorvino Rovella",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "F492": {
+    "comune": "Montefalco",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "F499": {
+    "comune": "Montefiascone",
+    "nome": "S. Margherita di Antiochia",
+    "giorno": 20,
+    "mese": 7
+  },
+  "F507": {
+    "comune": "Monteforte Cilento",
+    "nome": "S. Donato di Arezzo",
+    "giorno": 7,
+    "mese": 8
+  },
+  "F529": {
+    "comune": "Montegrotto Terme",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "F543": {
+    "comune": "Monteleone d'Orvieto",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "F545": {
+    "comune": "Montelibretti",
+    "nome": "S. Nicola di Mira",
+    "giorno": 9,
+    "mese": 5
+  },
+  "F546": {
+    "comune": "Montella",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "F551": {
+    "comune": "Montelupo Fiorentino",
+    "nome": "S. Giovanni Evangelista",
+    "giorno": 27,
+    "mese": 12
+  },
+  "F563": {
+    "comune": "Montemesola",
+    "nome": "Maria S.ma del Rosario",
+    "giorno": 7,
+    "mese": 10
+  },
+  "F566": {
+    "comune": "Montemiletto",
+    "nome": "S. Gaetano di Thiene",
+    "giorno": 7,
+    "mese": 8
+  },
+  "F573": {
+    "comune": "Montemurro",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "F587": {
+    "comune": "Monteparano",
+    "nome": "S. Gaetano di Thiene",
+    "giorno": 7,
+    "mese": 8
+  },
+  "F592": {
+    "comune": "Montepulciano",
+    "nome": "S. Giovanni Decollato",
+    "giorno": 29,
+    "mese": 8
+  },
+  "F594": {
+    "comune": "Monterchi",
+    "nome": "S. Simeone",
+    "giorno": 8,
+    "mese": 10
+  },
+  "F595": {
+    "comune": "Montereale",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F598": {
+    "comune": "Monteriggioni",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F604": {
+    "comune": "Monteroni di Lecce",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "F637": {
+    "comune": "Montescaglioso",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "F642": {
+    "comune": "Montese",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "F648": {
+    "comune": "Montespertoli",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "F656": {
+    "comune": "Montevarchi",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "F685": {
+    "comune": "Montone",
+    "nome": "S. Gregorio Magno",
+    "giorno": 12,
+    "mese": 3
+  },
+  "F687": {
+    "comune": "Montopoli di Sabina",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F686": {
+    "comune": "Montopoli in Val d'Arno",
+    "nome": "S. Stefano, pmt.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "F704": {
+    "comune": "Monza",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "F717": {
+    "comune": "Morcone",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "F721": {
+    "comune": "Mores",
+    "nome": "S. Caterina d'Alessandria",
+    "giorno": 25,
+    "mese": 11
+  },
+  "F730": {
+    "comune": "Moricone",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 22,
+    "mese": 8
+  },
+  "F754": {
+    "comune": "Mortara",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "F770": {
+    "comune": "Motta di Livenza",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F784": {
+    "comune": "Mottola",
+    "nome": "S. Tommaso Becket",
+    "giorno": 28,
+    "mese": 12
+  },
+  "F798": {
+    "comune": "Mugnano del Cardinale",
+    "nome": "S. Filomena",
+    "giorno": 10,
+    "mese": 8
+  },
+  "F808": {
+    "comune": "Muravera",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F817": {
+    "comune": "Muro Lucano",
+    "nome": "S. Gerardo Maiella",
+    "giorno": 2,
+    "mese": 9
+  },
+  "F842": {
+    "comune": "Nardò",
+    "nome": "S. Gregorio Illuminatore",
+    "giorno": 20,
+    "mese": 2
+  },
+  "F844": {
+    "comune": "Narni",
+    "nome": "S. Giovenale di Narni",
+    "giorno": 3,
+    "mese": 5
+  },
+  "F845": {
+    "comune": "Naro",
+    "nome": "S. Calogero",
+    "giorno": 18,
+    "mese": 6
+  },
+  "F865": {
+    "comune": "Nemi",
+    "nome": "SS. Filippo e Giacomo, app.",
+    "giorno": 1,
+    "mese": 5
+  },
+  "F870": {
+    "comune": "Nereto",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "F880": {
+    "comune": "Nettuno",
+    "nome": "S. Pancrazio di Roma",
+    "giorno": 12,
+    "mese": 5
+  },
+  "F892": {
+    "comune": "Nicosia",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F893": {
+    "comune": "Nicotera",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F902": {
+    "comune": "Nizza Monferrato",
+    "nome": "S. Carlo Borromeo",
+    "giorno": 4,
+    "mese": 11
+  },
+  "F913": {
+    "comune": "Nocera Superiore",
+    "nome": "S. Ciro",
+    "giorno": 31,
+    "mese": 1
+  },
+  "F911": {
+    "comune": "Nocera Umbra",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "F923": {
+    "comune": "Noicattaro",
+    "nome": "Madonna del Carmine",
+    "giorno": 16,
+    "mese": 7
+  },
+  "F935": {
+    "comune": "Norcia",
+    "nome": "S. Benedetto, ab.",
+    "giorno": 21,
+    "mese": 3
+  },
+  "F943": {
+    "comune": "Noto",
+    "nome": "S. Corrado Confalonieri",
+    "giorno": 19,
+    "mese": 2
+  },
+  "F952": {
+    "comune": "Novara",
+    "nome": "S. Gaudenzio di Novara",
+    "giorno": 22,
+    "mese": 1
+  },
+  "F960": {
+    "comune": "Novellara",
+    "nome": "S. Stefano, pmt.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "F966": {
+    "comune": "Novi di Modena",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F986": {
+    "comune": "Nurri",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "F988": {
+    "comune": "Nusco",
+    "nome": "S. Amato di Nusco",
+    "giorno": 30,
+    "mese": 9
+  },
+  "F999": {
+    "comune": "Oderzo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G022": {
+    "comune": "Olevano Romano",
+    "nome": "S. Margherita di Antiochia",
+    "giorno": 20,
+    "mese": 7
+  },
+  "G081": {
+    "comune": "Oppido Lucano",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "G082": {
+    "comune": "Oppido Mamertina",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "G083": {
+    "comune": "Ora",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G088": {
+    "comune": "Orbetello",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "G097": {
+    "comune": "Orgosolo",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G119": {
+    "comune": "Orosei",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "G120": {
+    "comune": "Orotelli",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G128": {
+    "comune": "Orsogna",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G134": {
+    "comune": "Orta San Giulio",
+    "nome": "S. Giulio",
+    "giorno": 31,
+    "mese": 1
+  },
+  "G135": {
+    "comune": "Orte",
+    "nome": "S. Egidio, ab.",
+    "giorno": 1,
+    "mese": 9
+  },
+  "G148": {
+    "comune": "Orvieto",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "G156": {
+    "comune": "Osilo",
+    "nome": "Maria S.ma Immacolata",
+    "giorno": 8,
+    "mese": 12
+  },
+  "G157": {
+    "comune": "Osimo",
+    "nome": "S. Giuseppe da Copertino",
+    "giorno": 18,
+    "mese": 9
+  },
+  "G164": {
+    "comune": "Ospedaletti",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G178": {
+    "comune": "Ossi",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "G184": {
+    "comune": "Ostellato",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G187": {
+    "comune": "Ostuni",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "G200": {
+    "comune": "Ovindoli",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 8
+  },
+  "G224": {
+    "comune": "Padova",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "G227": {
+    "comune": "Paduli",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "G230": {
+    "comune": "Pagani",
+    "nome": "S. Alfonso Maria de' Liguori",
+    "giorno": 2,
+    "mese": 8
+  },
+  "G254": {
+    "comune": "Palaia",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "G267": {
+    "comune": "Palazzolo Acreide",
+    "nome": "S. Paolo, ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G270": {
+    "comune": "Palazzuolo sul Senio",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "G273": {
+    "comune": "Palermo",
+    "nome": "S. Rosalia di Palermo",
+    "giorno": 15,
+    "mese": 7
+  },
+  "G275": {
+    "comune": "Palestro",
+    "nome": "San Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "G276": {
+    "comune": "Paliano",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "G288": {
+    "comune": "Palmi",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "G291": {
+    "comune": "Palo del Colle",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "G293": {
+    "comune": "Palombara Sabina",
+    "nome": "San Biagio",
+    "giorno": 3,
+    "mese": 2
+  },
+  "G308": {
+    "comune": "Panicale",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "G317": {
+    "comune": "Paola",
+    "nome": "S. Francesco di Paola",
+    "giorno": 4,
+    "mese": 5
+  },
+  "G359": {
+    "comune": "Passignano sul Trasimeno",
+    "nome": "S. Cristoforo di licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "G365": {
+    "comune": "Pastrengo",
+    "nome": "S. Croce",
+    "giorno": 14,
+    "mese": 9
+  },
+  "G371": {
+    "comune": "Paternò",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "G388": {
+    "comune": "Pavia",
+    "nome": "S. Siro di Pavia",
+    "giorno": 9,
+    "mese": 12
+  },
+  "G393": {
+    "comune": "Pavullo nel Frignano",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "G404": {
+    "comune": "Pedavena",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G420": {
+    "comune": "Pelago",
+    "nome": "S. Clemente,",
+    "giorno": 23,
+    "mese": 11
+  },
+  "G433": {
+    "comune": "Pennabilli",
+    "nome": "S. Leo di Montefeltro",
+    "giorno": 1,
+    "mese": 8
+  },
+  "G453": {
+    "comune": "Pergola",
+    "nome": "S. Saturnino di Cagliari",
+    "giorno": 30,
+    "mese": 9
+  },
+  "G478": {
+    "comune": "Perugia",
+    "nome": "S. Costanzo di Perugia",
+    "giorno": 29,
+    "mese": 1
+  },
+  "G480": {
+    "comune": "Pescaglia",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G481": {
+    "comune": "Pescantina",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "G482": {
+    "comune": "Pescara",
+    "nome": "S. Cetteo di Amiterno",
+    "giorno": 10,
+    "mese": 10
+  },
+  "G487": {
+    "comune": "Peschici",
+    "nome": "S. Elia profeta",
+    "giorno": 20,
+    "mese": 7
+  },
+  "G488": {
+    "comune": "Peschiera Borromeo",
+    "nome": "S. Carlo Borromeo",
+    "giorno": 4,
+    "mese": 11
+  },
+  "G491": {
+    "comune": "Pescia",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "G498": {
+    "comune": "Pescorocchiano",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "G508": {
+    "comune": "Petilia Policastro",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "G535": {
+    "comune": "Piacenza",
+    "nome": "S. Antonino di Piacenza",
+    "giorno": 4,
+    "mese": 7
+  },
+  "D546": {
+    "comune": "Pianopoli",
+    "nome": "S. Tommaso d'Aquino",
+    "giorno": 7,
+    "mese": 3
+  },
+  "G582": {
+    "comune": "Piazza al Serchio",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G592": {
+    "comune": "Pico",
+    "nome": "S. Antonio di Apamea",
+    "giorno": 2,
+    "mese": 9
+  },
+  "G601": {
+    "comune": "Piegaro",
+    "nome": "S. Silvestro,",
+    "giorno": 31,
+    "mese": 12
+  },
+  "G602": {
+    "comune": "Pienza",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "G605": {
+    "comune": "Pietra Ligure",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "G618": {
+    "comune": "Pietralunga",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "G628": {
+    "comune": "Pietrasanta",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "G645": {
+    "comune": "Pieve di Soligo",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "G648": {
+    "comune": "Pieve Fosciana",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G659": {
+    "comune": "Piglio",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "G687": {
+    "comune": "Piombino",
+    "nome": "S. Anastasia di Sirmio",
+    "giorno": 8,
+    "mese": 5
+  },
+  "G692": {
+    "comune": "Piovà Massaia",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "G693": {
+    "comune": "Piove di Sacco",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "G702": {
+    "comune": "Pisa",
+    "nome": "S. Ranieri di Pisa",
+    "giorno": 17,
+    "mese": 6
+  },
+  "G712": {
+    "comune": "Pisticci",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "G713": {
+    "comune": "Pistoia",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "G716": {
+    "comune": "Pitigliano",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "G721": {
+    "comune": "Pizzighettone",
+    "nome": "S. Bassiano di Lodi",
+    "giorno": 19,
+    "mese": 1
+  },
+  "G722": {
+    "comune": "Pizzo",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "G734": {
+    "comune": "Platania",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "G740": {
+    "comune": "Ploaghe",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G749": {
+    "comune": "Pofi",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 1,
+    "mese": 8
+  },
+  "G757": {
+    "comune": "Poggio Catino",
+    "nome": "S. Silvestro,",
+    "giorno": 31,
+    "mese": 12
+  },
+  "G763": {
+    "comune": "Poggio Mirteto",
+    "nome": "S. Gaetano da Thiene",
+    "giorno": 7,
+    "mese": 8
+  },
+  "G768": {
+    "comune": "Poggio Renatico",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "G777": {
+    "comune": "Poirino",
+    "nome": "S. Orsola",
+    "giorno": 21,
+    "mese": 10
+  },
+  "G791": {
+    "comune": "Polistena",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "G793": {
+    "comune": "Polla",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "F567": {
+    "comune": "Pollenza",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G806": {
+    "comune": "Pomarico",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "G822": {
+    "comune": "Ponsacco",
+    "nome": "S. Giovanni Evangelista",
+    "giorno": 27,
+    "mese": 12
+  },
+  "G825": {
+    "comune": "Pontassieve",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "G844": {
+    "comune": "Ponte di Legno",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G848": {
+    "comune": "Pontelandolfo",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "G852": {
+    "comune": "Pontenure",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G864": {
+    "comune": "Pontida",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "G865": {
+    "comune": "Pontinia",
+    "nome": "S. Anna",
+    "giorno": 26,
+    "mese": 7
+  },
+  "G870": {
+    "comune": "Pontremoli",
+    "nome": "S. Geminiano di Modena",
+    "giorno": 31,
+    "mese": 1
+  },
+  "G871": {
+    "comune": "Ponza",
+    "nome": "S. Silverio,",
+    "giorno": 20,
+    "mese": 6
+  },
+  "G888": {
+    "comune": "Pordenone",
+    "nome": "S. Marco Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "G924": {
+    "comune": "Porto Torres",
+    "nome": "Santi Gavino, Proto e Gianuario, Martiri Turritani",
+    "giorno": 30,
+    "mese": 5
+  },
+  "G913": {
+    "comune": "Portofino",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "G914": {
+    "comune": "Portogruaro",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "G916": {
+    "comune": "Portomaggiore",
+    "nome": "S. Carlo Borromeo",
+    "giorno": 4,
+    "mese": 11
+  },
+  "G925": {
+    "comune": "Portovenere",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "G932": {
+    "comune": "Positano",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "G942": {
+    "comune": "Potenza",
+    "nome": "S. Gerardo di Potenza",
+    "giorno": 30,
+    "mese": 5
+  },
+  "F632": {
+    "comune": "Potenza Picena",
+    "nome": "San Gerio (Girio)",
+    "giorno": 25,
+    "mese": 5
+  },
+  "G953": {
+    "comune": "Pozzallo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G976": {
+    "comune": "Praiano",
+    "nome": "S. Luca Evangelista",
+    "giorno": 18,
+    "mese": 10
+  },
+  "G999": {
+    "comune": "Prato",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "H017": {
+    "comune": "Predappio",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "H061": {
+    "comune": "Prignano sulla Secchia",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "G698": {
+    "comune": "Priverno",
+    "nome": "S. Tommaso d'Aquino",
+    "giorno": 7,
+    "mese": 3
+  },
+  "H088": {
+    "comune": "Pula",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H096": {
+    "comune": "Putignano",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "H118": {
+    "comune": "Quartu Sant'Elena",
+    "nome": "S. Elena, imperatrice",
+    "giorno": 14,
+    "mese": 9
+  },
+  "H147": {
+    "comune": "Racale",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "H150": {
+    "comune": "Racconigi",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H153": {
+    "comune": "Radda in Chianti",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "H156": {
+    "comune": "Radicofani",
+    "nome": "S. Agata di Catania",
+    "giorno": 5,
+    "mese": 2
+  },
+  "H163": {
+    "comune": "Ragusa",
+    "nome": "S. Giovanni Battista",
+    "giorno": 29,
+    "mese": 8
+  },
+  "H175": {
+    "comune": "Randazzo",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "H183": {
+    "comune": "Rapallo",
+    "nome": "SS. Gervasio e Protasio",
+    "giorno": 19,
+    "mese": 6
+  },
+  "H186": {
+    "comune": "Rapolla",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 2
+  },
+  "H187": {
+    "comune": "Rapone",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "H194": {
+    "comune": "Ravanusa",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "H195": {
+    "comune": "Ravarino",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H198": {
+    "comune": "Ravello",
+    "nome": "S. Pantaleone",
+    "giorno": 27,
+    "mese": 7
+  },
+  "H199": {
+    "comune": "Ravenna",
+    "nome": "S. Apollinare di Ravenna",
+    "giorno": 23,
+    "mese": 7
+  },
+  "H211": {
+    "comune": "Recanati",
+    "nome": "S. Vito",
+    "giorno": 25,
+    "mese": 6
+  },
+  "H214": {
+    "comune": "Recoaro Terme",
+    "nome": "S. Antonio, ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "H222": {
+    "comune": "Reggello",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "H269": {
+    "comune": "Ribera",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "H274": {
+    "comune": "Riccione",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "H277": {
+    "comune": "Ricigliano",
+    "nome": "S. Cristoforo di Licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "H280": {
+    "comune": "Riese Pio X",
+    "nome": "S. Pio X",
+    "giorno": 3,
+    "mese": 9
+  },
+  "H282": {
+    "comune": "Rieti",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "H287": {
+    "comune": "Rignano Garganico",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "H294": {
+    "comune": "Rimini",
+    "nome": "S. Gaudenzio di Rimini",
+    "giorno": 14,
+    "mese": 10
+  },
+  "H302": {
+    "comune": "Riolo Terme",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H312": {
+    "comune": "Ripacandida",
+    "nome": "S. Donato (Donatello) di Ripacandida",
+    "giorno": 17,
+    "mese": 8
+  },
+  "H321": {
+    "comune": "Ripatransone",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "H324": {
+    "comune": "Ripi",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "H328": {
+    "comune": "Riva Ligure",
+    "nome": "San Maurizio",
+    "giorno": 22,
+    "mese": 9
+  },
+  "H356": {
+    "comune": "Rivoli Veronese",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H399": {
+    "comune": "Rocca di Botte",
+    "nome": "S. Pietro",
+    "giorno": 30,
+    "mese": 8
+  },
+  "H402": {
+    "comune": "Rocca di Mezzo",
+    "nome": "S. Leucio",
+    "giorno": 11,
+    "mese": 1
+  },
+  "H431": {
+    "comune": "Roccapiemonte",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H449": {
+    "comune": "Roccastrada",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "H467": {
+    "comune": "Rocchetta Sant'Antonio",
+    "nome": "Sant'Antonio",
+    "giorno": 17,
+    "mese": 1
+  },
+  "H481": {
+    "comune": "Rodigo",
+    "nome": "San Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "H490": {
+    "comune": "Rogliano",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "H501": {
+    "comune": "Roma",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "H509": {
+    "comune": "Romano di Lombardia",
+    "nome": "S. Defendente",
+    "giorno": 14,
+    "mese": 9
+  },
+  "H534": {
+    "comune": "Ronciglione",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "H565": {
+    "comune": "Rose",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "F585": {
+    "comune": "Roseto degli Abruzzi",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "H620": {
+    "comune": "Rovigo",
+    "nome": "S. Bellino",
+    "giorno": 26,
+    "mese": 11
+  },
+  "H632": {
+    "comune": "Ruffano",
+    "nome": "S. Antonio da Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "H635": {
+    "comune": "Rufina",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "H642": {
+    "comune": "Russi",
+    "nome": "S. Apollinare di Ravenna",
+    "giorno": 23,
+    "mese": 7
+  },
+  "H646": {
+    "comune": "Ruvo del Monte",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "H652": {
+    "comune": "Sabbioneta",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "H657": {
+    "comune": "Sacile",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "H676": {
+    "comune": "Saint-Vincent",
+    "nome": "S. Vincenzo di Saragozza",
+    "giorno": 22,
+    "mese": 1
+  },
+  "H679": {
+    "comune": "Sala Comacina",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "H683": {
+    "comune": "Sala Consilina",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "H687": {
+    "comune": "Salandra",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "H700": {
+    "comune": "Salemi",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "H703": {
+    "comune": "Salerno",
+    "nome": "S. Matteo",
+    "giorno": 21,
+    "mese": 9
+  },
+  "H708": {
+    "comune": "Salice Salentino",
+    "nome": "S. Francesco d'Assisi",
+    "giorno": 4,
+    "mese": 10
+  },
+  "H717": {
+    "comune": "Salò",
+    "nome": "S. Carlo Borromeo",
+    "giorno": 4,
+    "mese": 11
+  },
+  "H720": {
+    "comune": "Salsomaggiore Terme",
+    "nome": "S. Vitale di Bologna",
+    "giorno": 4,
+    "mese": 11
+  },
+  "H735": {
+    "comune": "Salzano",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "H744": {
+    "comune": "Sambuca Pistoiese",
+    "nome": "S. Giacomo Maggiore, ap.",
+    "giorno": 25,
+    "mese": 7
+  },
+  "H756": {
+    "comune": "Samugheo",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "H764": {
+    "comune": "San Bartolomeo in Galdo",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "H769": {
+    "comune": "San Benedetto del Tronto",
+    "nome": "S. Benedetto,",
+    "giorno": 13,
+    "mese": 10
+  },
+  "H803": {
+    "comune": "San Colombano al Lambro",
+    "nome": "S. Colombano di Bobbio",
+    "giorno": 21,
+    "mese": 11
+  },
+  "H824": {
+    "comune": "San Donato Val di Comino",
+    "nome": "S. Donato di Arezzo",
+    "giorno": 7,
+    "mese": 8
+  },
+  "H831": {
+    "comune": "San Fele",
+    "nome": "S. Felice di Nola",
+    "giorno": 24,
+    "mese": 10
+  },
+  "H835": {
+    "comune": "San Felice sul Panaro",
+    "nome": "S. Felice di Nola",
+    "giorno": 24,
+    "mese": 9
+  },
+  "H841": {
+    "comune": "San Fili",
+    "nome": "S. Francesco di Paola",
+    "giorno": 12,
+    "mese": 10
+  },
+  "H856": {
+    "comune": "San Gavino Monreale",
+    "nome": "S. Chiara d'Assisi",
+    "giorno": 12,
+    "mese": 8
+  },
+  "H876": {
+    "comune": "San Ginesio",
+    "nome": "S. Genesio di Roma",
+    "giorno": 25,
+    "mese": 8
+  },
+  "H893": {
+    "comune": "San Giorgio delle Pertiche",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "H882": {
+    "comune": "San Giorgio Ionico",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 24,
+    "mese": 4
+  },
+  "H889": {
+    "comune": "San Giorgio Morgeto",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "H919": {
+    "comune": "San Giovanni in Fiore",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G467": {
+    "comune": "San Giovanni in Persiceto",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H917": {
+    "comune": "San Giovanni Incarico",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H926": {
+    "comune": "San Giovanni Rotondo",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "G287": {
+    "comune": "San Giovanni Suergiu",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D690": {
+    "comune": "San Giovanni Teatino",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H901": {
+    "comune": "San Giovanni Valdarno",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "A562": {
+    "comune": "San Giuliano Terme",
+    "nome": "S. Bartolomeo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "H970": {
+    "comune": "San Luca",
+    "nome": "S. Luca Evangelista",
+    "giorno": 18,
+    "mese": 10
+  },
+  "H971": {
+    "comune": "San Lucido",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "H981": {
+    "comune": "San Marco Argentano",
+    "nome": "S. Marco Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "H985": {
+    "comune": "San Marco in Lamis",
+    "nome": "S. Marco Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "I016": {
+    "comune": "San Martino Valle Caudina",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "I018": {
+    "comune": "San Marzano di San Giuseppe",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "I040": {
+    "comune": "San Michele al Tagliamento",
+    "nome": "S. Michele, Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "I046": {
+    "comune": "San Miniato",
+    "nome": "S. Genesio di Roma",
+    "giorno": 25,
+    "mese": 8
+  },
+  "G407": {
+    "comune": "San Paolo",
+    "nome": "S. Paolo, ap.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "I079": {
+    "comune": "San Pellegrino Terme",
+    "nome": "S.",
+    "giorno": 16,
+    "mese": 5
+  },
+  "I093": {
+    "comune": "San Pietro a Maida",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "I095": {
+    "comune": "San Pietro Apostolo",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "I377": {
+    "comune": "San Valentino Torio",
+    "nome": "S. Valentino",
+    "giorno": 14,
+    "mese": 2
+  },
+  "I381": {
+    "comune": "San Venanzo",
+    "nome": "S. Venanzio di Camerino",
+    "giorno": 18,
+    "mese": 5
+  },
+  "I402": {
+    "comune": "San Vito",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "I394": {
+    "comune": "San Vito Chietino",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "I392": {
+    "comune": "San Vito di Cadore",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "I393": {
+    "comune": "San Vito sullo Ionio",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "I155": {
+    "comune": "Sansepolcro",
+    "nome": "S. Giovanni Evangelista",
+    "giorno": 27,
+    "mese": 12
+  },
+  "I266": {
+    "comune": "Sant'Andrea Apostolo dello Ionio",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "I281": {
+    "comune": "Sant'Angelo dei Lombardi",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "I287": {
+    "comune": "Sant'Angelo in Vado",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "I318": {
+    "comune": "Sant'Egidio alla Vibrata",
+    "nome": "S. Egidio, ab.",
+    "giorno": 1,
+    "mese": 9
+  },
+  "I220": {
+    "comune": "Santa Lucia del Mela",
+    "nome": "S. Lucia di Siracusa",
+    "giorno": 13,
+    "mese": 12
+  },
+  "I221": {
+    "comune": "Santa Lucia di Piave",
+    "nome": "S. Lucia di Siracusa",
+    "giorno": 13,
+    "mese": 12
+  },
+  "I225": {
+    "comune": "Santa Margherita Ligure",
+    "nome": "S. Margherita (Marina) di Antiochia",
+    "giorno": 2,
+    "mese": 7
+  },
+  "I255": {
+    "comune": "Santa Marinella",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "I308": {
+    "comune": "Santa Severina",
+    "nome": "S. Anastasia di Sirmio",
+    "giorno": 29,
+    "mese": 10
+  },
+  "I310": {
+    "comune": "Santa Sofia",
+    "nome": "S. Lucia di Siracusa",
+    "giorno": 13,
+    "mese": 12
+  },
+  "I309": {
+    "comune": "Santa Sofia d'Epiro",
+    "nome": "S. Atanasio di Alessandria",
+    "giorno": 2,
+    "mese": 5
+  },
+  "I312": {
+    "comune": "Santa Teresa Gallura",
+    "nome": "S. Teresa d'Avila",
+    "giorno": 15,
+    "mese": 10
+  },
+  "I182": {
+    "comune": "Santadi",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "I330": {
+    "comune": "Santeramo in Colle",
+    "nome": "Sant'Erasmo",
+    "giorno": 2,
+    "mese": 6
+  },
+  "I337": {
+    "comune": "Santhià",
+    "nome": "S. Agata",
+    "giorno": 5,
+    "mese": 2
+  },
+  "C919": {
+    "comune": "Santo Stefano di Cadore",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "I422": {
+    "comune": "Sapri",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "I423": {
+    "comune": "Saracena",
+    "nome": "S. Leone di Catania",
+    "giorno": 20,
+    "mese": 2
+  },
+  "I438": {
+    "comune": "Sarno",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "I441": {
+    "comune": "Saronno",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "I449": {
+    "comune": "Sarzana",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "I452": {
+    "comune": "Sassari",
+    "nome": "S. Nicola",
+    "giorno": 6,
+    "mese": 12
+  },
+  "I461": {
+    "comune": "Sassoferrato",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "I462": {
+    "comune": "Sassuolo",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "I463": {
+    "comune": "Satriano",
+    "nome": "S. Teodoro di Amasea",
+    "giorno": 9,
+    "mese": 11
+  },
+  "I468": {
+    "comune": "Savelli",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "I470": {
+    "comune": "Savigliano",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "I472": {
+    "comune": "Savignano sul Rubicone",
+    "nome": "S. Lucia di Siracusa",
+    "giorno": 13,
+    "mese": 12
+  },
+  "I486": {
+    "comune": "Scala",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "I489": {
+    "comune": "Scalea",
+    "nome": "Maria S.ma del Carmine",
+    "giorno": 16,
+    "mese": 7
+  },
+  "I496": {
+    "comune": "Scandiano",
+    "nome": "S. Caterina di Alessandria",
+    "giorno": 25,
+    "mese": 11
+  },
+  "B962": {
+    "comune": "Scandicci",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "I501": {
+    "comune": "Scanno",
+    "nome": "S. Eustachio",
+    "giorno": 20,
+    "mese": 9
+  },
+  "I504": {
+    "comune": "Scansano",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "D290": {
+    "comune": "Scigliano",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "I537": {
+    "comune": "Scilla",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "I548": {
+    "comune": "Scordia",
+    "nome": "San Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "I551": {
+    "comune": "Scorzè",
+    "nome": "S. Benedetto, ab.",
+    "giorno": 11,
+    "mese": 3
+  },
+  "I573": {
+    "comune": "Segni",
+    "nome": "S. Bruno di Segni",
+    "giorno": 18,
+    "mese": 7
+  },
+  "I580": {
+    "comune": "Selargius",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "I585": {
+    "comune": "Sellano",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "I600": {
+    "comune": "Seminara",
+    "nome": "S. Mercurio di Cesarea di Cappadocia",
+    "giorno": 25,
+    "mese": 11
+  },
+  "I610": {
+    "comune": "Senise",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "I622": {
+    "comune": "Seravezza",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "I625": {
+    "comune": "Seregno",
+    "nome": "Santa Valeria",
+    "giorno": 28,
+    "mese": 4
+  },
+  "I634": {
+    "comune": "Sermoneta",
+    "nome": "S. Giuseppe",
+    "giorno": 19,
+    "mese": 3
+  },
+  "I635": {
+    "comune": "Sernaglia della Battaglia",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "I639": {
+    "comune": "Serra San Bruno",
+    "nome": "S. Bruno, fond. Dei Certosini",
+    "giorno": 6,
+    "mese": 10
+  },
+  "I641": {
+    "comune": "Serracapriola",
+    "nome": "S. Mercurio di Cesarea",
+    "giorno": 4,
+    "mese": 9
+  },
+  "I647": {
+    "comune": "Serramanna",
+    "nome": "S. Leonardo di Nobiliacum",
+    "giorno": 6,
+    "mese": 11
+  },
+  "I660": {
+    "comune": "Serravalle Pistoiese",
+    "nome": "S. Luigi IX di Francia",
+    "giorno": 25,
+    "mese": 8
+  },
+  "I666": {
+    "comune": "Serre",
+    "nome": "S. Martino",
+    "giorno": 11,
+    "mese": 11
+  },
+  "I671": {
+    "comune": "Sersale",
+    "nome": "Maria S.ma del Carmine",
+    "giorno": 16,
+    "mese": 7
+  },
+  "I676": {
+    "comune": "Sessa Aurunca",
+    "nome": "S. Leone IX,",
+    "giorno": 8,
+    "mese": 5
+  },
+  "I681": {
+    "comune": "Sestino",
+    "nome": "S. Pancrazio di Roma",
+    "giorno": 12,
+    "mese": 5
+  },
+  "I688": {
+    "comune": "Sesto Calende",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "I684": {
+    "comune": "Sesto Fiorentino",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "I690": {
+    "comune": "Sesto San Giovanni",
+    "nome": "San Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "I693": {
+    "comune": "Sestri Levante",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "I692": {
+    "comune": "Sestriere",
+    "nome": "S. Edoardo il",
+    "giorno": 13,
+    "mese": 10
+  },
+  "I695": {
+    "comune": "Sestu",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "I706": {
+    "comune": "Seui",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "I726": {
+    "comune": "Siena",
+    "nome": "Sant'Ansano",
+    "giorno": 1,
+    "mese": 12
+  },
+  "I728": {
+    "comune": "Signa",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "I729": {
+    "comune": "Silandro",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "I730": {
+    "comune": "Silanus",
+    "nome": "S. Antonio, ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "I734": {
+    "comune": "Siliqua",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "A468": {
+    "comune": "Sinalunga",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "I751": {
+    "comune": "Siniscola",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "I752": {
+    "comune": "Sinnai",
+    "nome": "S. Barbara",
+    "giorno": 4,
+    "mese": 12
+  },
+  "I754": {
+    "comune": "Siracusa",
+    "nome": "S. Lucia di Siracusa",
+    "giorno": 13,
+    "mese": 12
+  },
+  "I756": {
+    "comune": "Sirignano",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "I801": {
+    "comune": "Solferino",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "I802": {
+    "comune": "Soliera",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "I821": {
+    "comune": "Sommacampagna",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "I829": {
+    "comune": "Sondrio",
+    "nome": "SS. Gervasio e Protasio",
+    "giorno": 19,
+    "mese": 6
+  },
+  "I832": {
+    "comune": "Sonnino",
+    "nome": "S. Marco Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "I854": {
+    "comune": "Soriano Calabro",
+    "nome": "S. Domenico fondatore dei predicatori",
+    "giorno": 4,
+    "mese": 8
+  },
+  "I855": {
+    "comune": "Soriano nel Cimino",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "I863": {
+    "comune": "Sorso",
+    "nome": "S. Pantaleone",
+    "giorno": 27,
+    "mese": 7
+  },
+  "I888": {
+    "comune": "Spello",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "I903": {
+    "comune": "Spilamberto",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "I904": {
+    "comune": "Spilimbergo",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "I907": {
+    "comune": "Spinazzola",
+    "nome": "San Sebastiano",
+    "giorno": 20,
+    "mese": 1
+  },
+  "I929": {
+    "comune": "Squillace",
+    "nome": "S. Agazio (Acacio) di Bisanzio",
+    "giorno": 8,
+    "mese": 5
+  },
+  "I937": {
+    "comune": "Stalettì",
+    "nome": "S. Gregorio Taumaturgo",
+    "giorno": 17,
+    "mese": 11
+  },
+  "I942": {
+    "comune": "Stazzema",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "I954": {
+    "comune": "Stigliano",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "I956": {
+    "comune": "Stilo",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 27,
+    "mese": 12
+  },
+  "I959": {
+    "comune": "Stimigliano",
+    "nome": "SS. Cosma e Damiano",
+    "giorno": 27,
+    "mese": 9
+  },
+  "I976": {
+    "comune": "Stresa",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 12
+  },
+  "I981": {
+    "comune": "Stroncone",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "I990": {
+    "comune": "Sturno",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "I992": {
+    "comune": "Subiaco",
+    "nome": "S. Benedetto, ab.",
+    "giorno": 11,
+    "mese": 7
+  },
+  "L008": {
+    "comune": "Supersano",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "L009": {
+    "comune": "Supino",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "L025": {
+    "comune": "Tagliacozzo",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "L042": {
+    "comune": "Taormina",
+    "nome": "S. Pancrazio di Taormina",
+    "giorno": 9,
+    "mese": 7
+  },
+  "L049": {
+    "comune": "Taranto",
+    "nome": "S. Cataldo di Rachau",
+    "giorno": 10,
+    "mese": 5
+  },
+  "L057": {
+    "comune": "Tarvisio",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L064": {
+    "comune": "Taurisano",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "D292": {
+    "comune": "Teggiano",
+    "nome": "S. Cono di Diano",
+    "giorno": 3,
+    "mese": 6
+  },
+  "L084": {
+    "comune": "Teglio",
+    "nome": "S. Eufemia di Calcedonia",
+    "giorno": 16,
+    "mese": 9
+  },
+  "L093": {
+    "comune": "Tempio Pausania",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L103": {
+    "comune": "Teramo",
+    "nome": "S. Berardo di Teramo",
+    "giorno": 19,
+    "mese": 12
+  },
+  "L112": {
+    "comune": "Termini Imerese",
+    "nome": "Beato Agostino Novello",
+    "giorno": 19,
+    "mese": 5
+  },
+  "L113": {
+    "comune": "Termoli",
+    "nome": "S. Basso di Nizza",
+    "giorno": 5,
+    "mese": 12
+  },
+  "L117": {
+    "comune": "Terni",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L122": {
+    "comune": "Terralba",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L123": {
+    "comune": "Terranuova Bracciolini",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "L140": {
+    "comune": "Tertenia",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L154": {
+    "comune": "Teulada",
+    "nome": "Maria S.ma del Carmelo",
+    "giorno": 16,
+    "mese": 7
+  },
+  "L157": {
+    "comune": "Thiene",
+    "nome": "S. Gaetano di Thiene",
+    "giorno": 7,
+    "mese": 8
+  },
+  "L166": {
+    "comune": "Tiggiano",
+    "nome": "S. Ipazio di Gangra",
+    "giorno": 7,
+    "mese": 12
+  },
+  "L175": {
+    "comune": "Tirano",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "L182": {
+    "comune": "Tivoli",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  },
+  "L192": {
+    "comune": "Tolfa",
+    "nome": "S. Egidio, ab.",
+    "giorno": 1,
+    "mese": 9
+  },
+  "L194": {
+    "comune": "Tollo",
+    "nome": "S. Marina (Margherita) di Antiochia",
+    "giorno": 17,
+    "mese": 7
+  },
+  "L195": {
+    "comune": "Tolmezzo",
+    "nome": "S. Martino di Tours",
+    "giorno": 11,
+    "mese": 11
+  },
+  "L197": {
+    "comune": "Tolve",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "L219": {
+    "comune": "Torino",
+    "nome": "Beata",
+    "giorno": 20,
+    "mese": 6
+  },
+  "L273": {
+    "comune": "Torremaggiore",
+    "nome": "San Sabino",
+    "giorno": 9,
+    "mese": 2
+  },
+  "L286": {
+    "comune": "Torri in Sabina",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L290": {
+    "comune": "Torrice",
+    "nome": "S. Bernardino da Siena",
+    "giorno": 20,
+    "mese": 5
+  },
+  "L303": {
+    "comune": "Torrita di Siena",
+    "nome": "S. Costanzo di Perugia",
+    "giorno": 29,
+    "mese": 1
+  },
+  "A355": {
+    "comune": "Tortolì",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "L305": {
+    "comune": "Tortora",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L307": {
+    "comune": "Tortoreto",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "L308": {
+    "comune": "Tortorici",
+    "nome": "S. Sebastiano di Roma",
+    "giorno": 20,
+    "mese": 1
+  },
+  "L312": {
+    "comune": "Toscolano-Maderno",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L319": {
+    "comune": "Tradate",
+    "nome": "S. Stefano, ptm.",
+    "giorno": 26,
+    "mese": 12
+  },
+  "L328": {
+    "comune": "Trani",
+    "nome": "S. Nicola il",
+    "giorno": 2,
+    "mese": 7
+  },
+  "L353": {
+    "comune": "Trebisacce",
+    "nome": "San Leonardo di Noblac",
+    "giorno": 6,
+    "mese": 11
+  },
+  "L366": {
+    "comune": "Treia",
+    "nome": "S. Patrizio d'Irlanda",
+    "giorno": 17,
+    "mese": 3
+  },
+  "L378": {
+    "comune": "Trento",
+    "nome": "S. Vigilio di Trento",
+    "giorno": 26,
+    "mese": 6
+  },
+  "L383": {
+    "comune": "Trepuzzi",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L384": {
+    "comune": "Trequanda",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "L388": {
+    "comune": "Trescore Balneario",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L397": {
+    "comune": "Trevi",
+    "nome": "S. Emiliano armeno",
+    "giorno": 28,
+    "mese": 1
+  },
+  "L398": {
+    "comune": "Trevi nel Lazio",
+    "nome": "S. Pietro",
+    "giorno": 30,
+    "mese": 8
+  },
+  "L407": {
+    "comune": "Treviso",
+    "nome": "S. Liberale di Treviso",
+    "giorno": 27,
+    "mese": 4
+  },
+  "L419": {
+    "comune": "Tricase",
+    "nome": "S. Vito",
+    "giorno": 15,
+    "mese": 6
+  },
+  "L424": {
+    "comune": "Trieste",
+    "nome": "S. Giusto di Trieste",
+    "giorno": 2,
+    "mese": 11
+  },
+  "L433": {
+    "comune": "Trissino",
+    "nome": "S. Andrea, ap.",
+    "giorno": 30,
+    "mese": 11
+  },
+  "L435": {
+    "comune": "Trivento",
+    "nome": "SS. Nazario, Celso e Vittore",
+    "giorno": 28,
+    "mese": 7
+  },
+  "L466": {
+    "comune": "Tuoro sul Trasimeno",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "L472": {
+    "comune": "Turi",
+    "nome": "S. Oronzo",
+    "giorno": 26,
+    "mese": 8
+  },
+  "L483": {
+    "comune": "Udine",
+    "nome": "SS. Ermagora e Fortunato",
+    "giorno": 12,
+    "mese": 7
+  },
+  "L484": {
+    "comune": "Ugento",
+    "nome": "S. Vincenzo di Saragozza",
+    "giorno": 22,
+    "mese": 1
+  },
+  "L485": {
+    "comune": "Uggiano la Chiesa",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "D786": {
+    "comune": "Umbertide",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "L496": {
+    "comune": "Uras",
+    "nome": "S. Maria Maddalena",
+    "giorno": 22,
+    "mese": 7
+  },
+  "L498": {
+    "comune": "Urbania",
+    "nome": "S. Cristoforo di Licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "L500": {
+    "comune": "Urbino",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L509": {
+    "comune": "Usini",
+    "nome": "Maria S.ma, Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "L519": {
+    "comune": "Ustica",
+    "nome": "S. Bartoloneo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "L529": {
+    "comune": "Vaglia",
+    "nome": "S. Pietro",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L551": {
+    "comune": "Valdagno",
+    "nome": "S. Clemente,",
+    "giorno": 23,
+    "mese": 11
+  },
+  "L565": {
+    "comune": "Valdobbiadene",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L573": {
+    "comune": "Valfabbrica",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L576": {
+    "comune": "Valfurva",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "L589": {
+    "comune": "Vallata",
+    "nome": "S. Bartoloneo, ap.",
+    "giorno": 24,
+    "mese": 8
+  },
+  "L598": {
+    "comune": "Vallecorsa",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "L611": {
+    "comune": "Vallepietra",
+    "nome": "S. Cristoforo di Licia",
+    "giorno": 25,
+    "mese": 7
+  },
+  "L628": {
+    "comune": "Vallo della Lucania",
+    "nome": "S. Panteleone",
+    "giorno": 27,
+    "mese": 7
+  },
+  "D513": {
+    "comune": "Valsinni",
+    "nome": "S. Fabiano,",
+    "giorno": 10,
+    "mese": 5
+  },
+  "C936": {
+    "comune": "Valsolda",
+    "nome": "S. Mama di Cesarea",
+    "giorno": 18,
+    "mese": 8
+  },
+  "L656": {
+    "comune": "Valva",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "L669": {
+    "comune": "Varallo",
+    "nome": "S. Gaudenzio di Bergell",
+    "giorno": 22,
+    "mese": 1
+  },
+  "L675": {
+    "comune": "Varazze",
+    "nome": "S. Caterina da Siena",
+    "giorno": 30,
+    "mese": 4
+  },
+  "L680": {
+    "comune": "Varenna",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "L682": {
+    "comune": "Varese",
+    "nome": "S. Vittore",
+    "giorno": 8,
+    "mese": 5
+  },
+  "E372": {
+    "comune": "Vasto",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 29,
+    "mese": 9
+  },
+  "L719": {
+    "comune": "Velletri",
+    "nome": "S. Clemente,",
+    "giorno": 23,
+    "mese": 11
+  },
+  "L725": {
+    "comune": "Venafro",
+    "nome": "S. Nicandro",
+    "giorno": 17,
+    "mese": 6
+  },
+  "L736": {
+    "comune": "Venezia",
+    "nome": "S. Marco, Evangelista",
+    "giorno": 25,
+    "mese": 4
+  },
+  "L738": {
+    "comune": "Venosa",
+    "nome": "S. Rocco",
+    "giorno": 16,
+    "mese": 8
+  },
+  "L741": {
+    "comune": "Ventimiglia",
+    "nome": "S. Secondo,",
+    "giorno": 26,
+    "mese": 8
+  },
+  "L746": {
+    "comune": "Verbania",
+    "nome": "San Vittore il Moro",
+    "giorno": 8,
+    "mese": 5
+  },
+  "L750": {
+    "comune": "Vercelli",
+    "nome": "S. Eusebio di Vercelli",
+    "giorno": 1,
+    "mese": 8
+  },
+  "L780": {
+    "comune": "Veroli",
+    "nome": "S. Maria Salomé",
+    "giorno": 25,
+    "mese": 5
+  },
+  "L781": {
+    "comune": "Verona",
+    "nome": "S. Zenone di Verona",
+    "giorno": 21,
+    "mese": 5
+  },
+  "L814": {
+    "comune": "Vetralla",
+    "nome": "S. Ippolito di Roma",
+    "giorno": 13,
+    "mese": 8
+  },
+  "L826": {
+    "comune": "Viadana",
+    "nome": "S. Nicola da Tolentino",
+    "giorno": 10,
+    "mese": 9
+  },
+  "F537": {
+    "comune": "Vibo Valentia",
+    "nome": "S. Leone Luca di Corleone",
+    "giorno": 1,
+    "mese": 3
+  },
+  "L838": {
+    "comune": "Vicchio",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "L840": {
+    "comune": "Vicenza",
+    "nome": "S. Vincenzo di Saragozza",
+    "giorno": 22,
+    "mese": 1
+  },
+  "L842": {
+    "comune": "Vico del Gargano",
+    "nome": "S. Valentino",
+    "giorno": 14,
+    "mese": 2
+  },
+  "L843": {
+    "comune": "Vico nel Lazio",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 23,
+    "mese": 4
+  },
+  "L850": {
+    "comune": "Vicopisano",
+    "nome": "Maria S.ma del Rosario",
+    "giorno": 7,
+    "mese": 10
+  },
+  "L851": {
+    "comune": "Vicovaro",
+    "nome": "S. Antonio, ab.",
+    "giorno": 17,
+    "mese": 1
+  },
+  "L860": {
+    "comune": "Vietri sul Mare",
+    "nome": "S. Giovanni Battista",
+    "giorno": 24,
+    "mese": 6
+  },
+  "L868": {
+    "comune": "Vigarano Mainarda",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "L872": {
+    "comune": "Vigevano",
+    "nome": "S. Ambrogio di Milano",
+    "giorno": 7,
+    "mese": 12
+  },
+  "L876": {
+    "comune": "Viggiù",
+    "nome": "S. Stefano, ptm., Invenzione di",
+    "giorno": 3,
+    "mese": 8
+  },
+  "L885": {
+    "comune": "Vignola",
+    "nome": "SS. Nazario e Celso",
+    "giorno": 28,
+    "mese": 7
+  },
+  "L957": {
+    "comune": "Villa Lagarina",
+    "nome": "Maria S.ma Assunta",
+    "giorno": 15,
+    "mese": 8
+  },
+  "L949": {
+    "comune": "Villafranca di Verona",
+    "nome": "SS. Pietro e Paolo, app.",
+    "giorno": 29,
+    "mese": 6
+  },
+  "L946": {
+    "comune": "Villafranca in Lunigiana",
+    "nome": "S. Nicola di Mira",
+    "giorno": 6,
+    "mese": 12
+  },
+  "L998": {
+    "comune": "Villaputzu",
+    "nome": "S. Giorgio di Lydda",
+    "giorno": 15,
+    "mese": 5
+  },
+  "M007": {
+    "comune": "Villar Focchiardo",
+    "nome": "Santi Cosma e Damiano",
+    "giorno": 26,
+    "mese": 9
+  },
+  "M025": {
+    "comune": "Villasor",
+    "nome": "S. Biagio di Sebaste",
+    "giorno": 3,
+    "mese": 8
+  },
+  "M059": {
+    "comune": "Vinci",
+    "nome": "S. Croce",
+    "giorno": 14,
+    "mese": 9
+  },
+  "M067": {
+    "comune": "Vipiteno",
+    "nome": "Maria S.ma, Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "M078": {
+    "comune": "Visso",
+    "nome": "Maria S.ma, Natività di",
+    "giorno": 8,
+    "mese": 9
+  },
+  "M082": {
+    "comune": "Viterbo",
+    "nome": "S. Rosa da Viterbo",
+    "giorno": 4,
+    "mese": 9
+  },
+  "M086": {
+    "comune": "Vitorchiano",
+    "nome": "S. Michele Arcangelo",
+    "giorno": 8,
+    "mese": 5
+  },
+  "M093": {
+    "comune": "Vitulano",
+    "nome": "S. Menna del Sannio",
+    "giorno": 11,
+    "mese": 11
+  },
+  "M109": {
+    "comune": "Voghera",
+    "nome": "S. Bovo",
+    "giorno": 22,
+    "mese": 5
+  },
+  "M110": {
+    "comune": "Voghiera",
+    "nome": "S. Antonio di Padova",
+    "giorno": 13,
+    "mese": 6
+  },
+  "M140": {
+    "comune": "Zagarise",
+    "nome": "S. Pancrazio di Taormina",
+    "giorno": 9,
+    "mese": 7
+  },
+  "M141": {
+    "comune": "Zagarolo",
+    "nome": "S. Lorenzo di Roma",
+    "giorno": 10,
+    "mese": 8
+  }
+}

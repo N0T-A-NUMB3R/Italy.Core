@@ -219,7 +219,74 @@ public sealed class RepositoryComuni : IRepositoryComuni
         CodiceNUTS3 = LeggioStringaNullabile(r, "nuts3"),
         CodiceNUTS2 = LeggioStringaNullabile(r, "nuts2"),
         CodiceNUTS1 = LeggioStringaNullabile(r, "nuts1"),
+        ZonaAltimetrica = LeggioZonaAltimetrica(r, "zona_altimetrica"),
+        ZonaSismica = LeggioEnumInt<ZonaSismica>(r, "zona_sismica"),
+        ZonaClimatica = LeggioEnumStringa<ZonaClimatica>(r, "zona_climatica"),
+        ClasseAreeInterne = LeggioClasseAreeInterne(r, "classe_aree_interne"),
+        SantoPatrono = LeggioStringaNullabile(r, "santo_patrono"),
+        PatronoGiorno = LeggioIntNullabile(r, "patrono_giorno"),
+        PatronoMese = LeggioIntNullabile(r, "patrono_mese"),
     };
+
+    private static ZonaAltimetrica? LeggioZonaAltimetrica(SqliteDataReader r, string colonna)
+    {
+        // La colonna potrebbe non esistere in DB generati prima di questa versione
+        try
+        {
+            var ordine = r.GetOrdinal(colonna);
+            if (r.IsDBNull(ordine)) return null;
+            var val = r.GetInt32(ordine);
+            return Enum.IsDefined(typeof(ZonaAltimetrica), val) ? (ZonaAltimetrica)val : null;
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return null; // colonna assente nel DB corrente
+        }
+    }
+
+    private static T? LeggioEnumInt<T>(SqliteDataReader r, string colonna) where T : struct, Enum
+    {
+        try
+        {
+            var ordine = r.GetOrdinal(colonna);
+            if (r.IsDBNull(ordine)) return null;
+            var val = r.GetInt32(ordine);
+            return Enum.IsDefined(typeof(T), val) ? (T)(object)val : null;
+        }
+        catch (ArgumentOutOfRangeException) { return null; }
+    }
+
+    private static T? LeggioEnumStringa<T>(SqliteDataReader r, string colonna) where T : struct, Enum
+    {
+        try
+        {
+            var ordine = r.GetOrdinal(colonna);
+            if (r.IsDBNull(ordine)) return null;
+            var s = r.GetString(ordine).Trim();
+            return Enum.TryParse<T>(s, ignoreCase: true, out var result) ? result : null;
+        }
+        catch (ArgumentOutOfRangeException) { return null; }
+    }
+
+    private static ClasseAreeInterne? LeggioClasseAreeInterne(SqliteDataReader r, string colonna)
+    {
+        try
+        {
+            var ordine = r.GetOrdinal(colonna);
+            if (r.IsDBNull(ordine)) return null;
+            var s = r.GetString(ordine).Trim().ToUpperInvariant();
+            return s switch
+            {
+                "A" or "CENTRO" => ClasseAreeInterne.Centro,
+                "B" or "CINTURA" => ClasseAreeInterne.Cintura,
+                "C" or "INTERMEDIO" => ClasseAreeInterne.Intermedio,
+                "D" or "PERIFERICO" => ClasseAreeInterne.Periferico,
+                "E" or "ULTRAPERIFERICO" => ClasseAreeInterne.Ultraperiferico,
+                _ => null
+            };
+        }
+        catch (ArgumentOutOfRangeException) { return null; }
+    }
 
     private static VariazioneStorica MappaVariazione(SqliteDataReader r)
     {

@@ -58,11 +58,21 @@ public sealed class Comune
     public ZonaSismica? ZonaSismica { get; set; }
     public ZonaClimatica? ZonaClimatica { get; set; }
     public ClasseAreeInterne? ClasseAreeInterne { get; set; }
+    /// <summary>Zona altimetrica ISTAT: Pianura, Collina Interna/Litoranea, Montagna Interna/Litoranea.</summary>
+    public ZonaAltimetrica? ZonaAltimetrica { get; set; }
 
     // ── NUTS / Eurostat ──────────────────────────────────────────────────────
     public string? CodiceNUTS3 { get; set; }
     public string? CodiceNUTS2 { get; set; }
     public string? CodiceNUTS1 { get; set; }
+
+    // ── Santo Patrono ────────────────────────────────────────────────────────
+    /// <summary>Nome del santo patrono locale. Null se non disponibile.</summary>
+    public string? SantoPatrono { get; set; }
+    /// <summary>Giorno della festa del patrono (1-31). Null se non disponibile.</summary>
+    public int? PatronoGiorno { get; set; }
+    /// <summary>Mese della festa del patrono (1-12). Null se non disponibile.</summary>
+    public int? PatronoMese { get; set; }
 
     public override string ToString() =>
         $"{DenominazioneUfficiale} ({SiglaProvincia}) [{CodiceBelfiore}]";

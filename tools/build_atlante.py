@@ -299,7 +299,10 @@ CREATE TABLE IF NOT EXISTS comuni (
     classe_aree_interne TEXT,
     nuts3               TEXT,
     nuts2               TEXT,
-    nuts1               TEXT
+    nuts1               TEXT,
+    santo_patrono       TEXT,
+    patrono_giorno      INTEGER,
+    patrono_mese        INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS variazioni_storiche (
@@ -1500,6 +1503,29 @@ PREFISSI_DEFAULT = [
 ]
 
 
+def carica_patroni(conn: sqlite3.Connection, json_path: Path) -> int:
+    """
+    Popola le colonne santo_patrono/patrono_giorno/patrono_mese in comuni
+    dal file tools/patroni.json generato da scrape_patroni.py.
+    """
+    if not json_path.exists():
+        log.warning(f"patroni.json non trovato in {json_path} — skip caricamento patroni")
+        return 0
+    import json
+    with open(json_path, encoding="utf-8") as f:
+        patroni = json.load(f)
+    n = 0
+    for belfiore, dati in patroni.items():
+        cur = conn.execute(
+            "UPDATE comuni SET santo_patrono=?, patrono_giorno=?, patrono_mese=? WHERE codice_belfiore=?",
+            (dati["nome"], dati["giorno"], dati["mese"], belfiore),
+        )
+        n += cur.rowcount
+    conn.commit()
+    log.info(f"Patroni caricati: {n} comuni aggiornati")
+    return n
+
+
 def carica_dati_default(conn: sqlite3.Connection):
     conn.executemany(
         "INSERT OR REPLACE INTO operatori_mobili (prefisso, nome_operatore, tecnologia) VALUES (?,?,?)",
@@ -1659,6 +1685,9 @@ def main():
         # 12. ASL Ministero della Salute — XLSX (può essere .xls o .xlsx)
         asl_xlsx = cache_dir / "asl.xlsx"
         carica_asl(conn, asl_xlsx)
+
+        # 14. Santi Patroni — da tools/patroni.json (generato da scrape_patroni.py)
+        carica_patroni(conn, Path("tools/patroni.json"))
 
         # Telefonia — operatori mobili + prefissi emergenza/tollFree
         carica_dati_default(conn)

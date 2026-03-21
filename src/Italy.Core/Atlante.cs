@@ -25,7 +25,7 @@ namespace Italy.Core;
 public sealed class Atlante : IDisposable
 {
     private readonly DatabaseAtlante _database;
-    private bool _disposato;
+    private bool _rilasciato;
 
     // ── Servizi Principali ───────────────────────────────────────────────────
 
@@ -169,7 +169,7 @@ public sealed class Atlante : IDisposable
         Validazione = new ServiziValidazione();
         Geo = geo;
         Telefonia = new ServiziTelefonia(repTelefonia);
-        Calendario = new ServiziFestività();
+        Calendario = new ServiziFestività(repComuni);
         Parser = parser;
         Bonifica = new ServiziBonificaDati(repComuni, repCAP, cf, parser);
         Frontalieri = new ServiziFrontalieri(repComuni, geo);
@@ -204,7 +204,7 @@ public sealed class Atlante : IDisposable
         Validazione = new ServiziValidazione();
         Geo = geo;
         Telefonia = new ServiziTelefonia(providerTelefonia);
-        Calendario = providerFestività as ServiziFestività ?? new ServiziFestività();
+        Calendario = providerFestività as ServiziFestività ?? new ServiziFestività(repositoryComuni);
         Parser = parser;
         Bonifica = new ServiziBonificaDati(repositoryComuni, repositoryCAP, cf, parser);
         Frontalieri = new ServiziFrontalieri(repositoryComuni, geo);
@@ -238,10 +238,10 @@ public sealed class Atlante : IDisposable
 
     public void Dispose()
     {
-        if (!_disposato)
+        if (!_rilasciato)
         {
             _database.Dispose();
-            _disposato = true;
+            _rilasciato = true;
         }
     }
 }
