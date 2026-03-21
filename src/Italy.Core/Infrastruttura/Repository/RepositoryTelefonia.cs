@@ -22,12 +22,15 @@ public sealed class RepositoryTelefonia : IProviderTelefonia
 
     public string? OttieniPrefisso(string codiceBelfiore)
     {
-        // Recupera il prefisso associato al comune
+        // Recupera il prefisso geografico provinciale del comune.
+        // codici_istat è un JSON array — usa json_each per il match esatto.
         return _db.EseguiScalare<string?>(
             """
             SELECT pt.prefisso
-            FROM prefissi_telefonici pt
-            WHERE pt.codici_istat LIKE '%' || (SELECT codice_istat FROM comuni WHERE codice_belfiore = @cb) || '%'
+            FROM prefissi_telefonici pt, json_each(pt.codici_istat) je
+            WHERE je.value = (SELECT codice_istat FROM comuni WHERE codice_belfiore = @cb LIMIT 1)
+              AND pt.tipo = 'Geografico'
+              AND pt.is_attivo = 1
             LIMIT 1
             """,
             cmd => cmd.Parameters.AddWithValue("@cb", codiceBelfiore.ToUpperInvariant()));

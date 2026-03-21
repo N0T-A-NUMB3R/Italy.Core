@@ -39,12 +39,15 @@ Pacchetto NuGet: [nuget.org/packages/Italy.Core](https://www.nuget.org/packages/
 | **Codice Fiscale** | Validazione, calcolo (con Belfiore o nome comune+provincia), scomposizione segmenti, zero-allocation |
 | **ATECO** | Classificazione attività economiche 2007 aggiorn. 2022 |
 | **Banche** | Lookup ABI/BIC, validazione BIC italiano, 1.600+ banche |
-| **Zone Territoriali** | Zona sismica (PCM 3274/2003), coordinate WGS84 |
+| **Zone Territoriali** | Zona sismica (PCM 3274/2003), zona climatica (DPR 412/93), zona altimetrica ISTAT (Pianura, Collina, Montagna), proiezioni Gauss-Boaga/UTM |
+| **Aree Interne ISTAT** | Classificazione Aree Interne per comune (Centro, Cintura, Intermedio, Periferico, Ultraperiferico) |
+| **NUTS EU** | Codici NUTS1/2/3 per ogni comune (standard Eurostat), lookup e filtro per area |
+| **Dati Geografici Comuni** | Superficie km², altitudine del centro, coordinate WGS84 |
 | **CAP** | Multi-CAP per comune, ricerca inversa |
-| **Pubblica Amministrazione** | Codici IPA/SdI, ASL, aggregazioni sovracomunali |
+| **Pubblica Amministrazione** | Codici IPA/SdI, ASL di competenza per comune (join su provincia), aggregazioni sovracomunali, comunità montana di appartenenza |
 | **Festività** | Nazionali + patrono locale per ogni comune |
 | **Indirizzi** | Parser, normalizzazione ANPR, confronto intelligente |
-| **Telefonia** | Lookup prefissi, operatori mobili, validazione |
+| **Telefonia** | Prefissi geografici per tutti i 106 comuni italiani, lookup operatori mobili, validazione |
 | **Frontalieri** | Zone frontaliere, regime fiscale Svizzera/UE |
 | **Validazioni** | P.IVA (Luhn), IBAN (MOD97), Targa, CF, cross-check |
 
@@ -123,11 +126,12 @@ bool nonIT    = atlante.Banche.ValidaBIC("DEUTDEDB");    // → false (tedesco)
 ### Zone Territoriali
 
 ```csharp
-// Classificazione sismica e coordinate per comune
+// Classificazione sismica, climatica e altimetrica per comune
 var zone = atlante.ZoneTerritoriali.OttieniZone("F205");
 // → { CodiceBelfiore: "F205",
-//     ZonaSismica: Zona3,          // PCM 3274/2003
-//     ZonaClimatica: E,            // DPR 412/1993
+//     ZonaSismica: Zona3,            // PCM 3274/2003
+//     ZonaClimatica: E,              // DPR 412/1993
+//     ZonaAltimetrica: Pianura,      // ISTAT
 //     Latitudine: 45.46,
 //     Longitudine: 9.19 }
 
@@ -138,8 +142,33 @@ var zona4 = atlante.ZoneTerritoriali.ComuniPerZonaSismica(4); // bassa sismicit�
 // Lista comuni per zona climatica
 var zonaE = atlante.ZoneTerritoriali.ComuniPerZonaClimatica("E"); // più comune in Italia
 
-// Zona non valida → ArgumentException
-atlante.ZoneTerritoriali.ComuniPerZonaSismica(5); // → ArgumentException
+// Lista comuni per zona altimetrica ISTAT
+var pianura   = atlante.ZoneTerritoriali.ComuniPerZonaAltimetrica(ZonaAltimetrica.Pianura);
+var montagna  = atlante.ZoneTerritoriali.ComuniPerZonaAltimetrica(ZonaAltimetrica.MontagnaInterna);
+var collinaCosta = atlante.ZoneTerritoriali.ComuniPerZonaAltimetrica(ZonaAltimetrica.CollinaLitoranea);
+
+// Zona altimetrica accessibile anche da Comune
+var milano = atlante.Comuni.DaCodiceBelfiore("F205");
+milano.ZonaAltimetrica;  // → ZonaAltimetrica.Pianura
+```
+
+### Proiezioni Cartografiche
+
+```csharp
+// WGS84 → Gauss-Boaga (datum Roma40, sistema catasto italiano)
+var gb = atlante.Geo.ConvertInGaussBoaga(45.4642, 9.1900);
+// → (Est: 1518296.123, Nord: 5034946.512, Fuso: "Ovest")  // EPSG:3003
+
+// Direttamente da codice Belfiore
+var gbMilano = atlante.Geo.ConvertComuneInGaussBoaga("F205");
+// → (Est: 1518296.123, Nord: 5034946.512, Fuso: "Ovest")
+
+// WGS84 → UTM (WGS84, fuso automatico 32N/33N)
+var utm = atlante.Geo.ConvertInUTM(45.4642, 9.1900);
+// → (Fuso: 32, Est: 514924.830, Nord: 5034993.210)  // EPSG:32632
+
+var utmRoma = atlante.Geo.ConvertComuneInUTM("H501");
+// → (Fuso: 33, Est: 291389.472, Nord: 4640712.331)  // EPSG:32633
 ```
 
 ### Regioni e Province
@@ -263,10 +292,11 @@ var ipa = atlante.PA.OttieniCodiceIPA("F205");
 // Cerca ente PA per nome
 var enti = atlante.PA.CercaEntePA("ASL Milano");
 
-// ASL e aggregazioni territoriali
+// ASL e aggregazioni sovracomunali
 var (codASL, nomeASL) = atlante.PA.OttieniASL("F205");
 var agg = atlante.PA.OttieniAggregazioni("F205");
-// → { NomeASL: "ATS Città Metropolitana di Milano",
+// → { NomeASL: "ATS Città Metropolitana di Milano",   ← ASL di competenza (join su provincia)
+//     ComunityMontana: null,                           ← comunità montana (null se non montano)
 //     ATORifiuti: "ATO Città Metropolitana Milano",
 //     TribunaleCompetente: "Tribunale di Milano" }
 
@@ -432,6 +462,95 @@ public class Anagrafica
 | GLEIF | BIC/LEI banche italiane | Mensile |
 | IndicePA (IPA) | Enti PA, codici SdI per fatturazione B2G | Mensile |
 | Protezione Civile / PCM | Classificazione sismica comuni | Annuale |
+| ISTAT Aree Interne | Classificazione Aree Interne 2021-2027 per comune | Programmazione EU |
+| ISTAT Comuni Geo | Superficie km² per comune | Decennale (censimento) |
+| ISTAT Popolazione | Popolazione per comune (per paese di nascita) | Annuale |
+| Ministero della Salute | ASL di competenza (join su provincia) | Annuale |
+| AGCOM / Piano Numeri | Prefissi geografici per provincia (106) | Stabile |
+
+---
+
+## Ecosistema
+
+Italy.Core è il nucleo di una famiglia di pacchetti per lo sviluppo italiano.
+I moduli di estensione aggiungono dati **live via API** senza appesantire il pacchetto base.
+
+```
+Italy.Core              ← dati embedded (offline, zero dipendenze HTTP)
+    ├── Italy.Core.PA     ← catalogo IPA live (IndicePA API) — codici SdI, PEC, enti PA
+    └── Italy.Core.ISTAT  ← statistiche live (ISTAT SDMX API) — popolazione, PIL, inflazione
+```
+
+### Italy.Core.PA
+
+Accesso in tempo reale al catalogo **IndicePA** — la fonte ufficiale di tutte le PA italiane.
+Nessuna API key richiesta. Licenza dati: CC BY 4.0.
+
+```csharp
+dotnet add package Italy.Core.PA
+```
+
+```csharp
+var pa = new ServiziPAEstesi(atlante.Comuni);
+
+// Ricerca enti per nome
+var enti = await pa.CercaEnteIPAAsync("Comune di Milano");
+enti[0].PEC;        // "protocollo@pec.comune.milano.it"
+enti[0].CodiceIPA;  // "c_f205"
+
+// Codice SdI per fatturazione elettronica B2G
+var codici = await pa.OttieniCodiciSdIAsync("c_f205");
+codici[0].Codice;   // "A4707H"  ← da usare nel tag CodiceDestinatario della FatturaPA
+
+// Cerca per codice fiscale
+var inps = await pa.OttieniEnteIPAPerCFAsync("80078750587");
+inps.Denominazione; // "Istituto Nazionale della Previdenza Sociale"
+
+// Tutti gli enti di una provincia
+var enti = await pa.OttieniEntiIPAPerProvinciaAsync("MI", maxRisultati: 50);
+```
+
+### Italy.Core.ISTAT
+
+Accesso in tempo reale all'**API SDMX pubblica ISTAT**.
+Nessuna API key richiesta. Aggiornamento automatico da ISTAT.
+
+```csharp
+dotnet add package Italy.Core.ISTAT
+```
+
+```csharp
+var istat = new ServiziISTAT(atlante.Comuni);
+
+// Popolazione per comune (codice ISTAT o Belfiore)
+var pop = await istat.GetPopolazioneAsync("015146");   // Milano
+pop.Totale;   // 1.352.000
+pop.Maschi;   // 641.000
+
+var pop2 = await istat.GetPopolazioneDaBelfioreAsync("F205"); // stesso risultato
+
+// Inflazione (NIC / FOI / IPCA)
+var inf = await istat.GetInflazioneAsync();
+inf.Periodo;    // "2026-02"
+inf.IndiceNIC;  // 1.2  (variazione % annua)
+
+// PIL regionale
+var pil = await istat.GetPILRegioneAsync("03");  // Lombardia
+pil.PILProCapite;  // 38.400 €
+
+// Mercato del lavoro per provincia
+var lav = await istat.GetMercatoLavoroAsync("MI");
+lav.TassoDisoccupazione;  // 4.2%
+
+// Famiglie per comune
+var fam = await istat.GetFamiglieAsync("015146");
+fam.ComponentoMedio;  // 1.94 componenti per famiglia
+```
+
+| Modulo | Fonte API | Auth | Dataset |
+|---|---|---|---|
+| **Italy.Core.PA** | `indicepa.gov.it` CKAN | No | Enti, SdI, PEC |
+| **Italy.Core.ISTAT** | `sdmx.istat.it` SDMX 2.1 | No | Popolazione, PIL, inflazione, lavoro |
 
 ---
 
@@ -446,27 +565,71 @@ Italy.Core/
 │   ├── build_atlante.py   ← script Python: CSV/XLSX → SQLite
 │   └── requirements.txt
 ├── src/
-│   └── Italy.Core/
-│       ├── Domain/              ← entità immutabili
-│       ├── Applicazione/Servizi/ ← ServiziComuni, ServiziAteco,
-│       │                           ServiziBanche, ServiziZoneTerritoriali,
-│       │                           ServiziPA, ServiziCAP, ecc.
-│       ├── Infrastruttura/      ← SQLite, repository, DI, shim net48
-│       ├── Validazione/         ← DataAnnotation attributes
-│       └── data/italy.db       ← risorsa embedded (~8 MB)
+│   ├── Italy.Core/
+│   │   ├── Domain/              ← entità immutabili
+│   │   ├── Applicazione/Servizi/ ← ServiziComuni, ServiziAteco,
+│   │   │                           ServiziBanche, ServiziZoneTerritoriali,
+│   │   │                           ServiziPA, ServiziCAP, ecc.
+│   │   ├── Infrastruttura/      ← SQLite, repository, DI, shim net48
+│   │   ├── Validazione/         ← DataAnnotation attributes
+│   │   └── data/italy.db       ← risorsa embedded (~8 MB)
+│   ├── Italy.Core.PA/           ← [pacchetto separato] API live IndicePA
+│   │   ├── ServiziPAEstesi.cs   ← ricerca enti, SdI, PEC
+│   │   └── README.md
+│   └── Italy.Core.ISTAT/        ← [pacchetto separato] API live ISTAT SDMX
+│       ├── ServiziISTAT.cs      ← popolazione, PIL, inflazione, lavoro
+│       ├── Domain.cs
+│       └── README.md
 └── tests/
-    └── Italy.Core.Tests/
-        ├── TestAteco.cs
-        ├── TestBanche.cs
-        ├── TestZoneTerritoriali.cs
-        ├── TestCodiceFiscale.cs
-        ├── TestFestività.cs
-        ├── TestValidazione.cs
-        ├── TestGeo.cs
-        ├── TestParserIndirizzi.cs
-        ├── TestBonifica.cs
-        └── TestIntegritàStorica.cs  ← obbligatorio in ogni build
+    ├── Italy.Core.Tests/
+    │   ├── TestAteco.cs
+    │   ├── TestBanche.cs
+    │   ├── TestZoneTerritoriali.cs
+    │   ├── TestCodiceFiscale.cs
+    │   ├── TestFestività.cs
+    │   ├── TestValidazione.cs
+    │   ├── TestGeo.cs
+    │   ├── TestParserIndirizzi.cs
+    │   ├── TestBonifica.cs
+    │   └── TestIntegritàStorica.cs  ← obbligatorio in ogni build
+    └── Italy.Core.Extensions.Tests/
+        ├── TestServiziPA.cs         ← test integrazione API IndicePA
+        └── TestServiziISTAT.cs      ← test integrazione API ISTAT
 ```
+
+---
+
+## Roadmap
+
+### Italy.Core — dati mancanti
+
+- [x] Prefissi geografici per provincia (106 province, join su `sigla_provincia`) — **completato 2026.03**
+- [x] Aree Interne ISTAT 2021-2027 per comune (A/B/C/D/E) — **completato 2026.03**
+- [x] Superficie km² per comune (ISTAT Comuni Geo) — **completato 2026.03**
+- [x] Popolazione per comune 2024 (ISTAT, Mondo totale) — **completato 2026.03**
+- [x] ASL di competenza per comune (join su provincia, 91 province, Ministero Salute 2023) — **completato 2026.03**
+- [ ] Zona climatica per comune (fonte ENEA/MIT)
+- [ ] INPS/INAIL sede per comune (open data previdenziali — nessuna fonte con codice ISTAT)
+- [ ] Popolazione storica serie temporale (`dati_demografici`)
+- [ ] Comunità montane complete (nome, non solo flag)
+
+### Italy.Automotive — roadmap
+
+- [ ] Catalogo ACI completo (3.000+ modelli, ora ~550)
+- [ ] Integrazione reale Portale Automobilista MIT/MCTC
+- [ ] Storico aliquote bollo per anni precedenti
+- [ ] Targhe europee: aggiunta paesi mancanti (ora 9 su 27 EU)
+- [ ] Calcolo scadenza bollo da data immatricolazione + regione
+
+### Ecosistema — funzionalità future
+
+- [ ] Codici postali storici (CAP dismessi)
+- [ ] Tassi di cambio EUR storici (BCE open data) — fattibilità Alta
+- [ ] Numeri di emergenza per comune/ASL — fattibilità Media
+- [ ] Elenco farmacie per comune (Ministero Salute open data) — fattibilità Alta
+- [ ] Codici catastali immobiliari OMI (Agenzia Entrate) — fattibilità Alta
+- [ ] Circoscrizioni elettorali — fattibilità Bassa
+- [ ] Mappatura ATECO → settore INPS — fattibilità Media
 
 ---
 

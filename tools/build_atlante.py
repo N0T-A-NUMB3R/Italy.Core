@@ -78,6 +78,28 @@ ZONE_SISMICHE_URL = (
     "https://raw.githubusercontent.com/ferdi2005/zonasismica/master/"
     "classificazione2024.csv"
 )
+# Aree Interne ISTAT — classificazione comuni (A=Centro, B=Cintura, C=Intermedio,
+# D=Periferico, E=Ultraperiferico); fallback ZIP se CSV diretto non disponibile
+AREE_INTERNE_URL = (
+    "https://www.istat.it/storage/classificazioni/"
+    "classificazione_comuni_aree_interne.csv"
+)
+AREE_INTERNE_ZIP_URL = (
+    "https://www.istat.it/it/files/2023/12/"
+    "Classificazione-comuni-aree-interne-2023-2025.zip"
+)
+# Popolazione ISTAT — denominazione, superficie, popolazione da censimento
+POPOLAZIONE_URL = (
+    "https://www.istat.it/storage/stato-avanzamento-lavori/comune/"
+    "comuni-denominazione-superficie-popolazione-censimento.csv"
+)
+# ASL Ministero della Salute — elenco nazionale ASL per comune/provincia
+ASL_URL = (
+    "https://www.salute.gov.it/portale/temi/documenti/asl_nazionale.xlsx"
+)
+ASL_CSV_FALLBACK_URL = (
+    "https://www.dati.salute.gov.it/imgs/C_17_dataset_21_download_itemDownload0_upFile.csv"
+)
 
 TIMEOUT_SECONDI = 90
 VERSIONE_DATI   = datetime.today().strftime("%Y.%m")
@@ -273,6 +295,7 @@ CREATE TABLE IF NOT EXISTS comuni (
     anno_rilevazione    INTEGER,
     zona_sismica        INTEGER,
     zona_climatica      TEXT,
+    zona_altimetrica    INTEGER,
     classe_aree_interne TEXT,
     nuts3               TEXT,
     nuts2               TEXT,
@@ -385,6 +408,30 @@ CREATE INDEX IF NOT EXISTS idx_ipa_belfiore         ON ipa_enti(codice_belfiore)
 CREATE INDEX IF NOT EXISTS idx_ipa_sdi              ON ipa_enti(codice_sdi);
 CREATE INDEX IF NOT EXISTS idx_ipa_cf               ON ipa_enti(codice_fiscale);
 
+CREATE TABLE IF NOT EXISTS aggregazioni_sovracomunali (
+    codice_belfiore     TEXT PRIMARY KEY,
+    -- Sanitario
+    codice_asl          TEXT,
+    nome_asl            TEXT,
+    -- Comunità Montana
+    comunita_montana    TEXT,
+    is_montano          INTEGER NOT NULL DEFAULT 0,
+    -- Unione Comuni
+    unione_comuni       TEXT,
+    -- Ambiti Territoriali Ottimali
+    ato_acqua           TEXT,
+    ato_rifiuti         TEXT,
+    -- Distretto Scolastico
+    distretto_scolastico TEXT,
+    -- Giustizia
+    tribunale           TEXT,
+    -- INPS/INAIL
+    codice_sede_inps    TEXT,
+    codice_sede_inail   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_aggregazioni_belfiore ON aggregazioni_sovracomunali(codice_belfiore);
+
 CREATE VIRTUAL TABLE IF NOT EXISTS comuni_fts USING fts5(
     codice_belfiore UNINDEXED,
     denominazione,
@@ -464,19 +511,49 @@ def carica_comuni(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
         if not all([codice_istat, belfiore, denominazione, sigla_prov]):
             continue
 
+        # Zona altimetrica ISTAT: "1"=Pianura, "2"=Collina interna,
+        # "3"=Collina litoranea, "4"=Montagna interna, "5"=Montagna litoranea
+        zona_alt_raw = pulisci(
+            r.get("Zona altimetrica") or
+            r.get("Zona Altimetrica") or
+            r.get("zona_altimetrica")
+        )
+        zona_alt = to_int(zona_alt_raw) if zona_alt_raw else None
+
+        # Superficie territoriale — cerca colonna per substring
+        col_sup = next((c for c in r.index if "Superficie" in c and "Km" in c), None)
+        if not col_sup:
+            col_sup = next((c for c in r.index if "superficie" in c.lower()), None)
+        superficie = to_float(r.get(col_sup)) if col_sup else None
+
+        # Altitudine del centro — cerca colonna per substring
+        col_alt = next((c for c in r.index if "Altitudine" in c and "centro" in c.lower()), None)
+        if not col_alt:
+            col_alt = next((c for c in r.index if "altitudine" in c.lower()), None)
+        altitudine = to_float(r.get(col_alt)) if col_alt else None
+
+        # Codici NUTS — colonne reali: "Codice NUTS1 2021", "Codice NUTS2 2021 (3) ", "Codice NUTS3 2021"
+        # Preferiamo 2024 se presente, altrimenti 2021
+        nuts1 = pulisci(next((r.get(c) for c in r.index if "NUTS1" in c and "2024" in c), None)) or \
+                pulisci(next((r.get(c) for c in r.index if "NUTS1" in c), None))
+        nuts2 = pulisci(next((r.get(c) for c in r.index if "NUTS2" in c and "2024" in c), None)) or \
+                pulisci(next((r.get(c) for c in r.index if "NUTS2" in c), None))
+        nuts3 = pulisci(next((r.get(c) for c in r.index if "NUTS3" in c and "2024" in c), None)) or \
+                pulisci(next((r.get(c) for c in r.index if "NUTS3" in c), None))
+
         righe.append((
             belfiore, codice_istat, denominazione,
             pulisci(r.get("Denominazione in altra lingua")),
             sigla_prov, nome_prov or "", cod_prov or "",
             nome_reg or "", cod_reg or "", ripartizione,
-            1 if str(r.get("Comune capoluogo di provincia", "")).upper() in ("SI", "S", "1") else 0,
-            1 if str(r.get("Città metropolitana", "")).upper() in ("SI", "S", "1") else 0,
+            1 if str(pulisci(next((r.get(c) for c in r.index if "capoluogo" in c.lower() or "Flag" in c), "")) or "").upper() in ("SI", "S", "1", "TRUE") else 0,
+            1 if str(pulisci(next((r.get(c) for c in r.index if "metropolitana" in c.lower() or "metro" in c.lower()), "")) or "").upper() in ("SI", "S", "1", "TRUE") else 0,
             0, 1,
             None, None, None, None,   # date, successore, cap_principale
-            None, None, None, None,   # lat, lng, alt, sup
+            None, None, altitudine, superficie,   # lat, lng, alt, sup
             None, None,               # pop, anno
-            None, None, None,         # zone
-            None, None, None,         # NUTS
+            None, None, zona_alt, None,  # zona_sismica, zona_climatica, zona_altimetrica, classe_aree_interne
+            nuts3, nuts2, nuts1,      # NUTS
         ))
 
     conn.executemany("""
@@ -488,9 +565,9 @@ def carica_comuni(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
             data_istituzione, data_soppressione, codice_successore, cap_principale,
             latitudine, longitudine, altitudine, superficie_kmq,
             popolazione, anno_rilevazione,
-            zona_sismica, zona_climatica, classe_aree_interne,
+            zona_sismica, zona_climatica, zona_altimetrica, classe_aree_interne,
             nuts3, nuts2, nuts1
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, righe)
     conn.commit()
     log.info(f"Inseriti {len(righe)} comuni.")
@@ -923,6 +1000,468 @@ def carica_ipa(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
     return len(righe)
 
 
+# ── 9. Aggregazioni Sovracomunali (Comunità Montane ISTAT) ───────────────────
+# Fonte: ISTAT — Elenco comuni italiani contiene campo "Comune montano" e
+# "Denominazione Unità territoriale sovracomunale" usabile per unioni.
+# Le comunità montane storiche ISTAT: file separato non sempre disponibile,
+# usiamo il campo is_montano già presente in comuni + nome comunità da CSV ISTAT.
+
+def carica_aggregazioni_sovracomunali(conn: sqlite3.Connection, df_comuni: pd.DataFrame) -> int:
+    """
+    Popola aggregazioni_sovracomunali con i dati disponibili dal CSV ISTAT comuni.
+    Campi estraibili: is_montano, comunita_montana (colonna 'Unità territoriale sovracomunale').
+    ASL, INPS, INAIL richiedono fonti separate — lasciati NULL per ora.
+    """
+    log.info("Caricamento aggregazioni sovracomunali da CSV ISTAT comuni...")
+
+    # Cerca colonna comunità montana nel CSV ISTAT
+    col_montana = next(
+        (c for c in df_comuni.columns if "montana" in c.lower() or
+         ("comunit" in c.lower() and "mont" in c.lower())), None
+    )
+    col_unione = next(
+        (c for c in df_comuni.columns if "unione" in c.lower() and "comun" in c.lower()), None
+    )
+    col_montano = next(
+        (c for c in df_comuni.columns if "montano" in c.lower()), None
+    )
+
+    # Indice codice_istat → codice_belfiore
+    cur = conn.execute("SELECT codice_istat, codice_belfiore FROM comuni")
+    istat_to_belfiore = {row[0]: row[1] for row in cur.fetchall()}
+
+    col_istat = next((c for c in df_comuni.columns if "Codice Comune formato" in c), None)
+    col_belfiore = next((c for c in df_comuni.columns if "Catastale" in c or "Belfiore" in c), None)
+
+    righe = []
+    for _, r in df_comuni.iterrows():
+        belfiore = pulisci(r.get(col_belfiore)) if col_belfiore else None
+        if not belfiore:
+            istat = pulisci(r.get(col_istat)) if col_istat else None
+            belfiore = istat_to_belfiore.get((istat or "").zfill(6)) if istat else None
+        if not belfiore:
+            continue
+
+        montana = pulisci(r.get(col_montana)) if col_montana else None
+        unione  = pulisci(r.get(col_unione))  if col_unione  else None
+        montano_raw = pulisci(r.get(col_montano)) if col_montano else None
+        is_montano = 1 if montano_raw and str(montano_raw).upper() in ("SI", "S", "1", "TRUE") else 0
+
+        righe.append((belfiore, None, None, montana, is_montano, unione, None, None, None, None, None, None))
+
+    if righe:
+        conn.executemany("""
+            INSERT OR REPLACE INTO aggregazioni_sovracomunali (
+                codice_belfiore, codice_asl, nome_asl,
+                comunita_montana, is_montano, unione_comuni,
+                ato_acqua, ato_rifiuti, distretto_scolastico,
+                tribunale, codice_sede_inps, codice_sede_inail
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+        """, righe)
+        conn.commit()
+    log.info(f"Aggregazioni sovracomunali: inseriti {len(righe)} record.")
+    return len(righe)
+
+
+# ── 10. Aree Interne ISTAT ───────────────────────────────────────────────────
+
+def carica_aree_interne(conn: sqlite3.Connection, xlsx_path: Path) -> int:
+    """
+    Aggiorna comuni.classe_aree_interne dall'XLSX ISTAT aree interne.
+    - header alla riga 2 (indice 2, ovvero 3a riga del file)
+    - join su codice_belfiore tramite colonna "CODICE CATASTALE"
+    - classe da "CODICE_Aree_Interne 2021-2027" (es. "C - Cintura" → "C")
+    """
+    if not xlsx_path.exists():
+        log.warning(f"Aree interne: file non trovato ({xlsx_path}) — skip.")
+        return 0
+
+    log.info(f"Caricamento aree interne ISTAT da {xlsx_path}...")
+    df = pd.read_excel(str(xlsx_path), header=2, dtype=str)
+    log.info(f"Colonne: {list(df.columns)}")
+
+    COL_BELFIORE = "CODICE CATASTALE"
+    COL_CLASSE   = "CODICE_Aree_Interne 2021-2027"
+
+    if COL_BELFIORE not in df.columns or COL_CLASSE not in df.columns:
+        log.warning(f"Colonne aree interne mancanti — trovate: {list(df.columns)}")
+        return 0
+
+    aggiornati = 0
+    for _, r in df.iterrows():
+        belfiore = pulisci(r.get(COL_BELFIORE))
+        classe   = pulisci(r.get(COL_CLASSE))
+        if not belfiore or not classe:
+            continue
+        # Prendi solo il codice lettera (es. "C - Cintura" → "C")
+        classe_cod = classe.strip().upper()[0]
+        res = conn.execute(
+            "UPDATE comuni SET classe_aree_interne=? WHERE codice_belfiore=?",
+            (classe_cod, belfiore.upper()),
+        )
+        aggiornati += res.rowcount
+
+    conn.commit()
+    log.info(f"Aree interne: {aggiornati} comuni aggiornati.")
+    return aggiornati
+
+
+# ── 11a. Superficie da comuni_geo ISTAT ───────────────────────────────────────
+
+def carica_comuni_geo(conn: sqlite3.Connection, xlsx_path: Path) -> int:
+    """
+    Aggiorna comuni.superficie_kmq dall'XLSX ISTAT comuni_geo.
+    Sheet "Dati comunali", join su "Codice Comune" (zfill 6 = codice_istat).
+    """
+    if not xlsx_path.exists():
+        log.warning(f"Comuni geo: file non trovato ({xlsx_path}) — skip.")
+        return 0
+
+    log.info(f"Caricamento superficie comuni da {xlsx_path}...")
+    df = pd.read_excel(str(xlsx_path), sheet_name="Dati comunali", dtype=str)
+    log.info(f"Colonne: {list(df.columns)}")
+
+    COL_ISTAT = "Codice Comune"
+    COL_SUP   = "Superficie totale (Km2)"
+
+    if COL_ISTAT not in df.columns or COL_SUP not in df.columns:
+        log.warning(f"Colonne comuni_geo mancanti — trovate: {list(df.columns)}")
+        return 0
+
+    aggiornati = 0
+    for _, r in df.iterrows():
+        istat = pulisci(r.get(COL_ISTAT))
+        sup   = to_float(r.get(COL_SUP))
+        if not istat or sup is None:
+            continue
+        res = conn.execute(
+            "UPDATE comuni SET superficie_kmq=? WHERE codice_istat=?",
+            (sup, istat.zfill(6)),
+        )
+        aggiornati += res.rowcount
+
+    conn.commit()
+    log.info(f"Superficie comuni: {aggiornati} comuni aggiornati.")
+    return aggiornati
+
+
+# ── 11b. Popolazione ISTAT (per comune, per anno) ─────────────────────────────
+
+def carica_popolazione(conn: sqlite3.Connection, xlsx_path: Path) -> int:
+    """
+    Aggiorna comuni.popolazione e anno_rilevazione dall'XLSX ISTAT
+    "Popolazione per paese di nascita - comuni".
+    Struttura: header riga 7 (indice 7), dati da riga 8.
+    Colonna 0 = nome comune, colonna 6 = totale 2024, colonna 1 = totale 2021.
+    Join su denominazione (case-insensitive, strip).
+    """
+    if not xlsx_path.exists():
+        log.warning(f"Popolazione: file non trovato ({xlsx_path}) — skip.")
+        return 0
+
+    log.info(f"Caricamento popolazione da {xlsx_path}...")
+    df_raw = pd.read_excel(str(xlsx_path), header=None, dtype=str)
+
+    # Struttura attesa:
+    #   Riga 5 (indice 5): Anno — es. NaN, 2021, 2021, ..., 2024, 2024, ...
+    #   Riga 6 (indice 6): Paese — es. NaN, Mondo, Paesi esteri, Italia, ..., Mondo, ...
+    #   Riga 7 (indice 7): header "Territorio" in col 0
+    #   Dati da riga 8 (indice 8): col 0 = nome comune, col 1/6/... = totale per anno
+    dati = df_raw.iloc[8:].copy()
+    dati.columns = range(len(dati.columns))
+
+    anni_row  = df_raw.iloc[5]
+    paese_row = df_raw.iloc[6]
+
+    # Trova la colonna "Mondo" dell'anno più recente
+    # Costruisce lista di (anno, col_idx) dove paese == "Mondo"
+    coppie = []
+    for idx in range(1, len(anni_row)):
+        anno_val  = pulisci(str(anni_row[idx]))
+        paese_val = pulisci(str(paese_row[idx]))
+        if anno_val and anno_val.isdigit() and paese_val and paese_val.lower() == "mondo":
+            coppie.append((int(anno_val), idx))
+
+    if coppie:
+        anno_pop, col_pop = max(coppie, key=lambda x: x[0])
+    else:
+        col_pop = 1    # fallback: prima colonna dati
+        anno_pop = 2021
+
+    log.info(f"  Popolazione: colonna={col_pop} (Mondo totale), anno={anno_pop}")
+
+    # Costruisci mappa denominazione normalizzata → codice_istat dal DB
+    cur = conn.execute("SELECT codice_istat, denominazione FROM comuni WHERE is_attivo=1")
+    mappa_nome: dict[str, str] = {}
+    for row in cur.fetchall():
+        mappa_nome[row[1].strip().upper()] = row[0]
+
+    aggiornati = 0
+    for _, r in dati.iterrows():
+        nome = pulisci(str(r.get(0, "")))
+        if not nome:
+            continue
+        pop = to_int(r.get(col_pop))
+        if pop is None:
+            continue
+        codice = mappa_nome.get(nome.upper())
+        if not codice:
+            continue
+        conn.execute(
+            "UPDATE comuni SET popolazione=?, anno_rilevazione=? WHERE codice_istat=?",
+            (pop, anno_pop, codice),
+        )
+        aggiornati += 1
+
+    conn.commit()
+    log.info(f"Popolazione: {aggiornati} comuni aggiornati.")
+    return aggiornati
+
+
+# ── 12. ASL Ministero della Salute ───────────────────────────────────────────
+
+def carica_asl(conn: sqlite3.Connection, xlsx_path: Path) -> int:
+    """
+    Popola aggregazioni_sovracomunali.codice_asl e nome_asl dall'XLSX
+    del Ministero della Salute (formato .xls o .xlsx).
+    Colonne: CODICE AZIENDA, DENOMINAZIONE AZIENDA, SIGLA PROVINCIA, ANNO.
+    Join su sigla_provincia; si usa il record dell'anno più recente.
+    """
+    if not xlsx_path.exists():
+        log.warning(f"ASL: file non trovato ({xlsx_path}) — skip.")
+        return 0
+
+    log.info(f"Caricamento ASL da {xlsx_path}...")
+    try:
+        df = pd.read_excel(str(xlsx_path), dtype=str)
+    except Exception as e:
+        log.error(f"Lettura ASL fallita: {e}")
+        return 0
+    log.info(f"Colonne: {list(df.columns)}")
+
+    COL_COD  = "CODICE AZIENDA"
+    COL_NOME = "DENOMINAZIONE AZIENDA"
+    COL_PROV = "SIGLA PROVINCIA"
+    COL_ANNO = "ANNO"
+
+    if COL_NOME not in df.columns or COL_PROV not in df.columns:
+        log.warning(f"Colonne ASL mancanti — trovate: {list(df.columns)}")
+        return 0
+
+    # Filtra l'anno più recente disponibile
+    if COL_ANNO in df.columns:
+        anni = df[COL_ANNO].dropna().unique()
+        anno_max = max((a for a in anni if str(a).strip().isdigit()),
+                       key=lambda x: int(x), default=None)
+        if anno_max:
+            df = df[df[COL_ANNO] == anno_max]
+            log.info(f"  Filtrato anno {anno_max}: {len(df)} record")
+
+    # Costruisci mappa sigla_provincia → (codice_asl, nome_asl)
+    # Una provincia può avere più ASL → list
+    asl_per_provincia: dict[str, list[tuple]] = {}
+    for _, r in df.iterrows():
+        prov     = pulisci(r.get(COL_PROV))
+        nome_asl = pulisci(r.get(COL_NOME))
+        cod_asl  = pulisci(r.get(COL_COD)) if COL_COD in df.columns else None
+        if not prov or not nome_asl:
+            continue
+        sigla = prov.upper().strip()
+        asl_per_provincia.setdefault(sigla, []).append((cod_asl, nome_asl))
+
+    if not asl_per_provincia:
+        log.warning("Nessuna ASL caricata — dati non validi.")
+        return 0
+
+    # Per ogni comune aggiorna/inserisce in aggregazioni_sovracomunali
+    aggiornati = 0
+    for sigla, asl_list in asl_per_provincia.items():
+        # Se più ASL per la provincia, concatena i nomi
+        cod_asl  = asl_list[0][0]
+        nome_asl = " / ".join(a[1] for a in asl_list)
+        cur = conn.execute(
+            "SELECT codice_belfiore FROM comuni WHERE sigla_provincia=? AND is_attivo=1",
+            (sigla,),
+        )
+        belfiori = [row[0] for row in cur.fetchall()]
+        for belfiore in belfiori:
+            conn.execute("""
+                INSERT INTO aggregazioni_sovracomunali
+                    (codice_belfiore, codice_asl, nome_asl, is_montano)
+                VALUES (?, ?, ?, 0)
+                ON CONFLICT(codice_belfiore) DO UPDATE SET
+                    codice_asl = excluded.codice_asl,
+                    nome_asl   = excluded.nome_asl
+            """, (belfiore, cod_asl, nome_asl))
+            aggiornati += 1
+
+    conn.commit()
+    log.info(f"ASL: {aggiornati} comuni aggiornati ({len(asl_per_provincia)} province mappate).")
+    return aggiornati
+
+
+# ── 13. Prefissi geografici per provincia ────────────────────────────────────
+
+# Fonte: Piano Nazionale di Numerazione AGCOM + verifica incrociata.
+# Formato: (sigla_provincia, prefisso_senza_0)
+# Nota: i prefissi geografici si compongono aggiungendo "0" davanti (es. SV → 019 → 0019).
+# Le province con prefisso a 2 cifre sono: RM (06) e MI (02).
+PREFISSI_PROVINCIA: list[tuple[str, str]] = [
+    # Nord-Ovest
+    ("TO", "11"),   # Torino
+    ("VC", "161"),  # Vercelli
+    ("NO", "321"),  # Novara
+    ("CN", "171"),  # Cuneo
+    ("AT", "141"),  # Asti
+    ("AL", "131"),  # Alessandria
+    ("BI", "15"),   # Biella
+    ("VB", "323"),  # Verbano-Cusio-Ossola
+    ("AO", "165"),  # Aosta
+    ("IM", "183"),  # Imperia
+    ("SV", "19"),   # Savona
+    ("GE", "10"),   # Genova
+    ("SP", "187"),  # La Spezia
+    ("VA", "332"),  # Varese
+    ("CO", "31"),   # Como
+    ("LC", "341"),  # Lecco
+    ("SO", "342"),  # Sondrio
+    ("MI", "2"),    # Milano  ← prefisso a 1 cifra → "02"
+    ("MB", "39"),   # Monza e Brianza
+    ("BG", "35"),   # Bergamo
+    ("BS", "30"),   # Brescia
+    ("PV", "382"),  # Pavia
+    ("LO", "371"),  # Lodi
+    ("CR", "372"),  # Cremona
+    ("MN", "376"),  # Mantova
+    # Nord-Est
+    ("TN", "461"),  # Trento
+    ("BZ", "471"),  # Bolzano
+    ("VR", "45"),   # Verona
+    ("VI", "444"),  # Vicenza
+    ("BL", "437"),  # Belluno
+    ("TV", "422"),  # Treviso
+    ("VE", "41"),   # Venezia
+    ("PD", "49"),   # Padova
+    ("RO", "425"),  # Rovigo
+    ("UD", "432"),  # Udine
+    ("GO", "481"),  # Gorizia
+    ("TS", "40"),   # Trieste
+    ("PN", "434"),  # Pordenone
+    ("PC", "523"),  # Piacenza
+    ("PR", "521"),  # Parma
+    ("RE", "522"),  # Reggio Emilia
+    ("MO", "59"),   # Modena
+    ("BO", "51"),   # Bologna
+    ("FE", "532"),  # Ferrara
+    ("RA", "544"),  # Ravenna
+    ("FC", "543"),  # Forlì-Cesena
+    ("RN", "541"),  # Rimini
+    # Centro
+    ("MS", "585"),  # Massa-Carrara
+    ("LU", "583"),  # Lucca
+    ("PT", "573"),  # Pistoia
+    ("FI", "55"),   # Firenze
+    ("LI", "586"),  # Livorno
+    ("PI", "50"),   # Pisa
+    ("AR", "575"),  # Arezzo
+    ("SI", "577"),  # Siena
+    ("GR", "564"),  # Grosseto
+    ("PO", "574"),  # Prato
+    ("PG", "75"),   # Perugia
+    ("TR", "744"),  # Terni
+    ("VT", "761"),  # Viterbo
+    ("RI", "746"),  # Rieti
+    ("RM", "6"),    # Roma  ← prefisso a 1 cifra → "06"
+    ("LT", "773"),  # Latina
+    ("FR", "775"),  # Frosinone
+    ("AN", "71"),   # Ancona
+    ("PU", "721"),  # Pesaro e Urbino
+    ("MC", "733"),  # Macerata
+    ("AP", "736"),  # Ascoli Piceno
+    ("FM", "734"),  # Fermo
+    ("TE", "861"),  # Teramo
+    ("PE", "85"),   # Pescara
+    ("CH", "871"),  # Chieti
+    ("AQ", "862"),  # L'Aquila
+    ("CB", "874"),  # Campobasso
+    ("IS", "865"),  # Isernia
+    # Sud
+    ("CE", "823"),  # Caserta
+    ("BN", "824"),  # Benevento
+    # NA (Napoli) non presente nel CSV ISTAT corrente — comuni napoletani non hanno sigla
+    ("AV", "825"),  # Avellino
+    ("SA", "89"),   # Salerno
+    ("FG", "881"),  # Foggia
+    ("BA", "80"),   # Bari
+    ("BT", "883"),  # Barletta-Andria-Trani
+    ("TA", "99"),   # Taranto
+    ("BR", "831"),  # Brindisi
+    ("LE", "832"),  # Lecce
+    ("PZ", "971"),  # Potenza
+    ("MT", "835"),  # Matera
+    ("CS", "984"),  # Cosenza
+    ("CZ", "961"),  # Catanzaro
+    ("KR", "962"),  # Crotone
+    ("VV", "963"),  # Vibo Valentia
+    ("RC", "965"),  # Reggio Calabria
+    # Sicilia
+    ("TP", "923"),  # Trapani
+    ("PA", "91"),   # Palermo
+    ("ME", "90"),   # Messina
+    ("AG", "922"),  # Agrigento
+    ("CL", "934"),  # Caltanissetta
+    ("EN", "935"),  # Enna
+    ("CT", "95"),   # Catania
+    ("RG", "932"),  # Ragusa
+    ("SR", "931"),  # Siracusa
+    # Sardegna
+    ("SS", "79"),   # Sassari
+    ("NU", "784"),  # Nuoro
+    ("OR", "783"),  # Oristano
+    ("CA", "70"),   # Cagliari
+    # CI, VS, OG, OT — province sarde soppresse nel 2016, non presenti nel CSV ISTAT corrente
+    ("SU", "781"),  # Sud Sardegna (istituita 2016)
+]
+
+
+def carica_prefissi_geografici(conn: sqlite3.Connection) -> int:
+    """
+    Popola prefissi_telefonici con i prefissi geografici provinciali.
+    Per ogni provincia recupera i codici_istat dei comuni e li salva
+    come JSON array nella colonna codici_istat.
+    """
+    log.info("Caricamento prefissi geografici provinciali...")
+    inseriti = 0
+    for sigla, prefisso in PREFISSI_PROVINCIA:
+        cur = conn.execute(
+            "SELECT codice_istat FROM comuni WHERE sigla_provincia=? AND is_attivo=1",
+            (sigla,),
+        )
+        codici = [row[0] for row in cur.fetchall()]
+        if not codici:
+            log.warning(f"  Provincia {sigla}: nessun comune attivo trovato.")
+            continue
+        # Recupera nome capoluogo per area_geografica
+        cap = conn.execute(
+            "SELECT denominazione FROM comuni WHERE sigla_provincia=? AND is_capoluogo=1 AND is_attivo=1 LIMIT 1",
+            (sigla,),
+        ).fetchone()
+        area = cap[0] if cap else sigla
+        codici_json = json.dumps(codici, ensure_ascii=False)
+        conn.execute("""
+            INSERT INTO prefissi_telefonici (prefisso, tipo, area_geografica, codici_istat, is_attivo)
+            VALUES (?, 'Geografico', ?, ?, 1)
+            ON CONFLICT(prefisso) DO UPDATE SET
+                area_geografica = excluded.area_geografica,
+                codici_istat    = excluded.codici_istat
+        """, (prefisso, area, codici_json))
+        inseriti += 1
+
+    conn.commit()
+    log.info(f"Prefissi geografici: {inseriti} province inserite.")
+    return inseriti
+
+
 # ── Dati default telefonia ────────────────────────────────────────────────────
 
 OPERATORI_DEFAULT = [
@@ -1097,8 +1636,35 @@ def main():
         else:
             log.warning("IndicePA non disponibile.")
 
-        # Telefonia
+        # 9. Aggregazioni sovracomunali — da CSV ISTAT comuni (già scaricato al passo 1)
+        df_comuni_reload = tenta_scarica_csv(ISTAT_COMUNI_URL, cache_dir / "comuni.csv",
+                                             True, sep=";")  # sempre da cache, già scaricato
+        if df_comuni_reload is not None:
+            carica_aggregazioni_sovracomunali(conn, df_comuni_reload)
+        else:
+            log.warning("Aggregazioni sovracomunali non disponibili (CSV comuni mancante).")
+
+        # 10. Aree Interne ISTAT — XLSX con header a riga 2, join su codice_belfiore
+        aree_interne_xlsx = cache_dir / "aree_interne.xlsx"
+        carica_aree_interne(conn, aree_interne_xlsx)
+
+        # 11a. Superficie comuni — XLSX ISTAT comuni_geo, sheet "Dati comunali"
+        comuni_geo_xlsx = cache_dir / "comuni_geo.xlsx"
+        carica_comuni_geo(conn, comuni_geo_xlsx)
+
+        # 11b. Popolazione ISTAT — XLSX per comune (join su denominazione)
+        popolazione_xlsx = cache_dir / "popolazione.xlsx"
+        carica_popolazione(conn, popolazione_xlsx)
+
+        # 12. ASL Ministero della Salute — XLSX (può essere .xls o .xlsx)
+        asl_xlsx = cache_dir / "asl.xlsx"
+        carica_asl(conn, asl_xlsx)
+
+        # Telefonia — operatori mobili + prefissi emergenza/tollFree
         carica_dati_default(conn)
+
+        # 13. Prefissi geografici provinciali
+        carica_prefissi_geografici(conn)
 
         # FTS5
         ricostruisci_fts(conn)
