@@ -2971,7 +2971,7 @@
   },
   "E897": {
     "comune": "Mantova",
-    "nome": "S. Anselmo II di Lucca",
+    "nome": "Sant'Anselmo",
     "giorno": 18,
     "mese": 3
   },
@@ -4867,9 +4867,9 @@
   },
   "I079": {
     "comune": "San Pellegrino Terme",
-    "nome": "S.",
-    "giorno": 16,
-    "mese": 5
+    "nome": "San Pellegrino",
+    "giorno": 11,
+    "mese": 10
   },
   "I093": {
     "comune": "San Pietro a Maida",
@@ -5647,8 +5647,8 @@
   },
   "L219": {
     "comune": "Torino",
-    "nome": "Beata",
-    "giorno": 20,
+    "nome": "San Giovanni Battista",
+    "giorno": 24,
     "mese": 6
   },
   "L273": {
