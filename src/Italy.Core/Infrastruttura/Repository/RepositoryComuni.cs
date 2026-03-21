@@ -226,6 +226,7 @@ public sealed class RepositoryComuni : IRepositoryComuni
         SantoPatrono = LeggioStringaNullabile(r, "santo_patrono"),
         PatronoGiorno = LeggioIntNullabile(r, "patrono_giorno"),
         PatronoMese = LeggioIntNullabile(r, "patrono_mese"),
+        PEC = LeggioStringaNullabile(r, "pec"),
     };
 
     private static ZonaAltimetrica? LeggioZonaAltimetrica(SqliteDataReader r, string colonna)

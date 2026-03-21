@@ -74,6 +74,10 @@ public sealed class Comune
     /// <summary>Mese della festa del patrono (1-12). Null se non disponibile.</summary>
     public int? PatronoMese { get; set; }
 
+    // ── Contatti ─────────────────────────────────────────────────────────────
+    /// <summary>Indirizzo PEC istituzionale del comune (fonte: IndicePA). Null se non disponibile.</summary>
+    public string? PEC { get; set; }
+
     public override string ToString() =>
         $"{DenominazioneUfficiale} ({SiglaProvincia}) [{CodiceBelfiore}]";
 }

@@ -302,7 +302,8 @@ CREATE TABLE IF NOT EXISTS comuni (
     nuts1               TEXT,
     santo_patrono       TEXT,
     patrono_giorno      INTEGER,
-    patrono_mese        INTEGER
+    patrono_mese        INTEGER,
+    pec                 TEXT
 );
 
 CREATE TABLE IF NOT EXISTS variazioni_storiche (
@@ -1503,6 +1504,30 @@ PREFISSI_DEFAULT = [
 ]
 
 
+def carica_pec(conn: sqlite3.Connection, json_path: Path) -> int:
+    """
+    Popola la colonna pec in comuni dal file tools/pec_comuni.json
+    (generato una tantum dal file IndicePA: elenco-amministrazioni-pec-indirizzi.xlsx).
+    Una sola PEC per comune (priorità: Uff_eFatturaPA > Ufficio Protocollo > primo).
+    """
+    if not json_path.exists():
+        log.warning(f"pec_comuni.json non trovato in {json_path} — skip caricamento PEC")
+        return 0
+    import json
+    with open(json_path, encoding="utf-8") as f:
+        pec_map = json.load(f)
+    n = 0
+    for belfiore, pec in pec_map.items():
+        cur = conn.execute(
+            "UPDATE comuni SET pec=? WHERE codice_belfiore=?",
+            (pec, belfiore),
+        )
+        n += cur.rowcount
+    conn.commit()
+    log.info(f"PEC comuni caricati: {n} record aggiornati")
+    return n
+
+
 def carica_patroni(conn: sqlite3.Connection, json_path: Path) -> int:
     """
     Popola le colonne santo_patrono/patrono_giorno/patrono_mese in comuni
@@ -1688,6 +1713,9 @@ def main():
 
         # 14. Santi Patroni — da tools/patroni.json (generato da scrape_patroni.py)
         carica_patroni(conn, Path("tools/patroni.json"))
+
+        # 15. PEC Comuni — da tools/pec_comuni.json (da IndicePA, aggiornare periodicamente)
+        carica_pec(conn, Path("tools/pec_comuni.json"))
 
         # Telefonia — operatori mobili + prefissi emergenza/tollFree
         carica_dati_default(conn)
