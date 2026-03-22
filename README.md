@@ -584,26 +584,9 @@ Italy.Core/
 - [ ] Zona climatica per comune (fonte ENEA/MIT — nessun CSV istituzionale disponibile)
 - [ ] INPS/INAIL sede per comune (open data previdenziali — nessuna fonte con codice ISTAT)
 - [ ] Popolazione storica serie temporale (`dati_demografici`)
-- [ ] Comunità montane complete (nome, non solo flag)
+- [ ] Comunità montane complete
 - [ ] Santo patrono per tutti i 7.800 comuni (copertura attuale: ~1.033)
 
-### Italy.Automotive — roadmap
-
-- [ ] Catalogo ACI completo (3.000+ modelli, ora ~550)
-- [ ] Integrazione reale Portale Automobilista MIT/MCTC
-- [ ] Storico aliquote bollo per anni precedenti
-- [ ] Targhe europee: aggiunta paesi mancanti (ora 9 su 27 EU)
-- [ ] Calcolo scadenza bollo da data immatricolazione + regione
-
-### Ecosistema — funzionalità future
-
-- [ ] Codici postali storici (CAP dismessi)
-- [ ] Tassi di cambio EUR storici (BCE open data
-- [ ] Numeri di emergenza per comune/ASL 
-- [ ] Elenco farmacie per comune (Ministero Salute open data) 
-- [ ] Codici catastali immobiliari OMI (Agenzia Entrate) 
-- [ ] Circoscrizioni elettorali 
-- [ ] Mappatura ATECO → settore INPS 
 
 
 ## Licenza
