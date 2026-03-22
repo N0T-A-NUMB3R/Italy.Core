@@ -28,10 +28,12 @@ tools/cache/*.xlsx
 ## Web app (repository separato)
 src/ItalyCore.Web/
 
-## Sotto-progetti rimossi
+## Sotto-progetti rimossi o separati in repo autonomi
 src/Italy.Core.Finance/
 src/Italy.Core.Geo/
 src/Italy.Core.HR/
+src/Italy.Core.ISTAT/
+src/Italy.Core.PA/
 
 ## OS
 .DS_Store
