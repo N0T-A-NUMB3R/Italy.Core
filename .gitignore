@@ -32,7 +32,6 @@ src/ItalyCore.Web/
 src/Italy.Core.Finance/
 src/Italy.Core.Geo/
 src/Italy.Core.HR/
-src/Italy.Core.PA/
 
 ## OS
 .DS_Store
