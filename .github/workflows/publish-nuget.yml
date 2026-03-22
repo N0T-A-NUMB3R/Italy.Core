@@ -1,0 +1,28 @@
+name: Pubblica su NuGet
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore
+      run: dotnet restore src/Italy.Core/Italy.Core.csproj
+
+    - name: Build
+      run: dotnet build src/Italy.Core/Italy.Core.csproj -c Release --no-restore
+
+    - name: Pack
+      run: dotnet pack src/Italy.Core/Italy.Core.csproj -c Release --no-build -o ./nuget-output
+
+    - name: Pubblica su NuGet
+      run: dotnet nuget push ./nuget-output/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
