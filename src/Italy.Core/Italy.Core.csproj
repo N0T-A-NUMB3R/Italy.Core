@@ -9,10 +9,10 @@
 
     <!-- NuGet Package Metadata -->
     <PackageId>Italy.Core</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>Italy.Core Contributors</Authors>
-    <Description>Libreria C# per la manipolazione di dati geografici, amministrativi, fiscali e storici italiani. Basata su dati ISTAT open data, auto-aggiornata mensilmente.</Description>
-    <PackageTags>italy;istat;comuni;codicefiscale;cap;geography;italian;administrative</PackageTags>
+    <Description>Libreria C# per dati geografici, amministrativi e fiscali italiani. 7.803 comuni, 20.750 farmacie, 23.574 impianti carburante, CF, IBAN, P.IVA, ATECO, banche, rifiuti ISPRA, zone climatiche. SQLite embedded, zero dipendenze esterne, zero latenza di rete. Auto-aggiornato da ISTAT, IndicePA, Banca d'Italia, ISPRA, MIMIT, ENEA.</Description>
+    <PackageTags>italy;istat;comuni;codicefiscale;cap;geography;italian;administrative;farmacie;ateco;banche;iban;partitaiva;rifiuti;zone-climatiche;sqlite;embedded</PackageTags>
     <PackageProjectUrl>https://github.com/N0T-A-NUMB3R/Italy.Core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/N0T-A-NUMB3R/Italy.Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

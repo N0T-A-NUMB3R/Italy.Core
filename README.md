@@ -3,6 +3,7 @@
 [![NuGet](https://img.shields.io/nuget/v/Italy.Core.svg)](https://www.nuget.org/packages/Italy.Core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Data Pack](https://img.shields.io/badge/Data_Pack-2026.03-green.svg)](#pipeline-aggiornamento-dati)
+[![Versione](https://img.shields.io/badge/versione-1.0.3-blue.svg)](https://www.nuget.org/packages/Italy.Core)
 
 > **Il coltellino svizzero C# per i dati amministrativi italiani.**
 > Auto-aggiornato mensilmente da ISTAT, IndicePA, GeoNames, ISPRA e MIMIT. Pubblicato automaticamente su NuGet.
