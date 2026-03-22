@@ -427,7 +427,7 @@ public class Anagrafica
 |---|---|---|
 | .NET 8.0+ | ✅ Completo | Span, Native AOT |
 | .NET Framework 4.8 | ✅ Completo | Tutte le funzionalità, shim automatici |
-| Blazor WASM | ⚠️ Parziale | SQLite non supportato |
+
 
 > **Nota net48**: la libreria include shim automatici (PolySharp, `IsExternalInit`, `GetValueOrDefault`) per garantire compatibilità completa con .NET Framework 4.8 senza modifiche al codice client.
 
