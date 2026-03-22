@@ -153,7 +153,7 @@ public sealed class ServiziBonificaDati
         // 1. Analizza il comune
         if (!string.IsNullOrWhiteSpace(nomeComune))
         {
-            var bonificaComune = AnalizzaComune(nomeComune, siglaProvincia);
+            var bonificaComune = AnalizzaComune(nomeComune!, siglaProvincia);
             if (bonificaComune.RichiedeCorrezione)
                 risultati.Add(bonificaComune);
         }
@@ -161,7 +161,7 @@ public sealed class ServiziBonificaDati
         // 2. Verifica coerenza CAP ↔ Comune
         if (!string.IsNullOrWhiteSpace(cap) && !string.IsNullOrWhiteSpace(nomeComune))
         {
-            var bonificaCAP = VerificaCoerenzaCAP(cap, nomeComune, siglaProvincia);
+            var bonificaCAP = VerificaCoerenzaCAP(cap!, nomeComune!, siglaProvincia);
             if (bonificaCAP.RichiedeCorrezione)
                 risultati.Add(bonificaCAP);
         }
@@ -169,7 +169,7 @@ public sealed class ServiziBonificaDati
         // 3. Verifica CF ↔ Comune di nascita (se fornito)
         if (!string.IsNullOrWhiteSpace(codiceFiscale) && !string.IsNullOrWhiteSpace(nomeComune))
         {
-            var bonificaCF = VerificaCoerenzaCF(codiceFiscale, nomeComune);
+            var bonificaCF = VerificaCoerenzaCF(codiceFiscale!, nomeComune!);
             if (bonificaCF.RichiedeCorrezione)
                 risultati.Add(bonificaCF);
         }
