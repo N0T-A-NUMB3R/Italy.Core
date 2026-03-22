@@ -5,7 +5,7 @@
 [![Data Pack](https://img.shields.io/badge/Data_Pack-2026.03-green.svg)](#pipeline-aggiornamento-dati)
 
 > **Il coltellino svizzero C# per i dati amministrativi italiani.**
-> Auto-aggiornato mensilmente da ISTAT, IndicePA, GLEIF e GeoNames. Pubblicato automaticamente su NuGet.
+> Auto-aggiornato mensilmente da ISTAT, IndicePA, GeoNames, ISPRA e MIMIT. Pubblicato automaticamente su NuGet.
 
 ## Perchè questa follia?
 >Tutto è iniziato anni fa, quando, da sviluppatore full-time, ho iniziato a strutturare le prime tabelle dell'Atlante per gestire CAP, comuni e prefissi senza doverli replicare in ogni nuovo progetto. Tuttavia, il lavoro è rimasto a lungo un cantiere aperto.
@@ -40,13 +40,16 @@ Pacchetto NuGet: [nuget.org/packages/Italy.Core](https://www.nuget.org/packages/
 | **ATECO** | Classificazione attività economiche 2007 aggiorn. 2022 |
 | **Banche** | Lookup ABI/BIC, validazione BIC italiano, 1.600+ banche |
 | **Zone Territoriali** | Zona sismica (PCM 3274/2003), zona climatica (DPR 412/93), zona altimetrica ISTAT (Pianura, Collina, Montagna), proiezioni Gauss-Boaga/UTM |
-| **Aree Interne ISTAT** | Classificazione Aree Interne per comune (Centro, Cintura, Intermedio, Periferico, Ultraperiferico) |
+| **Aree Interne ISTAT** | Classificazione Aree Interne 2021-2027 per comune (Centro, Cintura, Intermedio, Periferico, Ultraperiferico) |
 | **NUTS EU** | Codici NUTS1/2/3 per ogni comune (standard Eurostat), lookup e filtro per area |
-| **Dati Geografici Comuni** | Superficie km², altitudine del centro, coordinate WGS84 |
+| **Dati Geografici Comuni** | Superficie km², altitudine del centro, coordinate WGS84, densità abitativa |
 | **CAP** | Multi-CAP per comune, ricerca inversa |
-| **Pubblica Amministrazione** | Codici IPA/SdI, ASL di competenza per comune (join su provincia), aggregazioni sovracomunali, comunità montana di appartenenza |
-| **PEC Comuni** | Indirizzo PEC istituzionale per 7.658 comuni (fonte: IndicePA/AgID) |
+| **Pubblica Amministrazione** | Codici IPA/SdI, ASL di competenza per comune (join su provincia), aggregazioni sovracomunali, ATO rifiuti/acqua, tribunale competente, INPS/INAIL, comunità montana |
+| **PEC Comuni** | Indirizzo PEC istituzionale per 7.520 comuni (fonte: IndicePA/AgID) |
 | **Festività** | Nazionali + patrono locale per 1.033+ comuni (fonte: santiebeati.it) |
+| **Gestione Rifiuti** | % raccolta differenziata, kg/ab, tonnellate totali/indifferenziato/RD e composizione merceologica (umido, carta, vetro, plastica, verde, legno, metallo, RAEE) per 7.802 comuni (fonte: ISPRA Catasto Rifiuti 2024) |
+| **Farmacie** | 20.750 farmacie attive con coordinate, indirizzo, tipologia (fonte: Ministero della Salute) |
+| **Impianti Carburante** | 23.574 distributori attivi con coordinate e bandiera (fonte: MIMIT) |
 | **Indirizzi** | Parser, normalizzazione ANPR, confronto intelligente |
 | **Telefonia** | Prefissi geografici per tutti i 106 comuni italiani, lookup operatori mobili, validazione |
 | **Frontalieri** | Zone frontaliere, regime fiscale Svizzera/UE |
@@ -453,12 +456,15 @@ public class Anagrafica
      ├─ Download ISTAT CSV (comuni, variazioni 1991-oggi)
      ├─ Download GeoNames IT (CAP, coordinate WGS84)
      ├─ Download Zone Sismiche (PCM 3274/2003)
-     ├─ Download GLEIF BIC-LEI (banche italiane)
      ├─ Download ATECO 2007 aggiorn. 2022 (ISTAT XLSX)
      ├─ Download IndicePA (enti PA, codici SdI)
-     ├─ Carica tools/pec_comuni.json  (7.658 PEC, aggiorn. periodica)
+     ├─ Download ISPRA Catasto Rifiuti (% RD, frazioni merceologiche per comune)
+     ├─ Download MIMIT impianti carburante (mensile)
+     ├─ Download Ministero Salute farmacie (settimanale)
+     ├─ Carica tools/pec_comuni.json  (7.520 PEC, aggiorn. periodica)
      ├─ Carica tools/patroni.json     (1.033 santi patroni, statico)
-     ├─ Generazione italy.db (SQLite, FTS5, ~8 MB)
+     ├─ Carica XLSX manuali (aree interne, comuni_geo, popolazione, ASL)
+     ├─ Generazione italy.db (SQLite, FTS5, ~10 MB)
      │
      ▼
 [Test Obbligatori]
@@ -486,17 +492,19 @@ public class Anagrafica
 
 | Fonte | Dato | Aggiornamento |
 |---|---|---|
-| ISTAT Open Data | Comuni, variazioni storiche, ATECO 2007 | Mensile (automatico) |
+| ISTAT Open Data | Comuni, variazioni storiche 1991-oggi, ATECO 2007 agg. 2022 | Mensile (automatico) |
 | GeoNames | CAP, coordinate WGS84 | Mensile (automatico) |
-| GLEIF | BIC/LEI banche italiane | Mensile (automatico) |
-| IndicePA (IPA) | Enti PA, codici SdI, PEC comuni | Mensile (automatico) |
-| Protezione Civile / PCM | Classificazione sismica comuni | Annuale |
+| IndicePA (IPA) | Enti PA, codici SdI, PEC 7.520 comuni | Mensile (automatico) |
+| Protezione Civile / PCM | Classificazione sismica comuni (PCM 3274/2003) | Annuale |
 | ISTAT Aree Interne | Classificazione Aree Interne 2021-2027 per comune | Programmazione EU |
 | ISTAT Comuni Geo | Superficie km² per comune | Decennale (censimento) |
-| ISTAT Popolazione | Popolazione per comune (per paese di nascita) | Annuale |
-| Ministero della Salute | ASL di competenza (join su provincia) | Annuale |
-| AGCOM / Piano Numeri | Prefissi geografici per provincia (106) | Stabile |
+| ISTAT Popolazione | Popolazione per comune 2024 | Annuale |
+| Ministero della Salute | ASL di competenza (join su provincia, 91 province) | Annuale |
+| Ministero della Salute | 19.000+ farmacie attive con coordinate, indirizzo, tipologia | Settimanale (automatico) |
+| MIMIT | 20.000+ impianti carburante attivi con coordinate e bandiera | Mensile (automatico) |
+| AGCOM / Piano Numeri | Prefissi geografici per provincia (106 province) | Stabile |
 | santiebeati.it | Santi patroni locali (1.033 comuni) | Manuale (`scrape_patroni.py`) |
+| ISPRA Catasto Rifiuti | % RD, kg/ab, tonnellate totali e 8 frazioni merceologiche per 7.802 comuni (2024) | Annuale (automatico) |
 
 ---
 
@@ -638,9 +646,12 @@ Italy.Core/
 - [x] Superficie km² per comune (ISTAT Comuni Geo) — **completato 2026.03**
 - [x] Popolazione per comune 2024 (ISTAT, Mondo totale) — **completato 2026.03**
 - [x] ASL di competenza per comune (join su provincia, 91 province, Ministero Salute 2023) — **completato 2026.03**
-- [x] PEC istituzionale per 7.658 comuni (IndicePA/AgID) — **completato 2026.03**
+- [x] PEC istituzionale per 7.520 comuni (IndicePA/AgID) — **completato 2026.03**
 - [x] Santo patrono locale per 1.033+ comuni (santiebeati.it) — **completato 2026.03**
-- [ ] Zona climatica per comune (fonte ENEA/MIT)
+- [x] Farmacie attive con coordinate e tipologia (Ministero Salute) — **completato 2026.03**
+- [x] Impianti carburante con coordinate e bandiera (MIMIT) — **completato 2026.03**
+- [x] Rifiuti urbani 2024: % RD, kg/ab, tonnellate totali e 8 frazioni merceologiche per 7.802 comuni (ISPRA) — **completato 2026.03**
+- [ ] Zona climatica per comune (fonte ENEA/MIT — nessun CSV istituzionale disponibile)
 - [ ] INPS/INAIL sede per comune (open data previdenziali — nessuna fonte con codice ISTAT)
 - [ ] Popolazione storica serie temporale (`dati_demografici`)
 - [ ] Comunità montane complete (nome, non solo flag)
@@ -670,5 +681,5 @@ Italy.Core/
 
 MIT — Vedi [LICENSE](LICENSE)
 
-*Dati: ISTAT, GeoNames, GLEIF, IndicePA, Protezione Civile*
+*Dati: ISTAT, GeoNames, IndicePA, Protezione Civile, ISPRA, Ministero della Salute, MIMIT*
 *Aggiornamento automatico mensile — Data Pack corrente: 2026.03*

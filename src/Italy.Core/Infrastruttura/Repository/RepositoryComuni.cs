@@ -227,6 +227,20 @@ public sealed class RepositoryComuni : IRepositoryComuni
         PatronoGiorno = LeggioIntNullabile(r, "patrono_giorno"),
         PatronoMese = LeggioIntNullabile(r, "patrono_mese"),
         PEC = LeggioStringaNullabile(r, "pec"),
+        PercRaccoltaDifferenziata = LeggioDoubleNullabile(r, "perc_raccolta_diff"),
+        RifiutiKgAbitante = LeggioDoubleNullabile(r, "rifiuti_kg_ab"),
+        RifiutiTotT = LeggioDoubleNullabile(r, "rifiuti_tot_t"),
+        RifiutiIndT = LeggioDoubleNullabile(r, "rifiuti_ind_t"),
+        RifiutiRdT = LeggioDoubleNullabile(r, "rifiuti_rd_t"),
+        RdUmidoT = LeggioDoubleNullabile(r, "rd_umido_t"),
+        RdCartaT = LeggioDoubleNullabile(r, "rd_carta_t"),
+        RdVetroT = LeggioDoubleNullabile(r, "rd_vetro_t"),
+        RdPlasticaT = LeggioDoubleNullabile(r, "rd_plastica_t"),
+        RdLegnoT = LeggioDoubleNullabile(r, "rd_legno_t"),
+        RdMetalloT = LeggioDoubleNullabile(r, "rd_metallo_t"),
+        RdVerdeT = LeggioDoubleNullabile(r, "rd_verde_t"),
+        RdRaeeT = LeggioDoubleNullabile(r, "rd_raee_t"),
+        AnnoRilevazionRifiuti = LeggioIntNullabile(r, "anno_rifiuti"),
     };
 
     private static ZonaAltimetrica? LeggioZonaAltimetrica(SqliteDataReader r, string colonna)
@@ -319,20 +333,20 @@ public sealed class RepositoryComuni : IRepositoryComuni
 
     private static string? LeggioStringaNullabile(SqliteDataReader r, string colonna)
     {
-        var ordine = r.GetOrdinal(colonna);
-        return r.IsDBNull(ordine) ? null : r.GetString(ordine);
+        try { var o = r.GetOrdinal(colonna); return r.IsDBNull(o) ? null : r.GetString(o); }
+        catch (ArgumentOutOfRangeException) { return null; }
     }
 
     private static double? LeggioDoubleNullabile(SqliteDataReader r, string colonna)
     {
-        var ordine = r.GetOrdinal(colonna);
-        return r.IsDBNull(ordine) ? null : r.GetDouble(ordine);
+        try { var o = r.GetOrdinal(colonna); return r.IsDBNull(o) ? null : r.GetDouble(o); }
+        catch (ArgumentOutOfRangeException) { return null; }
     }
 
     private static int? LeggioIntNullabile(SqliteDataReader r, string colonna)
     {
-        var ordine = r.GetOrdinal(colonna);
-        return r.IsDBNull(ordine) ? null : r.GetInt32(ordine);
+        try { var o = r.GetOrdinal(colonna); return r.IsDBNull(o) ? null : r.GetInt32(o); }
+        catch (ArgumentOutOfRangeException) { return null; }
     }
 
     private static DateTime? ParseData(string? s) =>

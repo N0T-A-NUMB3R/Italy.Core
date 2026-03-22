@@ -51,10 +51,15 @@ ISTAT_VARIAZIONI_URL = (
     "Variazioni-amministrative-e-territoriali-dal-1991.zip"
 )
 GEONAMES_URL      = "https://download.geonames.org/export/zip/IT.zip"
-# GLEIF BIC→LEI mapping (filtrabile per IT) — Banca d'Italia non ha CSV open
-GLEIF_BIC_URL     = (
-    "https://mapping.gleif.org/api/v2/bic-lei/"
-    "c2ce2528-228c-4cad-97b3-bed2c37c56c4/download"
+# Banca d'Italia — Albo banche e intermediari (CSV open data)
+BANCA_ITALIA_URL  = (
+    "https://www.bancaditalia.it/compiti/vigilanza/intermediari/albo-banche-gruppi/"
+    "albo-banche.csv"
+)
+# Banca d'Italia — Codici BIC (CSV separato)
+BANCA_ITALIA_BIC_URL = (
+    "https://www.bancaditalia.it/compiti/vigilanza/intermediari/albo-banche-gruppi/"
+    "codici-bic.csv"
 )
 # ATECO 2007 aggiornamento 2022 — ISTAT ufficiale
 ATECO_XLSX_URL    = (
@@ -99,6 +104,28 @@ ASL_URL = (
 )
 ASL_CSV_FALLBACK_URL = (
     "https://www.dati.salute.gov.it/imgs/C_17_dataset_21_download_itemDownload0_upFile.csv"
+)
+# ISPRA Catasto Rifiuti — produzione e raccolta differenziata su scala comunale
+ISPRA_RIFIUTI_ANNO  = 2024
+ISPRA_RIFIUTI_URL   = (
+    f"https://www.catasto-rifiuti.isprambiente.it/get/"
+    f"getDettaglioComunale.csv.php?aa={ISPRA_RIFIUTI_ANNO}"
+)
+# ARERA — Dati TARI e gestori rifiuti per comune (aggiornamento annuale)
+ARERA_TARI_ANNO     = 2023
+ARERA_TARI_URL      = (
+    f"https://www.arera.it/fileadmin/allegati/dati/tari/tari_{ARERA_TARI_ANNO}.csv"
+)
+# MIMIT — Anagrafica impianti di distribuzione carburanti (aggiornamento mensile)
+MIMIT_IMPIANTI_URL  = (
+    "https://www.mimit.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv"
+)
+# Ministero della Salute — Farmacie attive (aggiornamento settimanale)
+# NOTA: l'URL contiene la data di estrazione (YYYYMMDD), da aggiornare periodicamente.
+# Per trovare il link corrente: https://www.dati.salute.gov.it/it/dataset/farmacie
+# Il server usa TLS 1.0 legacy — richiede ciphers @SECLEVEL=1.
+SALUTE_FARMACIE_URL = (
+    "https://www.dati.salute.gov.it/sites/default/files/opendata/FRM_FARMA_5_20260321.csv"
 )
 
 TIMEOUT_SECONDI = 90
@@ -303,7 +330,22 @@ CREATE TABLE IF NOT EXISTS comuni (
     santo_patrono       TEXT,
     patrono_giorno      INTEGER,
     patrono_mese        INTEGER,
-    pec                 TEXT
+    pec                 TEXT,
+    -- Gestione rifiuti — ISPRA Catasto Rifiuti (aggiornamento annuale)
+    perc_raccolta_diff  REAL,      -- % raccolta differenziata (es. 62.61)
+    rifiuti_kg_ab       REAL,      -- totale rifiuti urbani kg/abitante
+    rifiuti_tot_t       REAL,      -- totale RU prodotti (tonnellate)
+    rifiuti_ind_t       REAL,      -- indifferenziato (tonnellate)
+    rifiuti_rd_t        REAL,      -- totale RD (tonnellate)
+    rd_umido_t          REAL,      -- frazione umida (t)
+    rd_carta_t          REAL,      -- carta e cartone (t)
+    rd_vetro_t          REAL,      -- vetro (t)
+    rd_plastica_t       REAL,      -- plastica (t)
+    rd_legno_t          REAL,      -- legno (t)
+    rd_metallo_t        REAL,      -- metallo (t)
+    rd_verde_t          REAL,      -- verde (t)
+    rd_raee_t           REAL,      -- RAEE (t)
+    anno_rifiuti        INTEGER    -- anno di riferimento del dato ISPRA
 );
 
 CREATE TABLE IF NOT EXISTS variazioni_storiche (
@@ -388,6 +430,35 @@ CREATE TABLE IF NOT EXISTS ipa_enti (
     data_aggiornamento  TEXT
 );
 
+CREATE TABLE IF NOT EXISTS farmacie (
+    cod_farmacia      INTEGER PRIMARY KEY,
+    denominazione     TEXT,
+    indirizzo         TEXT,
+    cap               TEXT,
+    comune            TEXT,
+    frazione          TEXT,
+    sigla_provincia   TEXT,
+    provincia         TEXT,
+    regione           TEXT,
+    cod_comune_istat  TEXT,   -- 6 cifre, join su comuni.codice_istat
+    tipologia         TEXT,
+    latitudine        REAL,
+    longitudine       REAL
+);
+
+CREATE TABLE IF NOT EXISTS impianti_carburante (
+    id_impianto         INTEGER PRIMARY KEY,
+    gestore             TEXT,
+    bandiera            TEXT,
+    tipo_impianto       TEXT,
+    nome_impianto       TEXT,
+    indirizzo           TEXT,
+    comune              TEXT,
+    sigla_provincia     TEXT,
+    latitudine          REAL,
+    longitudine         REAL
+);
+
 CREATE TABLE IF NOT EXISTS meta (
     chiave              TEXT PRIMARY KEY,
     valore              TEXT NOT NULL
@@ -411,6 +482,13 @@ CREATE INDEX IF NOT EXISTS idx_ateco_padre          ON ateco(codice_padre);
 CREATE INDEX IF NOT EXISTS idx_ipa_belfiore         ON ipa_enti(codice_belfiore);
 CREATE INDEX IF NOT EXISTS idx_ipa_sdi              ON ipa_enti(codice_sdi);
 CREATE INDEX IF NOT EXISTS idx_ipa_cf               ON ipa_enti(codice_fiscale);
+-- Indici farmacie
+CREATE INDEX IF NOT EXISTS idx_farm_provincia       ON farmacie(sigla_provincia);
+CREATE INDEX IF NOT EXISTS idx_farm_comune          ON farmacie(comune);
+CREATE INDEX IF NOT EXISTS idx_farm_istat           ON farmacie(cod_comune_istat);
+-- Indici carburanti
+CREATE INDEX IF NOT EXISTS idx_carb_provincia       ON impianti_carburante(sigla_provincia);
+CREATE INDEX IF NOT EXISTS idx_carb_comune          ON impianti_carburante(comune);
 
 CREATE TABLE IF NOT EXISTS aggregazioni_sovracomunali (
     codice_belfiore     TEXT PRIMARY KEY,
@@ -901,6 +979,65 @@ def carica_banche_gleif(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
         """, righe)
         conn.commit()
     log.info(f"Inserite {len(righe)} banche italiane da GLEIF.")
+    return len(righe)
+
+
+# ── 6c. Banche da Banca d'Italia (ABI ufficiale) ─────────────────────────────
+
+def carica_banche_bancaditalia(conn: sqlite3.Connection,
+                                df_banche: pd.DataFrame,
+                                df_bic: pd.DataFrame | None = None) -> int:
+    """
+    Carica il registro ufficiale delle banche da Banca d'Italia.
+    df_banche: CSV albo banche (colonne: ABI, Denominazione, Comune, Provincia, ...)
+    df_bic:    CSV codici BIC (colonne: ABI, BIC, ...) — opzionale
+    """
+    log.info(f"Caricamento banche Banca d'Italia ({len(df_banche)} record)...")
+    log.info(f"Colonne banche: {list(df_banche.columns)}")
+
+    # Mappa BIC per ABI se disponibile
+    bic_map: dict[str, str] = {}
+    if df_bic is not None:
+        log.info(f"Colonne BIC: {list(df_bic.columns)}")
+        for _, r in df_bic.iterrows():
+            abi_key = pulisci(r.get("ABI") or r.get("Codice ABI") or r.get("codice_abi") or
+                              (r.iloc[0] if len(df_bic.columns) > 0 else None))
+            bic_val = pulisci(r.get("BIC") or r.get("Codice BIC") or r.get("codice_bic") or
+                              (r.iloc[1] if len(df_bic.columns) > 1 else None))
+            if abi_key and bic_val:
+                bic_map[abi_key.zfill(5)] = bic_val.upper()
+
+    righe = []
+    for _, r in df_banche.iterrows():
+        # Prova varie intestazioni possibili del CSV Banca d'Italia
+        abi  = pulisci(r.get("ABI") or r.get("Codice ABI") or r.get("COD_ABI") or
+                       r.get("codice_abi") or (r.iloc[0] if len(df_banche.columns) > 0 else None))
+        nome = pulisci(r.get("Denominazione") or r.get("Banca") or r.get("DENOMINAZIONE") or
+                       r.get("Nome") or r.get("RAGIONE_SOCIALE") or
+                       (r.iloc[1] if len(df_banche.columns) > 1 else None))
+        sede = pulisci(r.get("Comune") or r.get("COMUNE") or r.get("Sede") or r.get("Città"))
+        prov = pulisci(r.get("Provincia") or r.get("PROV") or r.get("PROVINCIA"))
+        cap  = pulisci(r.get("CAP") or r.get("cap"))
+        indirizzo = pulisci(r.get("Indirizzo") or r.get("INDIRIZZO") or r.get("Sede Legale"))
+
+        if not abi or not nome:
+            continue
+
+        abi_padded = abi.zfill(5)
+        bic = bic_map.get(abi_padded)
+
+        righe.append((abi_padded, nome, bic, indirizzo, cap, sede, prov, 1))
+
+    if righe:
+        conn.execute("DELETE FROM banche")
+        conn.executemany("""
+            INSERT OR REPLACE INTO banche
+            (codice_abi, nome_banca, codice_bic, sede_legale, cap_sede,
+             comune_sede, provincia_sede, is_attivo)
+            VALUES (?,?,?,?,?,?,?,?)
+        """, righe)
+        conn.commit()
+    log.info(f"Inserite {len(righe)} banche da Banca d'Italia.")
     return len(righe)
 
 
@@ -1551,6 +1688,374 @@ def carica_patroni(conn: sqlite3.Connection, json_path: Path) -> int:
     return n
 
 
+def carica_rifiuti(conn: sqlite3.Connection, offline: bool = False) -> int:
+    """
+    Popola le colonne perc_raccolta_diff / rifiuti_kg_ab / anno_rifiuti
+    scaricando il CSV dal Catasto Rifiuti ISPRA (aggiornamento annuale).
+    Mappa IstatComune (8 cifre: 2 region + 6 istat) -> codice_istat DB (6 cifre).
+    """
+    import io as _io
+
+    cache_file = Path("tools/cache/ispra_rifiuti.csv")
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
+
+    def _parse_it_float(s) -> float | None:
+        if s is None:
+            return None
+        if isinstance(s, (int, float)):
+            import math
+            return None if math.isnan(s) else float(s)
+        s = str(s).strip().replace(".", "").replace(",", ".").replace("%", "")
+        if s in ("-", ""):
+            return None
+        try:
+            return float(s)
+        except ValueError:
+            return None
+
+    if offline:
+        if not cache_file.exists():
+            log.warning("Offline: cache ISPRA rifiuti mancante — skip")
+            return 0
+        raw = cache_file.read_bytes()
+    else:
+        try:
+            raw = scarica_bytes(ISPRA_RIFIUTI_URL)
+            cache_file.write_bytes(raw)
+        except Exception as e:
+            log.warning(f"Download ISPRA rifiuti fallito: {e} — skip")
+            return 0
+
+    lines = raw.decode("utf-8-sig", errors="replace").splitlines()
+    # Line 0: title; Line 1: header (25 cols); Line 2+: data with leading tabs + trailing ;
+    if len(lines) < 3:
+        log.warning("CSV ISPRA rifiuti vuoto o malformato — skip")
+        return 0
+
+    header = lines[1] + ";_extra"
+    data_lines = [l.lstrip("\t") for l in lines[2:] if l.strip()]
+    df = pd.read_csv(
+        _io.StringIO("\n".join([header] + data_lines)),
+        sep=";",
+        dtype=str,
+    )
+    df.columns = [c.strip() for c in df.columns]
+    df = df.apply(lambda col: col.str.strip() if col.dtype == object else col)
+
+    # Mappa: IstatComune (8 cifre, es. '01001001') -> codice_istat (6 cifre, es. '001001')
+    df["istat6"] = df["IstatComune"].str[2:]
+
+    n = 0
+    for _, row in df.iterrows():
+        istat6 = row.get("istat6", "")
+        if not istat6 or len(istat6) != 6:
+            continue
+        perc_rd    = _parse_it_float(row.get("Percentuale RD (%)"))
+        tot_ru_t   = _parse_it_float(row.get("Totale RU (t)"))
+        ind_t      = _parse_it_float(row.get("Indifferenziato (t)"))
+        rd_t       = _parse_it_float(row.get("Totale RD (t)"))
+        umido_t    = _parse_it_float(row.get("Frazione umida(1) (t)"))
+        carta_t    = _parse_it_float(row.get("Carta e cartone (t)"))
+        vetro_t    = _parse_it_float(row.get("Vetro (t)"))
+        plastica_t = _parse_it_float(row.get("Plastica (t)"))
+        legno_t    = _parse_it_float(row.get("Legno (t)"))
+        metallo_t  = _parse_it_float(row.get("Metallo (t)"))
+        verde_t    = _parse_it_float(row.get("Verde (t)"))
+        raee_t     = _parse_it_float(row.get("RAEE (t)"))
+        pop        = _parse_it_float(row.get("Popolazione"))
+        kg_ab: float | None = None
+        if tot_ru_t is not None and pop and pop > 0:
+            kg_ab = round(tot_ru_t * 1000 / pop, 1)
+        cur = conn.execute(
+            """UPDATE comuni
+               SET perc_raccolta_diff=?, rifiuti_kg_ab=?, rifiuti_tot_t=?,
+                   rifiuti_ind_t=?, rifiuti_rd_t=?,
+                   rd_umido_t=?, rd_carta_t=?, rd_vetro_t=?, rd_plastica_t=?,
+                   rd_legno_t=?, rd_metallo_t=?, rd_verde_t=?, rd_raee_t=?,
+                   anno_rifiuti=?
+               WHERE codice_istat=?""",
+            (perc_rd, kg_ab, tot_ru_t, ind_t, rd_t,
+             umido_t, carta_t, vetro_t, plastica_t,
+             legno_t, metallo_t, verde_t, raee_t,
+             ISPRA_RIFIUTI_ANNO, istat6),
+        )
+        n += cur.rowcount
+
+    conn.commit()
+    log.info(f"ISPRA rifiuti: {n} comuni aggiornati (anno {ISPRA_RIFIUTI_ANNO})")
+    return n
+
+
+def carica_arera(conn: sqlite3.Connection, offline: bool = False) -> int:
+    """
+    Popola le colonne gestore_rifiuti / tari_fissa_mq / tari_variabile_ab / anno_tari
+    scaricando il CSV ARERA sui dati TARI per comune.
+
+    Il CSV ARERA ha colonne (nomi approssimativi, verificare dall'effettivo file):
+      Codice ISTAT comune, Denominazione comune, Gestore, Quota fissa €/mq, Quota variabile €/ab
+    Il join avviene su codice_istat (6 cifre).
+    """
+    import io as _io
+
+    cache_file = Path("tools/cache/arera_tari.csv")
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
+
+    if offline:
+        if not cache_file.exists():
+            log.warning("Offline: cache ARERA TARI mancante — skip")
+            return 0
+        raw = cache_file.read_bytes()
+    else:
+        try:
+            raw = scarica_bytes(ARERA_TARI_URL)
+            cache_file.write_bytes(raw)
+        except Exception as e:
+            log.warning(f"Download ARERA TARI fallito: {e} — skip")
+            return 0
+
+    enc = _detect_enc(raw, "latin-1")
+    try:
+        df = pd.read_csv(_io.BytesIO(raw), sep=";", encoding=enc, dtype=str)
+    except Exception as e:
+        log.warning(f"Parse CSV ARERA TARI fallito: {e} — skip")
+        return 0
+
+    log.info(f"ARERA TARI: {len(df)} righe, colonne: {list(df.columns)}")
+
+    # Ricerca flessibile colonne
+    col_istat    = next((c for c in df.columns if "istat" in c.lower() or "cod" in c.lower() and "comune" in c.lower()), None)
+    col_gestore  = next((c for c in df.columns if "gestore" in c.lower()), None)
+    col_fissa    = next((c for c in df.columns if "fissa" in c.lower() or "mq" in c.lower()), None)
+    col_var      = next((c for c in df.columns if "variabile" in c.lower() or "ab" in c.lower() and "quota" in c.lower()), None)
+
+    if col_istat is None:
+        log.warning("ARERA TARI: colonna codice ISTAT non trovata — skip")
+        return 0
+
+    def _to_float(v) -> float | None:
+        try:
+            return float(str(v).replace(",", ".").strip())
+        except Exception:
+            return None
+
+    n = 0
+    for _, row in df.iterrows():
+        istat_raw = pulisci(row.get(col_istat, ""))
+        if not istat_raw:
+            continue
+        # Normalizza a 6 cifre (ARERA può usare 6 o 9 cifre ISTAT)
+        istat6 = istat_raw[-6:].zfill(6) if len(istat_raw) >= 6 else istat_raw.zfill(6)
+
+        gestore   = pulisci(row.get(col_gestore, "")) if col_gestore else None
+        fissa     = _to_float(row.get(col_fissa))   if col_fissa  else None
+        variabile = _to_float(row.get(col_var))     if col_var    else None
+
+        cur = conn.execute(
+            """UPDATE comuni
+               SET gestore_rifiuti=?, tari_fissa_mq=?, tari_variabile_ab=?, anno_tari=?
+               WHERE codice_istat=?""",
+            (gestore or None, fissa, variabile, ARERA_TARI_ANNO, istat6),
+        )
+        n += cur.rowcount
+
+    conn.commit()
+    log.info(f"ARERA TARI: {n} comuni aggiornati (anno {ARERA_TARI_ANNO})")
+    return n
+
+
+def _make_tls_session() -> "requests.Session":
+    """Crea una requests.Session con TLS SECLEVEL=1 per siti PA con TLS legacy."""
+    import ssl as _ssl
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.ssl_ import create_urllib3_context
+
+    class _LegacyTLSAdapter(HTTPAdapter):
+        def init_poolmanager(self, *args, **kwargs):
+            ctx = create_urllib3_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = _ssl.CERT_NONE
+            ctx.set_ciphers("DEFAULT:@SECLEVEL=1")
+            kwargs["ssl_context"] = ctx
+            super().init_poolmanager(*args, **kwargs)
+
+    session = requests.Session()
+    session.mount("https://", _LegacyTLSAdapter())
+    return session
+
+
+def carica_farmacie(conn: sqlite3.Connection, offline: bool = False) -> int:
+    """
+    Popola la tabella farmacie dall'elenco Ministero della Salute (settimanale).
+    Carica solo le farmacie attive (data_fine_validita vuota o '-').
+    Il server usa TLS 1.0 legacy — richiede _make_tls_session().
+    """
+    import io as _io
+
+    cache_file = Path("tools/cache/salute_farmacie.csv")
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
+
+    if offline:
+        if not cache_file.exists():
+            log.warning("Offline: cache farmacie mancante — skip")
+            return 0
+        raw = cache_file.read_bytes()
+    else:
+        try:
+            session = _make_tls_session()
+            log.info(f"Download farmacie: {SALUTE_FARMACIE_URL}")
+            r = session.get(SALUTE_FARMACIE_URL, timeout=TIMEOUT_SECONDI)
+            r.raise_for_status()
+            raw = r.content
+            cache_file.write_bytes(raw)
+        except Exception as e:
+            log.warning(f"Download farmacie fallito: {e} — skip")
+            return 0
+
+    df = pd.read_csv(
+        _io.StringIO(raw.decode("latin-1", errors="replace")),
+        sep=";",
+        dtype=str,
+    )
+    df.columns = [c.strip() for c in df.columns]
+    df = df.apply(lambda col: col.str.strip() if col.dtype == object else col)
+
+    # Solo farmacie attive
+    attive = df[
+        df["data_fine_validita"].isna()
+        | (df["data_fine_validita"] == "")
+        | (df["data_fine_validita"] == "-")
+    ].copy()
+
+    def _to_float(s):
+        try:
+            return float(str(s).replace(",", ".")) if s and s not in ("-", "") else None
+        except (ValueError, AttributeError):
+            return None
+
+    def _to_int(s):
+        try:
+            return int(s) if s and s not in ("-", "") else None
+        except (ValueError, AttributeError):
+            return None
+
+    conn.execute("DELETE FROM farmacie")
+    righe = []
+    for _, row in attive.iterrows():
+        cod_comune = row.get("cod_comune", "")
+        try:
+            cod_comune = str(int(cod_comune)).zfill(6)
+        except (ValueError, TypeError):
+            cod_comune = None
+        frazione = row.get("frazione")
+        righe.append((
+            _to_int(row.get("cod_farmacia")),
+            row.get("descrizione_farmacia") or None,
+            row.get("indirizzo") or None,
+            row.get("cap") or None,
+            row.get("comune") or None,
+            frazione if frazione and frazione not in ("-", "") else None,
+            row.get("sigla_provincia") or None,
+            row.get("provincia") or None,
+            row.get("regione") or None,
+            cod_comune,
+            row.get("descrizione_tipologia") or None,
+            _to_float(row.get("latitudine")),
+            _to_float(row.get("longitudine")),
+        ))
+
+    conn.executemany(
+        """INSERT OR REPLACE INTO farmacie
+           (cod_farmacia, denominazione, indirizzo, cap, comune, frazione,
+            sigla_provincia, provincia, regione, cod_comune_istat,
+            tipologia, latitudine, longitudine)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+        righe,
+    )
+    conn.commit()
+    log.info(f"Farmacie caricate: {len(righe)} farmacie attive")
+    return len(righe)
+
+
+def carica_carburanti(conn: sqlite3.Connection, offline: bool = False) -> int:
+    """
+    Popola la tabella impianti_carburante dall'anagrafica MIMIT (mensile).
+    Formato CSV pipe-delimited, encoding latin-1.
+    Colonne: idImpianto|Gestore|Bandiera|Tipo Impianto|Nome Impianto|Indirizzo|Comune|Provincia|Latitudine|Longitudine
+    """
+    import io as _io
+
+    cache_file = Path("tools/cache/mimit_impianti.csv")
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
+
+    if offline:
+        if not cache_file.exists():
+            log.warning("Offline: cache MIMIT impianti mancante — skip")
+            return 0
+        raw = cache_file.read_bytes()
+    else:
+        try:
+            raw = scarica_bytes(MIMIT_IMPIANTI_URL)
+            cache_file.write_bytes(raw)
+        except Exception as e:
+            log.warning(f"Download MIMIT impianti fallito: {e} — skip")
+            return 0
+
+    lines = raw.decode("latin-1", errors="replace").splitlines()
+    if len(lines) < 3:
+        log.warning("CSV MIMIT impianti vuoto — skip")
+        return 0
+
+    # Line 0: "Estrazione del YYYY-MM-DD", Line 1: header, Line 2+: data
+    header = lines[1]
+    data_lines = lines[2:]
+    df = pd.read_csv(
+        _io.StringIO("\n".join([header] + data_lines)),
+        sep="|",
+        dtype=str,
+    )
+    df.columns = [c.strip() for c in df.columns]
+    df = df.apply(lambda col: col.str.strip() if col.dtype == object else col)
+
+    def _to_float(s):
+        try:
+            return float(s.replace(",", ".")) if s else None
+        except (ValueError, AttributeError):
+            return None
+
+    def _to_int(s):
+        try:
+            return int(s) if s else None
+        except (ValueError, AttributeError):
+            return None
+
+    conn.execute("DELETE FROM impianti_carburante")
+    righe = []
+    for _, row in df.iterrows():
+        righe.append((
+            _to_int(row.get("idImpianto")),
+            row.get("Gestore") or None,
+            row.get("Bandiera") or None,
+            row.get("Tipo Impianto") or None,
+            row.get("Nome Impianto") or None,
+            row.get("Indirizzo") or None,
+            row.get("Comune") or None,
+            row.get("Provincia") or None,
+            _to_float(row.get("Latitudine")),
+            _to_float(row.get("Longitudine")),
+        ))
+
+    conn.executemany(
+        """INSERT OR REPLACE INTO impianti_carburante
+           (id_impianto, gestore, bandiera, tipo_impianto, nome_impianto,
+            indirizzo, comune, sigla_provincia, latitudine, longitudine)
+           VALUES (?,?,?,?,?,?,?,?,?,?)""",
+        righe,
+    )
+    conn.commit()
+    log.info(f"Impianti carburante caricati: {len(righe)} impianti")
+    return len(righe)
+
+
 def carica_dati_default(conn: sqlite3.Connection):
     conn.executemany(
         "INSERT OR REPLACE INTO operatori_mobili (prefisso, nome_operatore, tecnologia) VALUES (?,?,?)",
@@ -1663,15 +2168,15 @@ def main():
             log.warning("Zone sismiche non disponibili.")
         # Zone climatiche: fonte non disponibile come open data strutturato — skip
 
-        # 6. Banche — GLEIF BIC-LEI mapping (ZIP con CSV interno)
-        df = tenta_scarica_zip_csv_interno(
-            GLEIF_BIC_URL, cache_dir / "gleif_bic.csv",
-            args.offline, sep=",", pattern=".csv"
-        )
-        if df is not None:
-            carica_banche_gleif(conn, df)
+        # 6. Banche — Albo Banche Banca d'Italia
+        df_banche = tenta_scarica_csv(BANCA_ITALIA_URL, cache_dir / "banche_bi.csv",
+                                      args.offline, sep=";", encoding="latin-1")
+        df_bic = tenta_scarica_csv(BANCA_ITALIA_BIC_URL, cache_dir / "banche_bi_bic.csv",
+                                   args.offline, sep=";", encoding="latin-1")
+        if df_banche is not None:
+            carica_banche_bancaditalia(conn, df_banche, df_bic)
         else:
-            log.warning("GLEIF BIC non disponibile.")
+            log.warning("Albo Banche Banca d'Italia non disponibile.")
 
         # 7. ATECO 2007 — XLSX ISTAT
         df = tenta_scarica_xlsx(ATECO_XLSX_URL, cache_dir / "ateco.xlsx", args.offline)
@@ -1716,6 +2221,15 @@ def main():
 
         # 15. PEC Comuni — da tools/pec_comuni.json (da IndicePA, aggiornare periodicamente)
         carica_pec(conn, Path("tools/pec_comuni.json"))
+
+        # 16. Rifiuti urbani — ISPRA Catasto Rifiuti (CSV annuale per comune)
+        carica_rifiuti(conn, offline=args.offline)
+
+        # 17. Impianti carburante — MIMIT anagrafica (CSV mensile)
+        carica_carburanti(conn, offline=args.offline)
+
+        # 18. Farmacie attive — Ministero della Salute (CSV settimanale)
+        carica_farmacie(conn, offline=args.offline)
 
         # Telefonia — operatori mobili + prefissi emergenza/tollFree
         carica_dati_default(conn)

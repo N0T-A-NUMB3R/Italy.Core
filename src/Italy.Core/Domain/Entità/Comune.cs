@@ -78,6 +78,36 @@ public sealed class Comune
     /// <summary>Indirizzo PEC istituzionale del comune (fonte: IndicePA). Null se non disponibile.</summary>
     public string? PEC { get; set; }
 
+    // ── Gestione Rifiuti (ISPRA Catasto Rifiuti) ─────────────────────────────
+    /// <summary>Percentuale di raccolta differenziata. Es: 62.61 per 62,61%.</summary>
+    public double? PercRaccoltaDifferenziata { get; set; }
+    /// <summary>Totale rifiuti urbani prodotti per abitante in kg/anno.</summary>
+    public double? RifiutiKgAbitante { get; set; }
+    /// <summary>Totale rifiuti urbani prodotti (tonnellate).</summary>
+    public double? RifiutiTotT { get; set; }
+    /// <summary>Rifiuti indifferenziati (tonnellate).</summary>
+    public double? RifiutiIndT { get; set; }
+    /// <summary>Totale raccolta differenziata (tonnellate).</summary>
+    public double? RifiutiRdT { get; set; }
+    /// <summary>Frazione umida RD (tonnellate).</summary>
+    public double? RdUmidoT { get; set; }
+    /// <summary>Carta e cartone RD (tonnellate).</summary>
+    public double? RdCartaT { get; set; }
+    /// <summary>Vetro RD (tonnellate).</summary>
+    public double? RdVetroT { get; set; }
+    /// <summary>Plastica RD (tonnellate).</summary>
+    public double? RdPlasticaT { get; set; }
+    /// <summary>Legno RD (tonnellate).</summary>
+    public double? RdLegnoT { get; set; }
+    /// <summary>Metallo RD (tonnellate).</summary>
+    public double? RdMetalloT { get; set; }
+    /// <summary>Verde (sfalci/potature) RD (tonnellate).</summary>
+    public double? RdVerdeT { get; set; }
+    /// <summary>RAEE RD (tonnellate).</summary>
+    public double? RdRaeeT { get; set; }
+    /// <summary>Anno di riferimento del dato ISPRA sui rifiuti.</summary>
+    public int? AnnoRilevazionRifiuti { get; set; }
+
     public override string ToString() =>
         $"{DenominazioneUfficiale} ({SiglaProvincia}) [{CodiceBelfiore}]";
 }
