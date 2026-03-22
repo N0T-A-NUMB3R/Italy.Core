@@ -99,6 +99,10 @@ public sealed class AggregazioniSovracomunali
     // ── Giustizia ───────────────────────────────────────────────────────────
     public string? TribunaleCompetente { get; set; }
     public string? PreturaCodice { get; set; }
+
+    // ── Previdenziale ────────────────────────────────────────────────────────
+    public string? CodiceSedeINPS { get; set; }
+    public string? CodiceSedeINAIL { get; set; }
 }
 
 /// <summary>

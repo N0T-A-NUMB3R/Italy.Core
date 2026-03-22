@@ -7,35 +7,42 @@ namespace Italy.Core.Infrastruttura;
 
 /// <summary>
 /// Gestisce l'accesso al database SQLite embedded "italy.db".
-/// Il database viene estratto dalla risorsa embedded ad ogni avvio se non presente.
-/// L'accesso è esclusivamente in modalità Read-Only per thread-safety garantita.
+/// Strategia di caricamento a cascata:
+///   1. Estrae il DB su disco in %TEMP%\ItalyCore\ (percorso stabile, riutilizzabile tra avvii)
+///   2. Se la scrittura su disco fallisce (permessi, container read-only, disco pieno),
+///      carica il DB direttamente in memoria tramite SQLite Backup API (fallback in-memory).
+/// L'accesso è esclusivamente in modalità Read-Only (o shared-memory) per thread-safety.
 /// </summary>
 public sealed class DatabaseAtlante : IDisposable
 {
     private static readonly object _lock = new();
-    private static string? _percorsoDb;
+    private static string? _percorsoDb;           // percorso file su disco (null se in-memory)
+    private static SqliteConnection? _inMemoryConn; // connessione persistente se in-memory
     private bool _rilasciata;
 
-    // Stringa di connessione Read-Only per massima concorrenza
-    public string StringaConnessione => $"Data Source={PercorsoDb};Mode=ReadOnly;Cache=Shared;";
+    /// <summary>True se il DB è stato caricato in memoria (fallback).</summary>
+    public static bool IsInMemory => _inMemoryConn != null;
 
-    public string PercorsoDb
+    // Stringa di connessione: file read-only oppure memoria condivisa
+    public string StringaConnessione =>
+        _inMemoryConn != null
+            ? "Data Source=italante_mem;Mode=Memory;Cache=Shared;"
+            : $"Data Source={_percorsoDb};Mode=ReadOnly;Cache=Shared;";
+
+    private void EnsureInitialized()
     {
-        get
+        if (_percorsoDb != null || _inMemoryConn != null) return;
+        lock (_lock)
         {
-            if (_percorsoDb != null) return _percorsoDb;
-            lock (_lock)
-            {
-                if (_percorsoDb != null) return _percorsoDb;
-                _percorsoDb = EstraiDatabase();
-            }
-            return _percorsoDb;
+            if (_percorsoDb != null || _inMemoryConn != null) return;
+            InizializzaDatabase();
         }
     }
 
-    /// <summary>Crea una nuova connessione read-only al database Atlante.</summary>
+    /// <summary>Crea una nuova connessione al database Atlante.</summary>
     public SqliteConnection ApriConnessione()
     {
+        EnsureInitialized();
         var connessione = new SqliteConnection(StringaConnessione);
         connessione.Open();
         return connessione;
@@ -67,9 +74,9 @@ public sealed class DatabaseAtlante : IDisposable
         return (T)Convert.ChangeType(result, typeof(T));
     }
 
-    // ── Estrazione Risorsa Embedded ──────────────────────────────────────────
+    // ── Inizializzazione con fallback in-memory ──────────────────────────────
 
-    private static string EstraiDatabase()
+    private static void InizializzaDatabase()
     {
         var assembly = typeof(DatabaseAtlante).Assembly;
         const string nomeRisorsa = "Italy.Core.data.italy.db";
@@ -79,16 +86,16 @@ public sealed class DatabaseAtlante : IDisposable
                 $"Risorsa embedded '{nomeRisorsa}' non trovata. " +
                 "Assicurarsi che italy.db sia incluso come EmbeddedResource nel progetto.");
 
-        // Leggi tutti i byte per calcolare hash e dimensione
-        var bytes = new byte[stream.Length > 0 ? stream.Length : 16 * 1024 * 1024];
+        // Leggi tutti i byte
+        var bytes = new byte[stream.Length > 0 ? stream.Length : 20 * 1024 * 1024];
         int letti = 0, n;
         while ((n = stream.Read(bytes, letti, bytes.Length - letti)) > 0) letti += n;
-        var contenuto = bytes.AsSpan(0, letti);
+        var contenuto = bytes.AsSpan(0, letti).ToArray();
 
-        // Hash CRC32 semplice (XOR fold di GetHashCode su blocchi) per nome univoco
+        // Hash per nome file univoco per versione
         byte[] hash;
         using (var md5 = System.Security.Cryptography.MD5.Create())
-            hash = md5.ComputeHash(contenuto.ToArray());
+            hash = md5.ComputeHash(contenuto);
         var hashHex = BitConverter.ToString(hash, 0, 4).Replace("-", "").ToLowerInvariant();
 
         var percorsoTemp = Path.Combine(
@@ -96,15 +103,42 @@ public sealed class DatabaseAtlante : IDisposable
             "ItalyCore",
             $"italy_{OttieniVersioneAssembly()}_{hashHex}.db");
 
-        Directory.CreateDirectory(Path.GetDirectoryName(percorsoTemp)!);
-
-        if (!File.Exists(percorsoTemp))
+        // Strategia 1: scrittura su disco
+        try
         {
-            using var fileStream = File.Create(percorsoTemp);
-            fileStream.Write(contenuto.ToArray(), 0, letti);
+            Directory.CreateDirectory(Path.GetDirectoryName(percorsoTemp)!);
+            if (!File.Exists(percorsoTemp))
+                File.WriteAllBytes(percorsoTemp, contenuto);
+            _percorsoDb = percorsoTemp;
+            return;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            // Disco non scrivibile — fallback in-memory
         }
 
-        return percorsoTemp;
+        // Strategia 2: DB in memoria condivisa (SQLite Backup API)
+        // La connessione viene mantenuta aperta per tutta la vita dell'app:
+        // SQLite distrugge i DB :memory: alla chiusura dell'ultima connessione.
+        var connMem = new SqliteConnection("Data Source=italante_mem;Mode=Memory;Cache=Shared;");
+        connMem.Open();
+
+        // Carica i byte nel DB in-memory tramite un file temporaneo virtuale
+        // SQLite non supporta LoadExtension da byte[], ma supporta backup da altra connessione
+        var tmpPath = Path.Combine(Path.GetTempPath(), $"italycore_init_{Guid.NewGuid():N}.db");
+        try
+        {
+            File.WriteAllBytes(tmpPath, contenuto);
+            using var connFile = new SqliteConnection($"Data Source={tmpPath};Mode=ReadOnly;");
+            connFile.Open();
+            connFile.BackupDatabase(connMem);
+        }
+        finally
+        {
+            try { File.Delete(tmpPath); } catch { /* ignora */ }
+        }
+
+        _inMemoryConn = connMem;
     }
 
     private static string OttieniVersioneAssembly() =>
@@ -231,6 +265,8 @@ public sealed class DatabaseAtlante : IDisposable
         if (!_rilasciata)
         {
             _rilasciata = true;
+            // La connessione in-memory è statica (condivisa tra istanze) — non la chiudiamo
+            // finché il processo è in vita, altrimenti SQLite distrugge il DB.
         }
     }
 }

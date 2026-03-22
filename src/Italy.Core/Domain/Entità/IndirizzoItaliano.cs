@@ -48,7 +48,7 @@ public sealed class IndirizzoItaliano
 /// </summary>
 public sealed class RisultatoBonifica
 {
-    public bool RequiereCorrezione { get; set; }
+    public bool RichiedeCorrezione { get; set; }
     public string? CampoProblematico { get; set; }
     public string? ValoreOriginale { get; set; }
     public string? ValoreSuggerito { get; set; }
@@ -87,5 +87,5 @@ public sealed class RecordBonifica
     public int IndiceRecord { get; set; }
     public object? DatoOriginale { get; set; }
     public IReadOnlyList<RisultatoBonifica> Correzioni { get; set; } = Array.Empty<RisultatoBonifica>();
-    public bool HasAnomalie => Correzioni.Any(c => c.RequiereCorrezione);
+    public bool HasAnomalie => Correzioni.Any(c => c.RichiedeCorrezione);
 }

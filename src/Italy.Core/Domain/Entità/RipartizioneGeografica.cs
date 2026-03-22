@@ -72,6 +72,24 @@ public enum ClasseAreeInterne
     Ultraperiferico
 }
 
+/// <summary>
+/// Zona altimetrica ISTAT del comune (classificazione ufficiale).
+/// Fonte: ISTAT, colonna "zona_altimetrica" nel file Elenco-comuni-italiani.csv.
+/// </summary>
+public enum ZonaAltimetrica
+{
+    /// <summary>Pianura: altitudine media ≤ 300 m, pendenza bassa.</summary>
+    Pianura = 1,
+    /// <summary>Collina interna: rilievi non costieri tra 300 e 600 m circa.</summary>
+    CollinaInterna = 2,
+    /// <summary>Collina litoranea: rilievi entro 5 km dal mare.</summary>
+    CollinaLitoranea = 3,
+    /// <summary>Montagna interna: altitudine media > 600 m, non costiera.</summary>
+    MontagnaInterna = 4,
+    /// <summary>Montagna litoranea: altitudine media > 600 m, entro 5 km dal mare.</summary>
+    MontagnaLitoranea = 5
+}
+
 public enum FormatoTarga
 {
     Attuale,

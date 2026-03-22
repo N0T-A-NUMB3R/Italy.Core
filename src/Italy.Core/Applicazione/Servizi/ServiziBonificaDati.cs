@@ -41,7 +41,7 @@ public sealed class ServiziBonificaDati
     /// Esempio:
     /// <code>
     /// var r = bonifica.AnalizzaComune("Corigliano Calabro", "CS");
-    /// // → { RequiereCorrezione: true, ValoreSuggerito: "Corigliano-Rossano",
+    /// // → { RichiedeCorrezione: true, ValoreSuggerito: "Corigliano-Rossano",
     /// //     Tipo: ComuneFuso, Confidenza: 1.0 }
     /// </code>
     /// </summary>
@@ -65,7 +65,7 @@ public sealed class ServiziBonificaDati
                 var successore = _repositoryComuni.DaCodiceBelfiore(esatto.CodiceSuccessore ?? "");
                 return new RisultatoBonifica
                 {
-                    RequiereCorrezione = true,
+                    RichiedeCorrezione = true,
                     CampoProblematico = "Comune",
                     ValoreOriginale = nomeComune,
                     ValoreSuggerito = successore?.DenominazioneUfficiale,
@@ -85,7 +85,7 @@ public sealed class ServiziBonificaDati
             {
                 return new RisultatoBonifica
                 {
-                    RequiereCorrezione = true,
+                    RichiedeCorrezione = true,
                     CampoProblematico = "SiglaProvincia",
                     ValoreOriginale = siglaProvincia,
                     ValoreSuggerito = esatto.SiglaProvincia,
@@ -114,7 +114,7 @@ public sealed class ServiziBonificaDati
 
             return new RisultatoBonifica
             {
-                RequiereCorrezione = confidenza < 0.98,
+                RichiedeCorrezione = confidenza < 0.98,
                 CampoProblematico = "Comune",
                 ValoreOriginale = nomeComune,
                 ValoreSuggerito = migliore.DenominazioneUfficiale,
@@ -129,7 +129,7 @@ public sealed class ServiziBonificaDati
 
         return new RisultatoBonifica
         {
-            RequiereCorrezione = true,
+            RichiedeCorrezione = true,
             CampoProblematico = "Comune",
             ValoreOriginale = nomeComune,
             ValoreSuggerito = null,
@@ -154,7 +154,7 @@ public sealed class ServiziBonificaDati
         if (!string.IsNullOrWhiteSpace(nomeComune))
         {
             var bonificaComune = AnalizzaComune(nomeComune, siglaProvincia);
-            if (bonificaComune.RequiereCorrezione)
+            if (bonificaComune.RichiedeCorrezione)
                 risultati.Add(bonificaComune);
         }
 
@@ -162,7 +162,7 @@ public sealed class ServiziBonificaDati
         if (!string.IsNullOrWhiteSpace(cap) && !string.IsNullOrWhiteSpace(nomeComune))
         {
             var bonificaCAP = VerificaCoerenzaCAP(cap, nomeComune, siglaProvincia);
-            if (bonificaCAP.RequiereCorrezione)
+            if (bonificaCAP.RichiedeCorrezione)
                 risultati.Add(bonificaCAP);
         }
 
@@ -170,7 +170,7 @@ public sealed class ServiziBonificaDati
         if (!string.IsNullOrWhiteSpace(codiceFiscale) && !string.IsNullOrWhiteSpace(nomeComune))
         {
             var bonificaCF = VerificaCoerenzaCF(codiceFiscale, nomeComune);
-            if (bonificaCF.RequiereCorrezione)
+            if (bonificaCF.RichiedeCorrezione)
                 risultati.Add(bonificaCF);
         }
 
@@ -233,7 +233,7 @@ public sealed class ServiziBonificaDati
         {
             return new RisultatoBonifica
             {
-                RequiereCorrezione = true,
+                RichiedeCorrezione = true,
                 CampoProblematico = "SiglaProvincia",
                 ValoreOriginale = sigla,
                 ValoreSuggerito = nuovaSigla,
@@ -256,7 +256,7 @@ public sealed class ServiziBonificaDati
         {
             return new RisultatoBonifica
             {
-                RequiereCorrezione = true,
+                RichiedeCorrezione = true,
                 CampoProblematico = "CAP",
                 ValoreOriginale = cap,
                 ValoreSuggerito = null,
@@ -282,7 +282,7 @@ public sealed class ServiziBonificaDati
             var comuniElencati = string.Join(", ", comuniDelCAP.Take(3).Select(c => c!.DenominazioneUfficiale));
             return new RisultatoBonifica
             {
-                RequiereCorrezione = true,
+                RichiedeCorrezione = true,
                 CampoProblematico = "CAP",
                 ValoreOriginale = cap,
                 ValoreSuggerito = null,
@@ -307,7 +307,7 @@ public sealed class ServiziBonificaDati
         {
             return new RisultatoBonifica
             {
-                RequiereCorrezione = true,
+                RichiedeCorrezione = true,
                 CampoProblematico = "CodiceFiscale/Comune",
                 ValoreOriginale = $"CF:{codiceFiscale} | Comune:{nomeComune}",
                 ValoreSuggerito = risultatoCF.ComuneNascita,
@@ -344,7 +344,7 @@ public sealed class ServiziBonificaDati
     }
 
     private static RisultatoBonifica Pulito() =>
-        new() { RequiereCorrezione = false, Tipo = TipoBonifica.NessunaCorrezione };
+        new() { RichiedeCorrezione = false, Tipo = TipoBonifica.NessunaCorrezione };
 }
 
 /// <summary>Record di input per la bonifica batch.</summary>

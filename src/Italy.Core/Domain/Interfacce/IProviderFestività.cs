@@ -10,7 +10,7 @@ public interface IProviderFestività
 {
     IReadOnlyList<Festività> OttieniFestività(int anno, string? codiceBelfiore = null);
     bool IsFestivo(DateTime data, string? codiceBelfiore = null);
-    int CalcolaGiorniLavorativi(DateTime dal, DateTime al, string? codiceBelfiore = null);
+    int CalcolaGiorniLavorativi(DateTime dal, DateTime al, string? codiceBelfiore = null, bool sabatoLavorativo = false);
     DateTime CalcolaPasqua(int anno);
 }
 

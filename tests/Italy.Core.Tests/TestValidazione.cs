@@ -36,7 +36,7 @@ public sealed class TestValidazione
     {
         var r = _servizi.ValidaIBAN("IT60X0542811101000000123456");
         Assert.True(r.IsValido, $"IBAN dovrebbe essere valido. Anomalie: {string.Join(", ", r.Anomalie)}");
-        Assert.NotNull(r.IBAN_Formattato);
+        Assert.NotNull(r.IbanFormattato);
     }
 
     [Theory(DisplayName = "IBAN non valido deve essere rifiutato")]

@@ -4,11 +4,12 @@ namespace Italy.Core.Domain.Entità;
 
 /// <summary>
 /// Informazioni sulle zone territoriali di un comune:
-/// classificazione sismica, climatica e coordinate geografiche.
+/// classificazione sismica, climatica, altimetrica e coordinate geografiche.
 /// </summary>
 public sealed record InfoZoneTerritoriali(
     string CodiceBelfiore,
     ZonaSismica? ZonaSismica,
     ZonaClimatica? ZonaClimatica,
     double? Latitudine,
-    double? Longitudine);
+    double? Longitudine,
+    ZonaAltimetrica? ZonaAltimetrica = null);

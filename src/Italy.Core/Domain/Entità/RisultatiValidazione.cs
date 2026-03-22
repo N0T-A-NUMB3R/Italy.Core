@@ -66,7 +66,7 @@ public sealed class RisultatoIBAN
     public string? CodiceBIC { get; set; }
     public string? NomeBanca { get; set; }
     public string? FilialeCodice { get; set; }
-    public string? IBAN_Formattato { get; set; }
+    public string? IbanFormattato { get; set; }
     public IReadOnlyList<string> Anomalie { get; set; } = Array.Empty<string>();
 }
 
@@ -88,8 +88,8 @@ public sealed class DatiDemografici
     public int Anno { get; set; }
     public double? SuperficieKmq { get; set; }
     public double? DensitàAbitativa { get; set; }
-    public int? MaschiResidenti { get; set; }
-    public int? FemmineResidenti { get; set; }
+    public int? ResidentiMaschi { get; set; }
+    public int? ResidentiFemmine { get; set; }
 }
 
 /// <summary>Coordinata geografica WGS84.</summary>

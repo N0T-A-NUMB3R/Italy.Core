@@ -30,13 +30,15 @@ public sealed class ServiziZoneTerritoriali
     {
         if (string.IsNullOrWhiteSpace(codiceBelfiore)) return null;
 
+        var hasAlt = _database.EseguiScalare<long>(
+            "SELECT COUNT(*) FROM pragma_table_info('comuni') WHERE name='zona_altimetrica'") > 0;
+
+        var sql = hasAlt
+            ? "SELECT codice_belfiore, zona_sismica, zona_climatica, latitudine, longitudine, zona_altimetrica FROM comuni WHERE codice_belfiore = @cb LIMIT 1"
+            : "SELECT codice_belfiore, zona_sismica, zona_climatica, latitudine, longitudine, NULL AS zona_altimetrica FROM comuni WHERE codice_belfiore = @cb LIMIT 1";
+
         var risultati = _database.Esegui(
-            """
-            SELECT codice_belfiore, zona_sismica, zona_climatica, latitudine, longitudine
-            FROM comuni
-            WHERE codice_belfiore = @cb
-            LIMIT 1
-            """,
+            sql,
             cmd => cmd.Parameters.AddWithValue("@cb", codiceBelfiore.Trim().ToUpperInvariant()),
             MappaInfoZone);
 
@@ -92,6 +94,32 @@ public sealed class ServiziZoneTerritoriali
             r => r.GetString(0));
     }
 
+    // ── Filtro per Zona Altimetrica ───────────────────────────────────────────
+
+    /// <summary>
+    /// Restituisce i codici Belfiore di tutti i comuni in una determinata zona altimetrica ISTAT.
+    /// Es: ComuniPerZonaAltimetrica(ZonaAltimetrica.Pianura) → tutti i comuni di pianura.
+    /// </summary>
+    public IReadOnlyList<string> ComuniPerZonaAltimetrica(ZonaAltimetrica zona)
+    {
+        // La colonna potrebbe non essere presente in DB generati prima dell'aggiornamento dello schema
+        var colonnaEsiste = _database.EseguiScalare<long>(
+            "SELECT COUNT(*) FROM pragma_table_info('comuni') WHERE name='zona_altimetrica'") > 0;
+        if (!colonnaEsiste)
+            return Array.Empty<string>();
+
+        return _database.Esegui(
+            """
+            SELECT codice_belfiore
+            FROM comuni
+            WHERE zona_altimetrica = @z
+              AND is_attivo = 1
+            ORDER BY codice_belfiore
+            """,
+            cmd => cmd.Parameters.AddWithValue("@z", (int)zona),
+            r => r.GetString(0));
+    }
+
     // ── Helper Privati ────────────────────────────────────────────────────────
 
     private static InfoZoneTerritoriali MappaInfoZone(Microsoft.Data.Sqlite.SqliteDataReader r)
@@ -100,6 +128,9 @@ public sealed class ServiziZoneTerritoriali
         var ordClimatica = r.GetOrdinal("zona_climatica");
         var ordLat = r.GetOrdinal("latitudine");
         var ordLng = r.GetOrdinal("longitudine");
+        int ordAltimetrica;
+        try { ordAltimetrica = r.GetOrdinal("zona_altimetrica"); }
+        catch (ArgumentOutOfRangeException) { ordAltimetrica = -1; } // colonna assente nel DB corrente
 
         ZonaSismica? zonaSismica = null;
         if (!r.IsDBNull(ordSismica))
@@ -120,11 +151,20 @@ public sealed class ServiziZoneTerritoriali
             }
         }
 
+        ZonaAltimetrica? zonaAltimetrica = null;
+        if (ordAltimetrica >= 0 && !r.IsDBNull(ordAltimetrica))
+        {
+            var val = r.GetInt32(ordAltimetrica);
+            if (Enum.IsDefined(typeof(ZonaAltimetrica), val))
+                zonaAltimetrica = (ZonaAltimetrica)val;
+        }
+
         return new InfoZoneTerritoriali(
             CodiceBelfiore: r.GetString(r.GetOrdinal("codice_belfiore")),
             ZonaSismica: zonaSismica,
             ZonaClimatica: zonaClimatica,
             Latitudine: r.IsDBNull(ordLat) ? null : r.GetDouble(ordLat),
-            Longitudine: r.IsDBNull(ordLng) ? null : r.GetDouble(ordLng));
+            Longitudine: r.IsDBNull(ordLng) ? null : r.GetDouble(ordLng),
+            ZonaAltimetrica: zonaAltimetrica);
     }
 }

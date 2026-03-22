@@ -75,8 +75,7 @@ IPA_XLSX_URL      = (
 # Zone climatiche DPR 412/93 — non esiste CSV istituzionale open data,
 # usiamo dataset GitHub verificato
 ZONE_CLIMATICHE_URL = (
-    "https://raw.githubusercontent.com/ferdi2005/zonasismica/master/"
-    "zone_climatiche.csv"
+    "http://www.solaritaly.enea.it/clisun/Dati/FilesCSV/GraGioWb.txt"
 )
 # Zone sismiche — GitHub ferdi2005 (dati Protezione Civile, CC BY 4.0)
 ZONE_SISMICHE_URL = (
@@ -842,32 +841,35 @@ def carica_geonames(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
 # ── 4. Zone Climatiche ────────────────────────────────────────────────────────
 
 def carica_zone_climatiche(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
+    """
+    Carica zone climatiche DPR 412/93 da CSV ENEA Solaritaly.
+    Formato: cod reg, cod prov, cod com, sigla prov, comune, altit, gradi-giorni, zona clim
+    Il codice ISTAT a 6 cifre si ricava da cod_prov(3) + cod_com(3).
+    """
     log.info(f"Caricamento zone climatiche ({len(df)} record)...")
-    log.info(f"Colonne: {list(df.columns)}")
+
+    # Colonne ENEA: "cod prov", "cod com", "zona clim"
+    col_prov = next((c for c in df.columns if "prov" in c.lower() and "cod" in c.lower()), None)
+    col_com  = next((c for c in df.columns if "com" in c.lower() and "cod" in c.lower() and "prov" not in c.lower()), None)
+    col_zona = next((c for c in df.columns if "zona" in c.lower() or "clim" in c.lower()), None)
+
+    if not col_prov or not col_com or not col_zona:
+        log.warning(f"Zone climatiche: colonne non trovate in {list(df.columns)} — skip")
+        return 0
 
     aggiornati = 0
     for _, r in df.iterrows():
-        istat = None
-        zona  = None
-        for col in df.columns:
-            cl = col.lower()
-            if "istat" in cl or ("cod" in cl and "comune" in cl):
-                istat = pulisci(r.get(col))
-            if "zona" in cl or "climatica" in cl or "fascia" in cl:
-                zona = pulisci(r.get(col))
-
-        # Fallback posizionale
-        if not istat:
-            istat = pulisci(r.iloc[0])
-        if not zona:
-            zona = pulisci(r.iloc[-1])
-
-        if istat and zona:
-            res = conn.execute(
-                "UPDATE comuni SET zona_climatica=? WHERE codice_istat=? AND zona_climatica IS NULL",
-                (zona.upper(), istat.zfill(6)),
-            )
-            aggiornati += res.rowcount
+        prov = pulisci(str(r.get(col_prov, "")))
+        com  = pulisci(str(r.get(col_com, "")))
+        zona = pulisci(str(r.get(col_zona, "")))
+        if not prov or not com or not zona:
+            continue
+        istat6 = prov.zfill(3) + com.zfill(3)
+        res = conn.execute(
+            "UPDATE comuni SET zona_climatica=? WHERE codice_istat=?",
+            (zona.upper(), istat6),
+        )
+        aggiornati += res.rowcount
 
     conn.commit()
     log.info(f"Zone climatiche: {aggiornati} comuni aggiornati.")
@@ -1723,8 +1725,12 @@ def carica_rifiuti(conn: sqlite3.Connection, offline: bool = False) -> int:
             raw = scarica_bytes(ISPRA_RIFIUTI_URL)
             cache_file.write_bytes(raw)
         except Exception as e:
-            log.warning(f"Download ISPRA rifiuti fallito: {e} — skip")
-            return 0
+            if cache_file.exists():
+                log.warning(f"Download ISPRA rifiuti fallito: {e} — uso cache precedente")
+                raw = cache_file.read_bytes()
+            else:
+                log.warning(f"Download ISPRA rifiuti fallito: {e} — skip (nessuna cache)")
+                return 0
 
     lines = raw.decode("utf-8-sig", errors="replace").splitlines()
     # Line 0: title; Line 1: header (25 cols); Line 2+: data with leading tabs + trailing ;
@@ -1810,8 +1816,12 @@ def carica_arera(conn: sqlite3.Connection, offline: bool = False) -> int:
             raw = scarica_bytes(ARERA_TARI_URL)
             cache_file.write_bytes(raw)
         except Exception as e:
-            log.warning(f"Download ARERA TARI fallito: {e} — skip")
-            return 0
+            if cache_file.exists():
+                log.warning(f"Download ARERA TARI fallito: {e} — uso cache precedente")
+                raw = cache_file.read_bytes()
+            else:
+                log.warning(f"Download ARERA TARI fallito: {e} — skip (nessuna cache)")
+                return 0
 
     enc = _detect_enc(raw, "latin-1")
     try:
@@ -1908,8 +1918,12 @@ def carica_farmacie(conn: sqlite3.Connection, offline: bool = False) -> int:
             raw = r.content
             cache_file.write_bytes(raw)
         except Exception as e:
-            log.warning(f"Download farmacie fallito: {e} — skip")
-            return 0
+            if cache_file.exists():
+                log.warning(f"Download farmacie fallito: {e} — uso cache precedente")
+                raw = cache_file.read_bytes()
+            else:
+                log.warning(f"Download farmacie fallito: {e} — skip (nessuna cache)")
+                return 0
 
     df = pd.read_csv(
         _io.StringIO(raw.decode("latin-1", errors="replace")),
@@ -1997,8 +2011,12 @@ def carica_carburanti(conn: sqlite3.Connection, offline: bool = False) -> int:
             raw = scarica_bytes(MIMIT_IMPIANTI_URL)
             cache_file.write_bytes(raw)
         except Exception as e:
-            log.warning(f"Download MIMIT impianti fallito: {e} — skip")
-            return 0
+            if cache_file.exists():
+                log.warning(f"Download MIMIT impianti fallito: {e} — uso cache precedente")
+                raw = cache_file.read_bytes()
+            else:
+                log.warning(f"Download MIMIT impianti fallito: {e} — skip (nessuna cache)")
+                return 0
 
     lines = raw.decode("latin-1", errors="replace").splitlines()
     if len(lines) < 3:
@@ -2166,7 +2184,14 @@ def main():
             carica_zone_sismiche(conn, df)
         else:
             log.warning("Zone sismiche non disponibili.")
-        # Zone climatiche: fonte non disponibile come open data strutturato — skip
+
+        # Zone climatiche — CSV GitHub ferdi2005 (dati DPR 412/93)
+        df = tenta_scarica_csv(ZONE_CLIMATICHE_URL, cache_dir / "zone_climatiche.csv",
+                               args.offline, sep=";", encoding="utf-8")
+        if df is not None:
+            carica_zone_climatiche(conn, df)
+        else:
+            log.warning("Zone climatiche non disponibili.")
 
         # 6. Banche — Albo Banche Banca d'Italia
         df_banche = tenta_scarica_csv(BANCA_ITALIA_URL, cache_dir / "banche_bi.csv",

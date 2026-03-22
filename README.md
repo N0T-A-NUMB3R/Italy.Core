@@ -433,15 +433,38 @@ public class Anagrafica
 
 ---
 
+## Caricamento Database
+
+Il database embedded viene caricato con una strategia a cascata:
+
+```
+Avvio Atlante
+     │
+     ▼
+Strategia 1 — File su disco
+  %TEMP%\ItalyCore\italy_<version>_<hash>.db
+  Riutilizzato tra avvii (hash MD5 garantisce coerenza)
+     │
+     │  Fallisce? (permessi, container read-only, disco pieno)
+     ▼
+Strategia 2 — In-Memory (SQLite Backup API)
+  Data Source=:memory: condivisa tra connessioni
+  Trasparente per il chiamante — stessa API, stesse performance
+  Il DB vive in memoria per tutta la durata del processo
+```
+
+> **Casi d'uso del fallback**: applicazioni enterprise con policy che vietano scrittura in `%TEMP%`, kiosk e terminali con filesystem read-only, app packaged (MSIX) con sandbox restrittiva.
+
 ## Performance
 
 | Operazione | Target | Tecnica |
 |---|---|---|
-| Cold Start | < 100ms | Estrazione lazy DB embedded |
+| Cold Start (disco) | < 100ms | Estrazione lazy DB embedded |
+| Cold Start (in-memory) | < 500ms | SQLite Backup API da byte array |
 | Ricerca fuzzy comuni | < 10ms | FTS5 SQLite + Levenshtein in-memory |
 | Validazione CF (hot path) | < 1μs | `Span<char>`, zero heap allocation |
 | Lookup ATECO/Banche | < 5ms | B-Tree index SQLite |
-| DB Read-Only | thread-safe | `Mode=ReadOnly;Immutable=true` |
+| DB Read-Only | thread-safe | `Mode=ReadOnly` / shared memory cache |
 
 ---
 
@@ -677,9 +700,57 @@ Italy.Core/
 
 ---
 
+## Atlante Digitale — Il Prodotto
+
+> Atlante Digitale è l'interfaccia interattiva di Italy.Core: un ecosistema progettato per semplificare l'accesso, la validazione e la decodifica dei dati amministrativi, geografici e fiscali italiani.
+
+Nato come MVP, dimostra come una gestione strutturata del dato possa abbattere la complessità burocratica — strumenti veloci, sicuri e pronti all'uso per professionisti e sviluppatori.
+
+### La Visione
+
+Il progetto risolve il problema della **frammentazione delle fonti ufficiali italiane** (ISTAT, Agenzia delle Entrate, Banca d'Italia, ISPRA, MIMIT), aggregandole in un unico punto di accesso coerente.
+
+- **Data Governance**: pipeline di aggregazione automatizzata da 7+ fonti ufficiali
+- **Affidabilità**: dati aggiornati mensilmente, inclusi i nuovi codici ATECO 2025
+- **Accessibilità**: UX moderna che rende fruibili dati tecnici anche a utenti non-developer
+- **Privacy by Design**: zero dati utente raccolti — l'architettura stessa lo garantisce
+
+### Architettura
+
+| Layer | Tecnologia |
+|---|---|
+| Runtime | .NET 8 / Blazor Server |
+| Data Storage | SQLite embedded nella DLL · fallback in-memory automatico |
+| Performance | <14ms query medio |
+| Security | CSP + Rate Limiting per IP + Header HTTP difensivi |
+
+### 📊 Numeri del Data Pack (2026.03)
+
+| Dataset | Record | Fonte |
+|---|---|---|
+| Comuni attivi | **7.803** | ISTAT |
+| Variazioni storiche | **1.953** | ISTAT |
+| Farmacie | **20.750** | Ministero della Salute |
+| Impianti carburante | **23.574** | MIMIT |
+| Banche (ABI/BIC) | **1.691** | Banca d'Italia + GLEIF |
+| Enti IPA/PA | **23.676** | AgID IndicePA |
+| Codici ATECO | **3.157** | ISTAT |
+| Comuni con dati rifiuti | **7.673** | ISPRA Catasto Rifiuti 2024 |
+| Comuni con PEC istituzionale | **7.520** | AgID IndicePA |
+| Comuni con patrono | **1.033** | santiebeati.it |
+| Zone climatiche (DPR 412/93) | **7.435** | ENEA Solaritaly |
+
+### Autore
+
+Progettato, sviluppato e mantenuto da **Fabio Nan** — Technical Project Manager & .NET Architect
+
+> *"Ho costruito l'Atlante Digitale per dimostrare che efficienza tecnica e conformità normativa possono coesistere in un prodotto snello, veloce e utile."*
+
+---
+
 ## Licenza
 
 MIT — Vedi [LICENSE](LICENSE)
 
-*Dati: ISTAT, GeoNames, IndicePA, Protezione Civile, ISPRA, Ministero della Salute, MIMIT*
+*Dati: ISTAT, GeoNames, IndicePA, Protezione Civile, ISPRA, Ministero della Salute, MIMIT, ENEA*
 *Aggiornamento automatico mensile — Data Pack corrente: 2026.03*

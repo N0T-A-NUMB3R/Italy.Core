@@ -145,6 +145,12 @@ public sealed class Atlante : IDisposable
     /// </summary>
     public ServiziGeoDistanza GeoDistanza { get; }
 
+    /// <summary>
+    /// Farmacie attive e impianti carburante per comune/provincia.
+    /// Fonte: Ministero della Salute + MIMIT.
+    /// </summary>
+    public ServiziTerritorioServizi TerritoriServizi { get; }
+
     // ── Costruttori ──────────────────────────────────────────────────────────
 
     /// <summary>
@@ -182,6 +188,7 @@ public sealed class Atlante : IDisposable
         ZoneTerritoriali = new ServiziZoneTerritoriali(_database);
         Regioni = new ServiziRegioni(_database);
         GeoDistanza = new ServiziGeoDistanza(_database);
+        TerritoriServizi = new ServiziTerritorioServizi(_database);
     }
 
     /// <summary>Costruttore per Dependency Injection.</summary>
@@ -217,6 +224,7 @@ public sealed class Atlante : IDisposable
         ZoneTerritoriali = new ServiziZoneTerritoriali(_database);
         Regioni = new ServiziRegioni(_database);
         GeoDistanza = new ServiziGeoDistanza(_database);
+        TerritoriServizi = new ServiziTerritorioServizi(_database);
     }
 
     // ── Metadati Database ─────────────────────────────────────────────────────

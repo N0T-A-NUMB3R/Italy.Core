@@ -83,7 +83,7 @@ public sealed class ServiziValidazione
         return new RisultatoIBAN
         {
             IsValido = true,
-            IBAN_Formattato = ibanFormattato,
+            IbanFormattato = ibanFormattato,
             FilialeCodice = ibanNorm.Substring(10, 5)
         };
     }

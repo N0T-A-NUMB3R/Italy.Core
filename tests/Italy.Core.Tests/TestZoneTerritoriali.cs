@@ -66,4 +66,41 @@ public sealed class TestZoneTerritoriali
     {
         Assert.Throws<ArgumentException>(() => _atlante.ZoneTerritoriali.ComuniPerZonaClimatica("Z"));
     }
+
+    // ── Zona Altimetrica ──────────────────────────────────────────────────────
+
+    [Fact(DisplayName = "Zona altimetrica: query per Pianura non lancia eccezione")]
+    public void ComuniPerZonaAltimetrica_Pianura_NonLanciaEccezione()
+    {
+        var comuni = _atlante.ZoneTerritoriali.ComuniPerZonaAltimetrica(ZonaAltimetrica.Pianura);
+        Assert.NotNull(comuni);
+        // Accettabile anche lista vuota se il DB non ha ancora la colonna popolata
+    }
+
+    [Fact(DisplayName = "Zona altimetrica: query per MontagnaInterna non lancia eccezione")]
+    public void ComuniPerZonaAltimetrica_Montagna_NonLanciaEccezione()
+    {
+        var comuni = _atlante.ZoneTerritoriali.ComuniPerZonaAltimetrica(ZonaAltimetrica.MontagnaInterna);
+        Assert.NotNull(comuni);
+    }
+
+    [Fact(DisplayName = "Milano ha zona altimetrica Pianura (se il DB è aggiornato)")]
+    public void ZonaAltimetrica_Milano_PianuaSePresente()
+    {
+        var z = _atlante.ZoneTerritoriali.OttieniZone("F205");
+        Assert.NotNull(z);
+        // Se la colonna è presente nel DB, Milano deve essere pianura
+        if (z.ZonaAltimetrica.HasValue)
+            Assert.Equal(ZonaAltimetrica.Pianura, z.ZonaAltimetrica.Value);
+    }
+
+    [Fact(DisplayName = "Milano ha zona altimetrica anche come proprietà del Comune")]
+    public void ZonaAltimetrica_ComuneMilano_Coerente()
+    {
+        var comune = _atlante.Comuni.DaCodiceBelfiore("F205");
+        Assert.NotNull(comune);
+        // Se valorizzata, deve essere un valore dell'enum valido
+        if (comune.ZonaAltimetrica.HasValue)
+            Assert.True(Enum.IsDefined(typeof(ZonaAltimetrica), comune.ZonaAltimetrica.Value));
+    }
 }

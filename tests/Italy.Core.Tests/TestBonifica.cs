@@ -27,7 +27,7 @@ public sealed class TestBonifica
         foreach (var p in province)
         {
             var r = _bonifica.VerificaSiglaProvincia(p);
-            Assert.True(r.RequiereCorrezione, $"Provincia '{p}' dovrebbe essere segnalata come soppressa.");
+            Assert.True(r.RichiedeCorrezione, $"Provincia '{p}' dovrebbe essere segnalata come soppressa.");
             Assert.Equal(TipoBonifica.SiglaProvinciaAggiornata, r.Tipo);
             Assert.NotNull(r.ValoreSuggerito);
         }
@@ -37,7 +37,7 @@ public sealed class TestBonifica
     public void VerificaSiglaProvincia_ProvinciaAttiva_NessunaCorrezione()
     {
         var r = _bonifica.VerificaSiglaProvincia("MI");
-        Assert.False(r.RequiereCorrezione);
+        Assert.False(r.RichiedeCorrezione);
     }
 
     [Fact(DisplayName = "AnalizzaIndirizzo con CAP e comune coerenti non segnala anomalie")]
