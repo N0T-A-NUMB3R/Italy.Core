@@ -529,93 +529,7 @@ Strategia 2 — In-Memory (SQLite Backup API)
 | santiebeati.it | Santi patroni locali (1.033 comuni) | Manuale (`scrape_patroni.py`) |
 | ISPRA Catasto Rifiuti | % RD, kg/ab, tonnellate totali e 8 frazioni merceologiche per 7.802 comuni (2024) | Annuale (automatico) |
 
----
 
-## Ecosistema
-
-Italy.Core è il nucleo di una famiglia di pacchetti per lo sviluppo italiano.
-I moduli di estensione aggiungono dati **live via API** senza appesantire il pacchetto base.
-
-```
-Italy.Core              ← dati embedded (offline, zero dipendenze HTTP)
-    ├── Italy.Core.PA     ← catalogo IPA live (IndicePA API) — codici SdI, PEC, enti PA
-    └── Italy.Core.ISTAT  ← statistiche live (ISTAT SDMX API) — popolazione, PIL, inflazione
-```
-
-### Italy.Core.PA
-
-Accesso in tempo reale al catalogo **IndicePA** — la fonte ufficiale di tutte le PA italiane.
-Nessuna API key richiesta. Licenza dati: CC BY 4.0.
-
-```csharp
-dotnet add package Italy.Core.PA
-```
-
-```csharp
-var pa = new ServiziPAEstesi(atlante.Comuni);
-
-// Ricerca enti per nome
-var enti = await pa.CercaEnteIPAAsync("Comune di Milano");
-enti[0].PEC;        // "protocollo@pec.comune.milano.it"
-enti[0].CodiceIPA;  // "c_f205"
-
-// Codice SdI per fatturazione elettronica B2G
-var codici = await pa.OttieniCodiciSdIAsync("c_f205");
-codici[0].Codice;   // "A4707H"  ← da usare nel tag CodiceDestinatario della FatturaPA
-
-// Cerca per codice fiscale
-var inps = await pa.OttieniEnteIPAPerCFAsync("80078750587");
-inps.Denominazione; // "Istituto Nazionale della Previdenza Sociale"
-
-// Tutti gli enti di una provincia
-var enti = await pa.OttieniEntiIPAPerProvinciaAsync("MI", maxRisultati: 50);
-```
-
-### Italy.Core.ISTAT
-
-Accesso in tempo reale all'**API SDMX pubblica ISTAT**.
-Nessuna API key richiesta. Aggiornamento automatico da ISTAT.
-
-```csharp
-dotnet add package Italy.Core.ISTAT
-```
-
-```csharp
-var istat = new ServiziISTAT(atlante.Comuni);
-
-// Popolazione per comune (codice ISTAT o Belfiore)
-var pop = await istat.GetPopolazioneAsync("015146");   // Milano
-pop.Totale;   // 1.352.000
-pop.Maschi;   // 641.000
-
-var pop2 = await istat.GetPopolazioneDaBelfioreAsync("F205"); // stesso risultato
-
-// Inflazione (NIC / FOI / IPCA)
-var inf = await istat.GetInflazioneAsync();
-inf.Periodo;    // "2026-02"
-inf.IndiceNIC;  // 1.2  (variazione % annua)
-
-// PIL regionale
-var pil = await istat.GetPILRegioneAsync("03");  // Lombardia
-pil.PILProCapite;  // 38.400 €
-
-// Mercato del lavoro per provincia
-var lav = await istat.GetMercatoLavoroAsync("MI");
-lav.TassoDisoccupazione;  // 4.2%
-
-// Famiglie per comune
-var fam = await istat.GetFamiglieAsync("015146");
-fam.ComponentoMedio;  // 1.94 componenti per famiglia
-```
-
-| Modulo | Fonte API | Auth | Dataset |
-|---|---|---|---|
-| **Italy.Core.PA** | `indicepa.gov.it` CKAN | No | Enti, SdI, PEC |
-| **Italy.Core.ISTAT** | `sdmx.istat.it` SDMX 2.1 | No | Popolazione, PIL, inflazione, lavoro |
-
----
-
-## Struttura Repository
 
 ```
 Italy.Core/
@@ -634,13 +548,6 @@ Italy.Core/
 │   │   ├── Infrastruttura/      ← SQLite, repository, DI, shim net48
 │   │   ├── Validazione/         ← DataAnnotation attributes
 │   │   └── data/italy.db       ← risorsa embedded (~8 MB)
-│   ├── Italy.Core.PA/           ← [pacchetto separato] API live IndicePA
-│   │   ├── ServiziPAEstesi.cs   ← ricerca enti, SdI, PEC
-│   │   └── README.md
-│   └── Italy.Core.ISTAT/        ← [pacchetto separato] API live ISTAT SDMX
-│       ├── ServiziISTAT.cs      ← popolazione, PIL, inflazione, lavoro
-│       ├── Domain.cs
-│       └── README.md
 └── tests/
     ├── Italy.Core.Tests/
     │   ├── TestAteco.cs
@@ -691,62 +598,13 @@ Italy.Core/
 ### Ecosistema — funzionalità future
 
 - [ ] Codici postali storici (CAP dismessi)
-- [ ] Tassi di cambio EUR storici (BCE open data) — fattibilità Alta
-- [ ] Numeri di emergenza per comune/ASL — fattibilità Media
-- [ ] Elenco farmacie per comune (Ministero Salute open data) — fattibilità Alta
-- [ ] Codici catastali immobiliari OMI (Agenzia Entrate) — fattibilità Alta
-- [ ] Circoscrizioni elettorali — fattibilità Bassa
-- [ ] Mappatura ATECO → settore INPS — fattibilità Media
+- [ ] Tassi di cambio EUR storici (BCE open data
+- [ ] Numeri di emergenza per comune/ASL 
+- [ ] Elenco farmacie per comune (Ministero Salute open data) 
+- [ ] Codici catastali immobiliari OMI (Agenzia Entrate) 
+- [ ] Circoscrizioni elettorali 
+- [ ] Mappatura ATECO → settore INPS 
 
----
-
-## Atlante Digitale — Il Prodotto
-
-> Atlante Digitale è l'interfaccia interattiva di Italy.Core: un ecosistema progettato per semplificare l'accesso, la validazione e la decodifica dei dati amministrativi, geografici e fiscali italiani.
-
-Nato come MVP, dimostra come una gestione strutturata del dato possa abbattere la complessità burocratica — strumenti veloci, sicuri e pronti all'uso per professionisti e sviluppatori.
-
-### La Visione
-
-Il progetto risolve il problema della **frammentazione delle fonti ufficiali italiane** (ISTAT, Agenzia delle Entrate, Banca d'Italia, ISPRA, MIMIT), aggregandole in un unico punto di accesso coerente.
-
-- **Data Governance**: pipeline di aggregazione automatizzata da 7+ fonti ufficiali
-- **Affidabilità**: dati aggiornati mensilmente, inclusi i nuovi codici ATECO 2025
-- **Accessibilità**: UX moderna che rende fruibili dati tecnici anche a utenti non-developer
-- **Privacy by Design**: zero dati utente raccolti — l'architettura stessa lo garantisce
-
-### Architettura
-
-| Layer | Tecnologia |
-|---|---|
-| Runtime | .NET 8 / Blazor Server |
-| Data Storage | SQLite embedded nella DLL · fallback in-memory automatico |
-| Performance | <14ms query medio |
-| Security | CSP + Rate Limiting per IP + Header HTTP difensivi |
-
-### 📊 Numeri del Data Pack (2026.03)
-
-| Dataset | Record | Fonte |
-|---|---|---|
-| Comuni attivi | **7.803** | ISTAT |
-| Variazioni storiche | **1.953** | ISTAT |
-| Farmacie | **20.750** | Ministero della Salute |
-| Impianti carburante | **23.574** | MIMIT |
-| Banche (ABI/BIC) | **1.691** | Banca d'Italia + GLEIF |
-| Enti IPA/PA | **23.676** | AgID IndicePA |
-| Codici ATECO | **3.157** | ISTAT |
-| Comuni con dati rifiuti | **7.673** | ISPRA Catasto Rifiuti 2024 |
-| Comuni con PEC istituzionale | **7.520** | AgID IndicePA |
-| Comuni con patrono | **1.033** | santiebeati.it |
-| Zone climatiche (DPR 412/93) | **7.435** | ENEA Solaritaly |
-
-### Autore
-
-Progettato, sviluppato e mantenuto da **Fabio Nan** — Technical Project Manager & .NET Architect
-
-> *"Ho costruito l'Atlante Digitale per dimostrare che efficienza tecnica e conformità normativa possono coesistere in un prodotto snello, veloce e utile."*
-
----
 
 ## Licenza
 
