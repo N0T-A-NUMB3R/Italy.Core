@@ -3,16 +3,23 @@
 build_atlante.py — Genera il database Atlante (italy.db) dai CSV ISTAT open data.
 
 Sorgenti:
-  - ISTAT: Comuni, Variazioni storiche
-  - GeoNames: CAP + coordinate WGS84
+  - ISTAT: Comuni, Variazioni storiche, Aree Interne
+  - GeoNames: CAP multipli + coordinate WGS84
   - Banca d'Italia: Codici ABI/BIC banche
   - ISTAT: Codici ATECO 2007
-  - IndicePA: Codici SdI per PA (iPA)
-  - Zone climatiche: da CSV GitHub (DPR 412/93)
+  - IndicePA (IPA): Enti PA + Codici SDI fatturazione elettronica
+  - Zone climatiche: CSV ENEA SolarItaly (DPR 412/93) + gradi-giorno
   - Zone sismiche: INGV/Protezione Civile per comune
+  - ISPRA: Dati raccolta differenziata e rifiuti urbani per comune
+  - Ministero Salute: ASL competente per comune
+  - Wikidata: Santo patrono + data festa, dati demografici storici
+  - Mapping normativi: CCIAA (DL 219/2016), Tribunali (D.Lgs. 155/2012)
+  - [Opzionale] Ministero Salute: Farmacie attive
+  - [Opzionale] MIMIT: Impianti di distribuzione carburanti
 
 Utilizzo:
     python tools/build_atlante.py [--output src/Italy.Core/data/italy.db] [--offline]
+    python tools/build_atlante.py --include-poi   # include farmacie e impianti carburante
 """
 
 import argparse
@@ -126,6 +133,10 @@ MIMIT_IMPIANTI_URL  = (
 SALUTE_FARMACIE_URL = (
     "https://www.dati.salute.gov.it/sites/default/files/opendata/FRM_FARMA_5_20260321.csv"
 )
+
+# Wikidata SPARQL endpoint — patroni e dati comunali
+WIKIDATA_SPARQL_URL = "https://query.wikidata.org/sparql"
+
 
 TIMEOUT_SECONDI = 90
 VERSIONE_DATI   = datetime.today().strftime("%Y.%m")
@@ -321,6 +332,7 @@ CREATE TABLE IF NOT EXISTS comuni (
     anno_rilevazione    INTEGER,
     zona_sismica        INTEGER,
     zona_climatica      TEXT,
+    gradi_giorno        INTEGER,
     zona_altimetrica    INTEGER,
     classe_aree_interne TEXT,
     nuts3               TEXT,
@@ -508,7 +520,11 @@ CREATE TABLE IF NOT EXISTS aggregazioni_sovracomunali (
     tribunale           TEXT,
     -- INPS/INAIL
     codice_sede_inps    TEXT,
-    codice_sede_inail   TEXT
+    codice_sede_inail   TEXT,
+    -- Camera di Commercio (fonte: DL 219/2016 e successive fusioni)
+    cciaa               TEXT,
+    -- Distretto fiscale / ufficio AE (derivabile da provincia)
+    codice_distretto_fiscale TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_aggregazioni_belfiore ON aggregazioni_sovracomunali(codice_belfiore);
@@ -671,11 +687,15 @@ def carica_variazioni_storiche(conn: sqlite3.Connection, df: pd.DataFrame) -> in
     log.info(f"Colonne: {list(df.columns)}")
 
     # Mappa codici ISTAT tipo variazione → enum interno
+    # CS = Costituzione (nuovo comune da fusione), ES = Estinzione (comune soppresso per fusione)
+    # SF = Suddivisione/Fusione storica, CD = Cambio Denominazione, CP = Cambio Provincia
     tipo_map = {
         "CD": "CambioDenominazione",
         "SF": "Fusione",
+        "CS": "Fusione",       # Costituzione: nuovo comune nato da fusione
+        "ES": "Soppressione",  # Estinzione: comune soppresso per fusione
         "IS": "Istituzione",
-        "CS": "CambioProvincia",
+        "CP": "CambioProvincia",
         "AN": "Annessione",
         "SC": "Scissione",
         "SP": "Soppressione",
@@ -688,6 +708,20 @@ def carica_variazioni_storiche(conn: sqlite3.Connection, df: pd.DataFrame) -> in
     cur = conn.execute("SELECT codice_istat, codice_belfiore FROM comuni")
     istat_to_belfiore = {row[0]: row[1] for row in cur.fetchall()}
 
+    # Indice codice_provincia (3 cifre) → dati provincia dai comuni esistenti
+    cur2 = conn.execute("""
+        SELECT codice_provincia, sigla_provincia, nome_provincia,
+               nome_regione, codice_regione, ripartizione, nuts1, nuts2, nuts3
+        FROM comuni
+        WHERE codice_provincia != ''
+        GROUP BY codice_provincia
+    """)
+    prov_info: dict[str, tuple] = {}
+    for row in cur2.fetchall():
+        cp = str(row[0]).zfill(3)
+        if cp not in prov_info:
+            prov_info[cp] = (row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+
     # Colonne del CSV (nome completo con possibili caratteri speciali da encoding)
     col_tipo      = next((c for c in df.columns if "Tipo" in c and "variazione" in c.lower()), None)
     col_istat     = next((c for c in df.columns if "Codice Comune formato" in c), None)
@@ -697,12 +731,70 @@ def carica_variazioni_storiche(conn: sqlite3.Connection, df: pd.DataFrame) -> in
     col_data      = next((c for c in df.columns if "Data decorrenza" in c), None)
     col_rif       = next((c for c in df.columns if "Provvedimento" in c), None)
     col_anno      = next((c for c in df.columns if c.strip() == "Anno"), None)
+    col_uts       = next((c for c in df.columns if "Unit" in c and "sovracomunale" in c.lower() and "associato" not in c.lower()), None)
 
-    log.info(f"  tipo={col_tipo} istat={col_istat} data={col_data} succ={col_istat_succ}")
+    log.info(f"  tipo={col_tipo} istat={col_istat} data={col_data} succ={col_istat_succ} uts={col_uts}")
 
     if not col_tipo or not col_istat:
         log.error("Colonne variazioni storiche non trovate — skip.")
         return 0
+
+    # Prima passata: crea i comuni soppressi per fusione (ES) che mancano dal DB.
+    # Il CSV variazioni ha tutti i dati minimi necessari per le righe ES.
+    comuni_soppressi_inseriti = 0
+    for _, r in df.iterrows():
+        tipo_raw = pulisci(r.get(col_tipo, ""))
+        if str(tipo_raw).strip().upper() != "ES":
+            continue
+        istat = pulisci(r.get(col_istat))
+        if not istat:
+            continue
+        istat_z = istat.zfill(6)
+        if istat_z in istat_to_belfiore:
+            continue  # già presente
+
+        den       = pulisci(r.get(col_den)) if col_den else None
+        istat_succ = pulisci(r.get(col_istat_succ)) if col_istat_succ else None
+        data_raw  = pulisci(r.get(col_data)) if col_data else None
+        anno      = pulisci(r.get(col_anno)) if col_anno else None
+        if not data_raw and anno:
+            data_raw = f"01/01/{anno}"
+
+        # Ricava codice_provincia dalle prime 3 cifre dello ISTAT
+        cod_prov = istat_z[:3]
+        pi = prov_info.get(cod_prov, ("", "", "", "", 3, None, None, None))
+        sigla_p, nome_p, nome_r, cod_r, rip, n1, n2, n3 = pi
+
+        # Belfiore placeholder: "~" + ISTAT (non collide con codici reali A-Z+cifre)
+        belfiore_placeholder = f"~{istat_z}"
+        belfiore_succ = istat_to_belfiore.get((istat_succ or "").zfill(6), "")
+
+        conn.execute("""
+            INSERT OR IGNORE INTO comuni (
+                codice_belfiore, codice_istat, denominazione,
+                sigla_provincia, nome_provincia, codice_provincia,
+                nome_regione, codice_regione, ripartizione,
+                is_capoluogo, is_citta_metro, is_montano, is_attivo,
+                data_soppressione, codice_successore,
+                nuts1, nuts2, nuts3
+            ) VALUES (?,?,?,?,?,?,?,?,?,0,0,0,0,?,?,?,?,?)
+        """, (
+            belfiore_placeholder, istat_z, den or istat_z,
+            sigla_p, nome_p, cod_prov,
+            nome_r, cod_r, rip,
+            data_raw, belfiore_succ,
+            n1, n2, n3,
+        ))
+        istat_to_belfiore[istat_z] = belfiore_placeholder
+        comuni_soppressi_inseriti += 1
+
+    if comuni_soppressi_inseriti:
+        conn.commit()
+        log.info(f"Inseriti {comuni_soppressi_inseriti} comuni soppressi (fusione) mancanti.")
+
+    # Seconda passata: costruisce le variazioni
+    # Per CS (Fusione): raggruppa per comune risultante raccogliendo tutti i comuni di origine
+    fusioni: dict[str, list[str]] = {}  # istat_risultante → [istat_origine, ...]
 
     righe = []
     for _, r in df.iterrows():
@@ -720,34 +812,99 @@ def carica_variazioni_storiche(conn: sqlite3.Connection, df: pd.DataFrame) -> in
         if not data_raw:
             continue
 
-        tipo       = tipo_map.get(str(tipo_raw).strip().upper(), "CambioDenominazione")
-        belfiore   = istat_to_belfiore.get(istat.zfill(6), "")
+        tipo_upper = str(tipo_raw).strip().upper()
+        tipo       = tipo_map.get(tipo_upper, "CambioDenominazione")
+        istat_z    = istat.zfill(6)
+        belfiore   = istat_to_belfiore.get(istat_z, "")
         istat_succ = pulisci(r.get(col_istat_succ)) if col_istat_succ else None
-        belfiore_succ = istat_to_belfiore.get((istat_succ or "").zfill(6), "") if istat_succ else None
+        istat_succ_z = (istat_succ or "").zfill(6) if istat_succ else ""
+        belfiore_succ = istat_to_belfiore.get(istat_succ_z, "") if istat_succ_z else ""
         den        = pulisci(r.get(col_den)) if col_den else None
         den_succ   = pulisci(r.get(col_den_succ)) if col_den_succ else None
         rif        = pulisci(r.get(col_rif)) if col_rif else None
 
+        if tipo_upper == "CS":
+            # CS: il comune corrente (istat) è quello risultante dalla fusione,
+            # istat_succ è uno dei comuni di origine
+            if istat_succ_z:
+                fusioni.setdefault(istat_z, [])
+                if istat_succ_z not in fusioni[istat_z]:
+                    fusioni[istat_z].append(istat_succ_z)
+            continue  # La variazione CS viene inserita dopo, raggruppata
+
         righe.append((
-            belfiore or istat,
+            belfiore or istat_z,
             tipo,
             data_raw,
             den,           # denominazione_prec
             den_succ,      # denominazione_succ
             None,          # provincia_prec
             None,          # provincia_succ
-            json.dumps([istat]),
-            json.dumps([istat_succ or istat]),
+            json.dumps([belfiore or istat_z]),
+            json.dumps([belfiore_succ or istat_succ_z] if istat_succ_z else [belfiore or istat_z]),
             rif,
             None,
         ))
 
-        if tipo == "Soppressione" and belfiore:
-            conn.execute(
-                "UPDATE comuni SET is_attivo=0, data_soppressione=?, codice_successore=? "
-                "WHERE codice_belfiore=?",
-                (data_raw, belfiore_succ, belfiore)
-            )
+        if tipo == "Soppressione":
+            if belfiore:
+                conn.execute(
+                    "UPDATE comuni SET is_attivo=0, data_soppressione=?, codice_successore=? "
+                    "WHERE codice_belfiore=?",
+                    (data_raw, belfiore_succ or None, belfiore)
+                )
+            # Aggiorna anche i placeholder inseriti nella prima passata
+            placeholder = istat_to_belfiore.get(istat_z, "")
+            if placeholder and placeholder != belfiore:
+                conn.execute(
+                    "UPDATE comuni SET is_attivo=0, data_soppressione=?, codice_successore=? "
+                    "WHERE codice_belfiore=?",
+                    (data_raw, belfiore_succ or None, placeholder)
+                )
+
+    # Inserisci le variazioni CS raggruppate come Fusione sul comune risultante
+    for istat_ris, origini in fusioni.items():
+        belfiore_ris = istat_to_belfiore.get(istat_ris, "")
+        if not belfiore_ris:
+            continue
+        belfiori_orig = [istat_to_belfiore.get(o, o) for o in origini]
+        # Recupera data e rif dalla prima riga CS di questo comune risultante
+        riga_cs = df[
+            (df[col_tipo].astype(str).str.strip().str.upper() == "CS") &
+            (df[col_istat].astype(str).str.zfill(6) == istat_ris)
+        ]
+        data_cs = None
+        rif_cs  = None
+        den_ris = None
+        if not riga_cs.empty:
+            r0 = riga_cs.iloc[0]
+            data_cs = pulisci(r0.get(col_data)) if col_data else None
+            anno_cs = pulisci(r0.get(col_anno)) if col_anno else None
+            if not data_cs and anno_cs:
+                data_cs = f"01/01/{anno_cs}"
+            rif_cs  = pulisci(r0.get(col_rif)) if col_rif else None
+            den_ris = pulisci(r0.get(col_den)) if col_den else None
+
+        if not data_cs:
+            continue
+
+        righe.append((
+            belfiore_ris,
+            "Fusione",
+            data_cs,
+            None,
+            den_ris,
+            None, None,
+            json.dumps(belfiori_orig),
+            json.dumps([belfiore_ris]),
+            rif_cs,
+            None,
+        ))
+        # Aggiorna data_istituzione del comune risultante
+        conn.execute(
+            "UPDATE comuni SET data_istituzione=? WHERE codice_belfiore=? AND (data_istituzione IS NULL OR data_istituzione='')",
+            (data_cs, belfiore_ris)
+        )
 
     conn.executemany("""
         INSERT INTO variazioni_storiche (
@@ -842,16 +999,17 @@ def carica_geonames(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
 
 def carica_zone_climatiche(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
     """
-    Carica zone climatiche DPR 412/93 da CSV ENEA Solaritaly.
+    Carica zone climatiche DPR 412/93 e gradi-giorno da CSV ENEA Solaritaly.
     Formato: cod reg, cod prov, cod com, sigla prov, comune, altit, gradi-giorni, zona clim
     Il codice ISTAT a 6 cifre si ricava da cod_prov(3) + cod_com(3).
     """
     log.info(f"Caricamento zone climatiche ({len(df)} record)...")
 
-    # Colonne ENEA: "cod prov", "cod com", "zona clim"
+    # Colonne ENEA: "cod prov", "cod com", "zona clim", "gradi-giorni"
     col_prov = next((c for c in df.columns if "prov" in c.lower() and "cod" in c.lower()), None)
     col_com  = next((c for c in df.columns if "com" in c.lower() and "cod" in c.lower() and "prov" not in c.lower()), None)
     col_zona = next((c for c in df.columns if "zona" in c.lower() or "clim" in c.lower()), None)
+    col_gg   = next((c for c in df.columns if "gradi" in c.lower() or "gg" in c.lower()), None)
 
     if not col_prov or not col_com or not col_zona:
         log.warning(f"Zone climatiche: colonne non trovate in {list(df.columns)} — skip")
@@ -865,15 +1023,44 @@ def carica_zone_climatiche(conn: sqlite3.Connection, df: pd.DataFrame) -> int:
         if not prov or not com or not zona:
             continue
         istat6 = prov.zfill(3) + com.zfill(3)
+        gg = to_int(r.get(col_gg)) if col_gg else None
         res = conn.execute(
-            "UPDATE comuni SET zona_climatica=? WHERE codice_istat=?",
-            (zona.upper(), istat6),
+            "UPDATE comuni SET zona_climatica=?, gradi_giorno=? WHERE codice_istat=?",
+            (zona.upper(), gg, istat6),
         )
         aggiornati += res.rowcount
 
     conn.commit()
-    log.info(f"Zone climatiche: {aggiornati} comuni aggiornati.")
-    return aggiornati
+    log.info(f"Zone climatiche: {aggiornati} comuni aggiornati con dati CSV.")
+
+    # Fallback per comuni senza zona (province nuove o nati da fusione):
+    # usa stessa provincia + zona_altimetrica, poi stessa regione + zona_altimetrica
+    cur_senza = conn.execute(
+        "SELECT codice_belfiore, codice_provincia, codice_regione, zona_altimetrica "
+        "FROM comuni WHERE is_attivo=1 AND (zona_climatica IS NULL OR zona_climatica='')"
+    )
+    senza = cur_senza.fetchall()
+    fallback = 0
+    for belfiore, cod_prov, cod_reg, zona_alt in senza:
+        for scope_col, scope_val in [("codice_provincia", cod_prov), ("codice_regione", cod_reg)]:
+            row = conn.execute(f"""
+                SELECT zona_climatica, AVG(gradi_giorno) FROM comuni
+                WHERE {scope_col}=? AND zona_climatica IS NOT NULL AND zona_climatica!=''
+                AND (? IS NULL OR zona_altimetrica=?)
+            """, (scope_val, zona_alt, zona_alt)).fetchone()
+            if row and row[0]:
+                gg = round(row[1]) if row[1] else None
+                conn.execute(
+                    "UPDATE comuni SET zona_climatica=?, gradi_giorno=? WHERE codice_belfiore=?",
+                    (row[0], gg, belfiore),
+                )
+                fallback += 1
+                break
+
+    conn.commit()
+    if fallback:
+        log.info(f"Zone climatiche fallback: {fallback} comuni aggiornati per stima (province nuove/fusioni).")
+    return aggiornati + fallback
 
 
 # ── 5. Zone Sismiche ──────────────────────────────────────────────────────────
@@ -2074,6 +2261,147 @@ def carica_carburanti(conn: sqlite3.Connection, offline: bool = False) -> int:
     return len(righe)
 
 
+def carica_patroni_wikidata(conn: sqlite3.Connection, offline: bool = False) -> int:
+    """
+    Arricchisce comuni.santo_patrono/patrono_giorno/patrono_mese da Wikidata SPARQL.
+    Aggiorna solo i comuni ancora privi di patrono (non sovrascrive patroni.json).
+    Usa pagine di 5000 record per evitare timeout. Estrae giorno e mese dalla label
+    della festività (es. "10 agosto" → giorno=10, mese=8).
+    """
+    if offline:
+        log.info("Wikidata patroni: skip in modalità offline.")
+        return 0
+
+    import re
+    MESI_IT = {
+        "gennaio": 1, "febbraio": 2, "marzo": 3, "aprile": 4,
+        "maggio": 5, "giugno": 6, "luglio": 7, "agosto": 8,
+        "settembre": 9, "ottobre": 10, "novembre": 11, "dicembre": 12,
+    }
+
+    def _parse_festa(label: str | None) -> tuple[int | None, int | None]:
+        if not label:
+            return None, None
+        m = re.search(r"(\d{1,2})\s+(\w+)", label.lower())
+        if m:
+            giorno = int(m.group(1))
+            mese = MESI_IT.get(m.group(2))
+            return giorno, mese
+        return None, None
+
+    sparql = """
+SELECT ?istat (SAMPLE(?patronoLabel) AS ?patrono) (SAMPLE(?festaLabel) AS ?festa) WHERE {
+  ?comune wdt:P31 wd:Q747074 ; wdt:P17 wd:Q38 ; wdt:P635 ?istat ; wdt:P417 ?patrono_e .
+  OPTIONAL { ?patrono_e wdt:P841 ?festa_e . }
+  SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "it,la,en".
+    ?patrono_e rdfs:label ?patronoLabel .
+    ?festa_e rdfs:label ?festaLabel .
+  }
+}
+GROUP BY ?istat
+"""
+    try:
+        import requests as _req
+        resp = _req.get(
+            WIKIDATA_SPARQL_URL,
+            params={"query": sparql, "format": "json"},
+            headers={"User-Agent": "ItalyCoreBot/1.0 (italy.core data enrichment)"},
+            timeout=120,
+            verify=False,
+        )
+        resp.raise_for_status()
+        bindings = resp.json()["results"]["bindings"]
+    except Exception as e:
+        log.warning(f"Wikidata patroni: download fallito ({e}) — skip")
+        return 0
+
+    log.info(f"Wikidata patroni: {len(bindings)} record ricevuti")
+    n = 0
+    for b in bindings:
+        istat = pulisci(b.get("istat", {}).get("value"))
+        patrono = pulisci(b.get("patrono", {}).get("value"))
+        if not istat or not patrono:
+            continue
+        giorno, mese = _parse_festa(pulisci(b.get("festa", {}).get("value")))
+        # Aggiorna solo comuni senza patrono già impostato
+        cur = conn.execute(
+            """UPDATE comuni SET santo_patrono=?, patrono_giorno=?, patrono_mese=?
+               WHERE codice_istat=? AND (santo_patrono IS NULL OR santo_patrono='')""",
+            (patrono, giorno, mese, istat.zfill(6)),
+        )
+        n += cur.rowcount
+
+    conn.commit()
+    log.info(f"Wikidata patroni: {n} comuni aggiornati")
+    return n
+
+
+def carica_dati_demografici_wikidata(conn: sqlite3.Connection, offline: bool = False) -> int:
+    """
+    Popola dati_demografici con la serie storica della popolazione da Wikidata.
+    Scarica gli anni più significativi: 2023, 2017, 2011, 2001, 1991, 1981, 1971.
+    Non sovrascrive record già presenti.
+    """
+    if offline:
+        log.info("Wikidata pop storica: skip in modalità offline.")
+        return 0
+
+    import requests as _req
+    cur_map = conn.execute("SELECT codice_istat, codice_belfiore FROM comuni")
+    istat_to_belfiore = {row[0]: row[1] for row in cur_map.fetchall()}
+
+    anni_target = [2023, 2017, 2011, 2001, 1991, 1981, 1971]
+    totale = 0
+
+    for anno in anni_target:
+        sparql = f"""
+SELECT ?istat ?pop WHERE {{
+  ?comune wdt:P31 wd:Q747074 ; wdt:P17 wd:Q38 ; wdt:P635 ?istat .
+  ?comune p:P1082 ?ps . ?ps ps:P1082 ?pop ; pq:P585 ?data .
+  FILTER(YEAR(?data) = {anno})
+}}
+"""
+        try:
+            resp = _req.get(
+                WIKIDATA_SPARQL_URL,
+                params={"query": sparql, "format": "json"},
+                headers={"User-Agent": "ItalyCoreBot/1.0 (italy.core data enrichment)"},
+                timeout=120,
+                verify=False,
+            )
+            resp.raise_for_status()
+            bindings = resp.json()["results"]["bindings"]
+        except Exception as e:
+            log.warning(f"Wikidata pop {anno}: errore ({e}) — skip anno")
+            continue
+
+        righe = []
+        for b in bindings:
+            istat = (b.get("istat", {}).get("value") or "").strip().zfill(6)
+            pop_val = b.get("pop", {}).get("value")
+            belfiore = istat_to_belfiore.get(istat)
+            if belfiore and pop_val:
+                pop = to_int(pop_val)
+                if pop and pop > 0:
+                    righe.append((belfiore, anno, pop, None, None, None))
+
+        if righe:
+            conn.executemany("""
+                INSERT OR REPLACE INTO dati_demografici
+                (codice_belfiore, anno, popolazione, maschi, femmine, superficie_kmq)
+                VALUES (?,?,?,?,?,?)
+            """, righe)
+            conn.commit()
+            totale += len(righe)
+            log.info(f"Wikidata pop {anno}: {len(righe)} comuni")
+        else:
+            log.info(f"Wikidata pop {anno}: nessun dato")
+
+    log.info(f"Dati demografici Wikidata: {totale} record totali inseriti")
+    return totale
+
+
 def carica_dati_default(conn: sqlite3.Connection):
     conn.executemany(
         "INSERT OR REPLACE INTO operatori_mobili (prefisso, nome_operatore, tecnologia) VALUES (?,?,?)",
@@ -2128,6 +2456,354 @@ def genera_changelog(conn: sqlite3.Connection, output_path: Path):
     log.info(f"Changelog aggiornato: {changelog_file}")
 
 
+# ── 19. CCIAA + Tribunali (dati normativi statici) ────────────────────────────
+
+# Mapping sigla_provincia → CCIAA competente (post DL 219/2016 e fusioni successive)
+_CCIAA_MAP = {
+    "AG": "CCIAA Agrigento e Caltanissetta",
+    "AL": "CCIAA Alessandria-Asti",
+    "AN": "CCIAA delle Marche",
+    "AO": "CCIAA Valle d'Aosta",
+    "AP": "CCIAA delle Marche",
+    "AQ": "CCIAA dell'Aquila",
+    "AR": "CCIAA Arezzo-Siena",
+    "AT": "CCIAA Alessandria-Asti",
+    "AV": "CCIAA Avellino-Benevento",
+    "BA": "CCIAA Bari",
+    "BG": "CCIAA Bergamo",
+    "BI": "CCIAA Biella-Vercelli",
+    "BL": "CCIAA Treviso-Belluno",
+    "BN": "CCIAA Avellino-Benevento",
+    "BO": "CCIAA Bologna",
+    "BR": "CCIAA Brindisi-Taranto",
+    "BS": "CCIAA Brescia",
+    "BT": "CCIAA Bari",
+    "BZ": "CCIAA Bolzano-Alto Adige",
+    "CA": "CCIAA della Sardegna",
+    "CB": "CCIAA Chieti-Pescara",
+    "CE": "CCIAA Caserta",
+    "CH": "CCIAA Chieti-Pescara",
+    "CL": "CCIAA Agrigento e Caltanissetta",
+    "CN": "CCIAA Cuneo",
+    "CO": "CCIAA Como-Lecco",
+    "CR": "CCIAA Cremona-Mantova",
+    "CS": "CCIAA Cosenza",
+    "CT": "CCIAA Catania",
+    "CZ": "CCIAA Catanzaro-Crotone-Vibo Valentia",
+    "EN": "CCIAA Palermo-Enna",
+    "FE": "CCIAA Ferrara",
+    "FG": "CCIAA Foggia",
+    "FI": "CCIAA della Toscana",
+    "FM": "CCIAA delle Marche",
+    "FC": "CCIAA della Romagna",
+    "FR": "CCIAA Frosinone-Latina",
+    "GE": "CCIAA Genova",
+    "GO": "CCIAA Venezia Giulia",
+    "GR": "CCIAA Maremma e Tirreno",
+    "IM": "CCIAA Riviere di Liguria",
+    "IS": "CCIAA Chieti-Pescara",
+    "KR": "CCIAA Catanzaro-Crotone-Vibo Valentia",
+    "LC": "CCIAA Como-Lecco",
+    "LE": "CCIAA Lecce",
+    "LI": "CCIAA Maremma e Tirreno",
+    "LO": "CCIAA Milano Monza-Brianza Lodi",
+    "LT": "CCIAA Frosinone-Latina",
+    "LU": "CCIAA della Toscana",
+    "MB": "CCIAA Milano Monza-Brianza Lodi",
+    "MC": "CCIAA delle Marche",
+    "ME": "CCIAA Messina",
+    "MI": "CCIAA Milano Monza-Brianza Lodi",
+    "MN": "CCIAA Cremona-Mantova",
+    "MO": "CCIAA Modena",
+    "MS": "CCIAA della Toscana",
+    "MT": "CCIAA Basilicata",
+    "NA": "CCIAA Napoli",
+    "NO": "CCIAA Novara-Vercelli",
+    "NU": "CCIAA della Sardegna",
+    "OG": "CCIAA della Sardegna",
+    "OR": "CCIAA della Sardegna",
+    "OT": "CCIAA della Sardegna",
+    "PA": "CCIAA Palermo-Enna",
+    "PC": "CCIAA Piacenza",
+    "PD": "CCIAA Padova",
+    "PE": "CCIAA Chieti-Pescara",
+    "PG": "CCIAA Umbria",
+    "PI": "CCIAA della Toscana",
+    "PN": "CCIAA Pordenone-Udine",
+    "PO": "CCIAA della Toscana",
+    "PR": "CCIAA Parma",
+    "PT": "CCIAA della Toscana",
+    "PU": "CCIAA delle Marche",
+    "PV": "CCIAA Pavia",
+    "PZ": "CCIAA Basilicata",
+    "RA": "CCIAA della Romagna",
+    "RC": "CCIAA Reggio Calabria",
+    "RE": "CCIAA Reggio Emilia",
+    "RG": "CCIAA Ragusa-Siracusa",
+    "RI": "CCIAA Rieti-Viterbo",
+    "RM": "CCIAA di Roma",
+    "RN": "CCIAA della Romagna",
+    "RO": "CCIAA Rovigo-Adria",
+    "SA": "CCIAA Salerno",
+    "SI": "CCIAA Arezzo-Siena",
+    "SO": "CCIAA Sondrio",
+    "SP": "CCIAA Riviere di Liguria",
+    "SR": "CCIAA Ragusa-Siracusa",
+    "SS": "CCIAA della Sardegna",
+    "SU": "CCIAA della Sardegna",
+    "SV": "CCIAA Riviere di Liguria",
+    "TA": "CCIAA Brindisi-Taranto",
+    "TE": "CCIAA dell'Aquila",
+    "TN": "CCIAA Trento",
+    "TO": "CCIAA Torino",
+    "TP": "CCIAA Trapani",
+    "TR": "CCIAA Umbria",
+    "TS": "CCIAA Venezia Giulia",
+    "TV": "CCIAA Treviso-Belluno",
+    "UD": "CCIAA Pordenone-Udine",
+    "VA": "CCIAA Varese",
+    "VB": "CCIAA Novara-Vercelli",
+    "VC": "CCIAA Biella-Vercelli",
+    "VE": "CCIAA Venezia",
+    "VI": "CCIAA Vicenza",
+    "VR": "CCIAA Verona",
+    "VS": "CCIAA della Sardegna",
+    "VT": "CCIAA Rieti-Viterbo",
+    "VV": "CCIAA Catanzaro-Crotone-Vibo Valentia",
+}
+
+# Mapping sigla_provincia → tribunale ordinario competente (D.Lgs. 155/2012 + succ.)
+_TRIBUNALE_MAP = {
+    "AG": "Tribunale di Agrigento",
+    "AL": "Tribunale di Alessandria",
+    "AN": "Tribunale di Ancona",
+    "AO": "Tribunale di Aosta",
+    "AP": "Tribunale di Fermo",
+    "AQ": "Tribunale dell'Aquila",
+    "AR": "Tribunale di Arezzo",
+    "AT": "Tribunale di Asti",
+    "AV": "Tribunale di Avellino",
+    "BA": "Tribunale di Bari",
+    "BG": "Tribunale di Bergamo",
+    "BI": "Tribunale di Biella",
+    "BL": "Tribunale di Belluno",
+    "BN": "Tribunale di Benevento",
+    "BO": "Tribunale di Bologna",
+    "BR": "Tribunale di Brindisi",
+    "BS": "Tribunale di Brescia",
+    "BT": "Tribunale di Trani",
+    "BZ": "Tribunale di Bolzano",
+    "CA": "Tribunale di Cagliari",
+    "CB": "Tribunale di Campobasso",
+    "CE": "Tribunale di Santa Maria Capua Vetere",
+    "CH": "Tribunale di Chieti",
+    "CL": "Tribunale di Caltanissetta",
+    "CN": "Tribunale di Cuneo",
+    "CO": "Tribunale di Como",
+    "CR": "Tribunale di Cremona",
+    "CS": "Tribunale di Cosenza",
+    "CT": "Tribunale di Catania",
+    "CZ": "Tribunale di Catanzaro",
+    "EN": "Tribunale di Enna",
+    "FE": "Tribunale di Ferrara",
+    "FG": "Tribunale di Foggia",
+    "FI": "Tribunale di Firenze",
+    "FM": "Tribunale di Fermo",
+    "FC": "Tribunale di Forlì",
+    "FR": "Tribunale di Frosinone",
+    "GE": "Tribunale di Genova",
+    "GO": "Tribunale di Gorizia",
+    "GR": "Tribunale di Grosseto",
+    "IM": "Tribunale di Imperia",
+    "IS": "Tribunale di Isernia",
+    "KR": "Tribunale di Crotone",
+    "LC": "Tribunale di Lecco",
+    "LE": "Tribunale di Lecce",
+    "LI": "Tribunale di Livorno",
+    "LO": "Tribunale di Lodi",
+    "LT": "Tribunale di Latina",
+    "LU": "Tribunale di Lucca",
+    "MB": "Tribunale di Monza",
+    "MC": "Tribunale di Macerata",
+    "ME": "Tribunale di Messina",
+    "MI": "Tribunale di Milano",
+    "MN": "Tribunale di Mantova",
+    "MO": "Tribunale di Modena",
+    "MS": "Tribunale di Massa",
+    "MT": "Tribunale di Matera",
+    "NA": "Tribunale di Napoli",
+    "NO": "Tribunale di Novara",
+    "NU": "Tribunale di Nuoro",
+    "OG": "Tribunale di Lanusei",
+    "OR": "Tribunale di Oristano",
+    "OT": "Tribunale di Tempio Pausania",
+    "PA": "Tribunale di Palermo",
+    "PC": "Tribunale di Piacenza",
+    "PD": "Tribunale di Padova",
+    "PE": "Tribunale di Pescara",
+    "PG": "Tribunale di Perugia",
+    "PI": "Tribunale di Pisa",
+    "PN": "Tribunale di Pordenone",
+    "PO": "Tribunale di Prato",
+    "PR": "Tribunale di Parma",
+    "PT": "Tribunale di Pistoia",
+    "PU": "Tribunale di Pesaro",
+    "PV": "Tribunale di Pavia",
+    "PZ": "Tribunale di Potenza",
+    "RA": "Tribunale di Ravenna",
+    "RC": "Tribunale di Reggio Calabria",
+    "RE": "Tribunale di Reggio Emilia",
+    "RG": "Tribunale di Ragusa",
+    "RI": "Tribunale di Rieti",
+    "RM": "Tribunale di Roma",
+    "RN": "Tribunale di Rimini",
+    "RO": "Tribunale di Rovigo",
+    "SA": "Tribunale di Salerno",
+    "SI": "Tribunale di Siena",
+    "SO": "Tribunale di Sondrio",
+    "SP": "Tribunale della Spezia",
+    "SR": "Tribunale di Siracusa",
+    "SS": "Tribunale di Sassari",
+    "SU": "Tribunale di Cagliari",
+    "SV": "Tribunale di Savona",
+    "TA": "Tribunale di Taranto",
+    "TE": "Tribunale di Teramo",
+    "TN": "Tribunale di Trento",
+    "TO": "Tribunale di Torino",
+    "TP": "Tribunale di Trapani",
+    "TR": "Tribunale di Terni",
+    "TS": "Tribunale di Trieste",
+    "TV": "Tribunale di Treviso",
+    "UD": "Tribunale di Udine",
+    "VA": "Tribunale di Varese",
+    "VB": "Tribunale del Verbano-Cusio-Ossola",
+    "VC": "Tribunale di Vercelli",
+    "VE": "Tribunale di Venezia",
+    "VI": "Tribunale di Vicenza",
+    "VR": "Tribunale di Verona",
+    "VS": "Tribunale di Cagliari",
+    "VT": "Tribunale di Viterbo",
+    "VV": "Tribunale di Vibo Valentia",
+}
+
+
+def carica_cciaa_tribunali(conn: sqlite3.Connection) -> None:
+    """Popola cciaa e tribunale in aggregazioni_sovracomunali da mapping normativi statici."""
+    log.info("Caricamento CCIAA e Tribunali (mapping normativi)...")
+    comuni = conn.execute(
+        "SELECT codice_belfiore, sigla_provincia FROM comuni WHERE is_attivo=1"
+    ).fetchall()
+
+    existing = {r[0] for r in conn.execute(
+        "SELECT codice_belfiore FROM aggregazioni_sovracomunali"
+    ).fetchall()}
+
+    updates, inserts = [], []
+    for belfiore, prov in comuni:
+        cciaa = _CCIAA_MAP.get(prov or "")
+        trib  = _TRIBUNALE_MAP.get(prov or "")
+        if belfiore in existing:
+            updates.append((cciaa, trib, belfiore))
+        else:
+            inserts.append((belfiore, cciaa, trib))
+
+    conn.executemany(
+        "UPDATE aggregazioni_sovracomunali SET cciaa=?, tribunale=? WHERE codice_belfiore=?",
+        updates,
+    )
+    if inserts:
+        conn.executemany(
+            "INSERT OR IGNORE INTO aggregazioni_sovracomunali (codice_belfiore, cciaa, tribunale) VALUES (?,?,?)",
+            inserts,
+        )
+    conn.commit()
+    log.info(f"CCIAA/Tribunali: {len(updates)} aggiornati, {len(inserts)} inseriti.")
+
+
+# ── 20. Codice SDI da IPA ou.txt ──────────────────────────────────────────────
+
+IPA_OU_URL = (
+    "https://indicepa.gov.it/ipa-dati/dataset/"
+    "7a2db7d8-4123-41b4-a1d6-d7b712a193f1/resource/"
+    "4740588c-eb09-4ce8-92b0-86626508ad49/download/ou.txt"
+)
+
+
+def carica_sdi_da_ipa_ou(conn: sqlite3.Connection, cache_file: Path, offline: bool = False) -> int:
+    """
+    Popola codice_sdi in ipa_enti per i comuni italiani.
+    Fonte: IPA ou.txt — unità organizzative con cod_uni_ou (codice SDI fatturazione PA).
+    Prende l'UO radice (cod_ou_padre vuoto) come SDI principale del comune.
+    """
+    import csv as _csv
+
+    if not offline:
+        try:
+            raw = scarica_bytes(IPA_OU_URL)
+            cache_file.write_bytes(raw)
+        except Exception as e:
+            log.warning(f"IPA ou.txt download fallito: {e}")
+            if not cache_file.exists():
+                return 0
+
+    if not cache_file.exists():
+        log.warning("IPA ou.txt non disponibile.")
+        return 0
+
+    log.info("Caricamento SDI da IPA ou.txt...")
+
+    # Mappa belfiore → cod_uni_ou dell'UO radice
+    sdi_map: dict[str, str] = {}
+    with open(cache_file, encoding="utf-8-sig") as f:
+        reader = _csv.DictReader(f, delimiter="\t")
+        for row in reader:
+            cod_amm  = (row.get("cod_amm") or "").strip()
+            cod_uni  = (row.get("cod_uni_ou") or "").strip()
+            cod_padre = (row.get("cod_ou_padre") or "").strip()
+            if cod_amm.startswith("c_") and cod_uni and cod_padre == "":
+                belfiore = cod_amm[2:].upper()
+                if belfiore not in sdi_map:
+                    sdi_map[belfiore] = cod_uni
+
+    if not sdi_map:
+        log.warning("Nessun SDI trovato in ou.txt.")
+        return 0
+
+    # Prima passa: aggiorna codice_belfiore in ipa_enti dai codici IPA (c_XXXX)
+    import re as _re
+    rows_no_belf = conn.execute(
+        "SELECT codice_ipa FROM ipa_enti WHERE codice_ipa LIKE 'c_%' "
+        "AND (codice_belfiore IS NULL OR codice_belfiore='')"
+    ).fetchall()
+    belf_updates = [
+        (cod_ipa[2:].upper(), cod_ipa)
+        for (cod_ipa,) in rows_no_belf
+        if _re.match(r"^[A-Z][0-9]{3}$", cod_ipa[2:].upper())
+    ]
+    if belf_updates:
+        conn.executemany(
+            "UPDATE ipa_enti SET codice_belfiore=? WHERE codice_ipa=?", belf_updates
+        )
+
+    # Seconda passa: popola codice_sdi
+    sdi_updates = [
+        (sdi, belfiore)
+        for belfiore, sdi in sdi_map.items()
+    ]
+    conn.executemany(
+        "UPDATE ipa_enti SET codice_sdi=? WHERE codice_belfiore=? "
+        "AND (codice_sdi IS NULL OR codice_sdi='')",
+        sdi_updates,
+    )
+    conn.commit()
+
+    n = conn.execute(
+        "SELECT COUNT(*) FROM ipa_enti WHERE codice_sdi IS NOT NULL AND codice_sdi!=''"
+    ).fetchone()[0]
+    log.info(f"SDI popolati in ipa_enti: {n}")
+    return n
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -2135,6 +2811,9 @@ def main():
     parser.add_argument("--output", "-o", default="src/Italy.Core/data/italy.db")
     parser.add_argument("--offline", action="store_true",
                         help="Usa CSV locali in tools/cache/ invece di scaricare")
+    parser.add_argument("--include-poi", action="store_true",
+                        help="Includi dati POI opzionali (farmacie, impianti carburante). "
+                             "Aggiunge ~45.000 righe al DB.")
     args = parser.parse_args()
 
     output    = Path(args.output)
@@ -2244,17 +2923,33 @@ def main():
         # 14. Santi Patroni — da tools/patroni.json (generato da scrape_patroni.py)
         carica_patroni(conn, Path("tools/patroni.json"))
 
+        # 14b. Santi Patroni da Wikidata — arricchisce i comuni ancora privi (6.200+ comuni)
+        carica_patroni_wikidata(conn, offline=args.offline)
+
+        # 17b. Dati demografici storici da Wikidata (2023, 2017, 2011, 2001, 1991, 1981, 1971)
+        carica_dati_demografici_wikidata(conn, offline=args.offline)
+
         # 15. PEC Comuni — da tools/pec_comuni.json (da IndicePA, aggiornare periodicamente)
         carica_pec(conn, Path("tools/pec_comuni.json"))
 
         # 16. Rifiuti urbani — ISPRA Catasto Rifiuti (CSV annuale per comune)
         carica_rifiuti(conn, offline=args.offline)
 
-        # 17. Impianti carburante — MIMIT anagrafica (CSV mensile)
-        carica_carburanti(conn, offline=args.offline)
+        # 17. Impianti carburante — MIMIT anagrafica (CSV mensile) [opzionale]
+        if args.include_poi:
+            carica_carburanti(conn, offline=args.offline)
+        else:
+            log.info("Impianti carburante: saltati (usa --include-poi per includerli).")
 
-        # 18. Farmacie attive — Ministero della Salute (CSV settimanale)
-        carica_farmacie(conn, offline=args.offline)
+        # 18. Farmacie attive — Ministero della Salute (CSV settimanale) [opzionale]
+        if args.include_poi:
+            carica_farmacie(conn, offline=args.offline)
+        else:
+            log.info("Farmacie: saltate (usa --include-poi per includerle).")
+
+        # 19. CCIAA, Tribunali, SDI — dati normativi statici + IPA ou.txt
+        carica_cciaa_tribunali(conn)
+        carica_sdi_da_ipa_ou(conn, cache_dir / "ipa_ou.txt", offline=args.offline)
 
         # Telefonia — operatori mobili + prefissi emergenza/tollFree
         carica_dati_default(conn)
@@ -2269,7 +2964,8 @@ def main():
         for k, v in [
             ("versione_dati",       VERSIONE_DATI),
             ("data_aggiornamento",  datetime.now().isoformat()),
-            ("fonte",               "ISTAT, GeoNames, BancaItalia, ATECO, IndicePA, INGV"),
+            ("fonte",               "ISTAT, GeoNames, BancaItalia, ATECO, IndicePA, INGV, Wikidata"),
+            ("include_poi",         "1" if args.include_poi else "0"),
         ]:
             conn.execute("INSERT OR REPLACE INTO meta VALUES (?,?)", (k, v))
         conn.commit()
