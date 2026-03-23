@@ -22,7 +22,7 @@ jobs:
       run: dotnet build src/Italy.Core/Italy.Core.csproj -c Release --no-restore
 
     - name: Pack
-      run: dotnet pack src/Italy.Core/Italy.Core.csproj -c Release --no-build -o ./nuget-output
+      run: dotnet pack src/Italy.Core/Italy.Core.csproj -c Release -o ./nuget-output
 
     - name: Pubblica su NuGet
       run: |
