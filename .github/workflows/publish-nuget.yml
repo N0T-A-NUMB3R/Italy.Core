@@ -25,4 +25,7 @@ jobs:
       run: dotnet pack src/Italy.Core/Italy.Core.csproj -c Release --no-build -o ./nuget-output
 
     - name: Pubblica su NuGet
-      run: dotnet nuget push ./nuget-output/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: |
+        $pkg = Get-ChildItem ./nuget-output/*.nupkg | Select-Object -First 1
+        if (-not $pkg) { Write-Error "Nessun .nupkg trovato in ./nuget-output"; exit 1 }
+        dotnet nuget push $pkg.FullName --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
