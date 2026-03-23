@@ -57,6 +57,8 @@ public sealed class Comune
     // ── Classificazioni ─────────────────────────────────────────────────────
     public ZonaSismica? ZonaSismica { get; set; }
     public ZonaClimatica? ZonaClimatica { get; set; }
+    /// <summary>Gradi-giorno ufficiali DPR 412/93 (fonte: ENEA SolarItaly). Usati per calcolo fabbisogno energetico edifici.</summary>
+    public int? GradiGiorno { get; set; }
     public ClasseAreeInterne? ClasseAreeInterne { get; set; }
     /// <summary>Zona altimetrica ISTAT: Pianura, Collina Interna/Litoranea, Montagna Interna/Litoranea.</summary>
     public ZonaAltimetrica? ZonaAltimetrica { get; set; }

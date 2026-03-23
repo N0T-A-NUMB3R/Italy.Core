@@ -109,6 +109,7 @@ public sealed class ServiziPA
                 ATORifiuti = LeggiNullabile(r, "ato_rifiuti"),
                 DistrettoScolastico = LeggiNullabile(r, "distretto_scolastico"),
                 TribunaleCompetente = LeggiNullabile(r, "tribunale"),
+                CCIAA = LeggiNullabile(r, "cciaa"),
             });
 
         return risultati.FirstOrDefault() ?? CostruisciAggregazioniDaConvenzione(codiceBelfiore);

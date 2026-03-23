@@ -100,6 +100,10 @@ public sealed class AggregazioniSovracomunali
     public string? TribunaleCompetente { get; set; }
     public string? PreturaCodice { get; set; }
 
+    // ── Camera di Commercio ─────────────────────────────────────────────────
+    /// <summary>Camera di Commercio competente (fonte: DL 219/2016 e fusioni successive).</summary>
+    public string? CCIAA { get; set; }
+
     // ── Previdenziale ────────────────────────────────────────────────────────
     public string? CodiceSedeINPS { get; set; }
     public string? CodiceSedeINAIL { get; set; }

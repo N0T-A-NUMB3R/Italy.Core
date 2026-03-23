@@ -222,6 +222,7 @@ public sealed class RepositoryComuni : IRepositoryComuni
         ZonaAltimetrica = LeggioZonaAltimetrica(r, "zona_altimetrica"),
         ZonaSismica = LeggioEnumInt<ZonaSismica>(r, "zona_sismica"),
         ZonaClimatica = LeggioEnumStringa<ZonaClimatica>(r, "zona_climatica"),
+        GradiGiorno = LeggioIntNullabile(r, "gradi_giorno"),
         ClasseAreeInterne = LeggioClasseAreeInterne(r, "classe_aree_interne"),
         SantoPatrono = LeggioStringaNullabile(r, "santo_patrono"),
         PatronoGiorno = LeggioIntNullabile(r, "patrono_giorno"),
